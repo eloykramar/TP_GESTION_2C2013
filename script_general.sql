@@ -350,7 +350,7 @@ PRIMARY KEY(ID_Medicamento) );
 
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_CONSULTA (
-ID_Bono_Consulta int ,
+ID_Bono_Consulta numeric(18,0),
 Fecha_Emision datetime,
 ID_Afiliado int ,
 ID_Turno NUMERIC ,
@@ -361,7 +361,7 @@ FOREIGN KEY (ID_Turno) REFERENCES YOU_SHALL_NOT_CRASH.TURNO(ID_Turno) );
 
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_FARMACIA (
-ID_Bono_Farmacia int ,
+ID_Bono_Farmacia numeric(18,0),
 Fecha_Emision datetime,
 ID_Afiliado int ,
 ID_Receta_Medica NUMERIC ,
@@ -374,7 +374,7 @@ FOREIGN KEY (ID_Receta_Medica) REFERENCES YOU_SHALL_NOT_CRASH.RECETA(ID_Receta) 
 
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (
-ID_Bono_Farmacia int,
+ID_Bono_Farmacia numeric(18,0),
 ID_Item int ,
 ID_Medicamento int ,
 Cantidad int,
@@ -382,8 +382,6 @@ Cantidad int,
 PRIMARY KEY(ID_Bono_Farmacia,ID_Item),
 FOREIGN KEY (ID_Bono_Farmacia) REFERENCES YOU_SHALL_NOT_CRASH.BONO_FARMACIA(ID_Bono_Farmacia),
 FOREIGN KEY (ID_Medicamento) REFERENCES YOU_SHALL_NOT_CRASH.MEDICAMENTO(ID_Medicamento) );
-
-
 
 
 
@@ -406,11 +404,11 @@ WHERE Bono_Farmacia_Medicamento IS NOT NULL
 
 --BONO CONSULTA---------------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision)
-SELECT Bono_Consulta_Numero, Bono_Consulta_Fecha_Impresion
+SELECT DISTINCT Bono_Consulta_Numero, Bono_Consulta_Fecha_Impresion
 FROM gd_esquema.Maestra
-WHERE Compra_Bono_Fecha IS NOT NULL AND 
-	  Bono_Consulta_Fecha_Impresion IS NOT NULL AND 
+WHERE Bono_Consulta_Fecha_Impresion IS NOT NULL AND 
 	  Bono_Consulta_Numero IS NOT NULL
+
 ;
 
 --BONO FARMACIA---------------------------------------------------
