@@ -1,0 +1,2 @@
+conexion:Server=localhost\SQLSERVER2008;Database=GD2C2013;User Id=gd;Password=gd2013; Connection Timeout=180;
+fecha:2013/10/20

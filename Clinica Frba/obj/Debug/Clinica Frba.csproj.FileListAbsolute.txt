@@ -1,0 +1,9 @@
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\bin\Debug\Clinica Frba.exe
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\bin\Debug\Clinica Frba.pdb
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Form1.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Properties.Resources.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica Frba.csproj.GenerateResource.Cache
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica Frba.exe
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica Frba.pdb
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Dialogo.resources
