@@ -168,13 +168,19 @@ FROM gd_esquema.Maestra
 where Medico_Dni is NOT NULL
 ;
 
---Creamos un usuario administrador y le asignamos su correspondiente rol
+--Creamos un usuario administrador y le asignamos todos los roles
 INSERT INTO YOU_SHALL_NOT_CRASH.USUARIO 
-values ('CLINICAFRBA', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0, 0)
+values ('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0, 0)
 ;
 
 INSERT INTO YOU_SHALL_NOT_CRASH.ROL_USUARIO
 values (@cod_administrativo, 0)
+;
+INSERT INTO YOU_SHALL_NOT_CRASH.ROL_USUARIO
+values (@cod_afiliado, 0)
+;
+INSERT INTO YOU_SHALL_NOT_CRASH.ROL_USUARIO
+values (@cod_profesional, 0)
 ;
 
 INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre, Apellido, Direccion, Telefono, Mail, Fecha_Nac, DNI, ID_Plan, Digito_Familiar)
