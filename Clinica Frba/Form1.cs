@@ -23,7 +23,7 @@ namespace Clinica_Frba
             Console.Out.WriteLine("Conexion: " + this.stringDeConexion);
             Console.Out.WriteLine("fecha: " + this.fechaActual.ToString("yyyy/MM/dd"));
 
-            //ejemplo de como usar la conexion que agarra desde el txt. es solo para que lo vean despues se borra.
+            /*ejemplo de como usar la conexion que agarra desde el txt. es solo para que lo vean despues se borra.
             using (SqlConnection conexion = this.obtenerConexion())
             {
                 try
@@ -46,6 +46,7 @@ namespace Clinica_Frba
                     (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
                 }   
             }
+             */
         }
 
         private void configurarse()

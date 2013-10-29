@@ -60,11 +60,23 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\Form1.cs">
+    <Compile Include="Login\Inicio_Aplicacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Login\Inicio_Aplicacion.Designer.cs">
+      <DependentUpon>Inicio_Aplicacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Pantalla_Inicial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\Pantalla_Inicial.Designer.cs">
+      <DependentUpon>Pantalla_Inicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Pantalla_Seleccion_Rol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\Pantalla_Seleccion_Rol.Designer.cs">
+      <DependentUpon>Pantalla_Seleccion_Rol.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro de Usuario\Form1.cs">
       <SubType>Form</SubType>
@@ -157,6 +169,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\Inicio_Aplicacion.resx">
+      <DependentUpon>Inicio_Aplicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\Pantalla_Inicial.resx">
+      <DependentUpon>Pantalla_Inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\Pantalla_Seleccion_Rol.resx">
+      <DependentUpon>Pantalla_Seleccion_Rol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

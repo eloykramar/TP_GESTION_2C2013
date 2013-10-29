@@ -7,3 +7,6 @@ C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\C
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica Frba.exe
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica Frba.pdb
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Dialogo.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Login.Pantalla_Inicial.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Login.Pantalla_Seleccion_Rol.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Login.Inicio_Aplicacion.resources

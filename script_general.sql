@@ -584,24 +584,60 @@ ADD FOREIGN KEY (ID_TURNO) REFERENCES you_shall_not_crash.TURNO(ID_TURNO);
 ALTER TABLE YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO
 ADD FOREIGN KEY (ID_SINTOMA) REFERENCES you_shall_not_crash.SINTOMA(ID_SINTOMA);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --SELECT * FROM YOU_SHALL_NOT_CRASH.Split('med1+med2+med3','+');
+
+
+---------------------------------------------------------------------
+----------------------FUNCIONES Y SPS--------------------------------
+---------------------------------------------------------------------
+
+create procedure YOU_SHALL_NOT_CRASH.login(@usuario nvarchar(255), @pass nvarchar(255), @respuesta nvarchar(255) output)
+AS 
+BEGIN                  
+ 
+declare @existeUsuario INT = (SELECT COUNT(*) FROM YOU_SHALL_NOT_CRASH.USUARIO WHERE Username = @usuario);                   
+                   
+if (@existeUsuario = 1)
+begin                                          
+	declare @cantidadIntentosFallidos INT = (SELECT Intentos_Fallidos FROM YOU_SHALL_NOT_CRASH.USUARIO WHERE Username = @usuario);
+	    
+	if (@cantidadIntentosFallidos < 3)
+	begin
+		declare @existeUsuarioyContraseña INT = (SELECT COUNT(*) FROM YOU_SHALL_NOT_CRASH.USUARIO WHERE Username = @usuario and Pass = @pass);
+		
+		if (@existeUsuarioyContraseña = 1)
+		begin
+			UPDATE YOU_SHALL_NOT_CRASH.USUARIO SET Intentos_Fallidos=0 WHERE Username = @usuario;
+			declare @existeRol INT = (SELECT COUNT(*) FROM YOU_SHALL_NOT_CRASH.USUARIO u join YOU_SHALL_NOT_CRASH.ROL_USUARIO ru on (u.DNI_Usuario = ru.DNI_Usuario) WHERE Username = @usuario)
+			
+			if (@existeRol = 0)
+			begin
+				set @respuesta='El usuario no tiene asignado un rol, o el rol ha sido inhabilitado'
+			end
+			else
+			begin			
+				set @respuesta='abrir sesion'
+			end
+
+		end
+		else
+		begin
+			UPDATE YOU_SHALL_NOT_CRASH.USUARIO SET Intentos_Fallidos=(Intentos_Fallidos+1) WHERE Username = @usuario;
+			set @cantidadIntentosFallidos = (@cantidadIntentosFallidos + 1);
+			declare @cantidadIntentosFallidosString nvarchar(255) = @cantidadIntentosFallidos;
+			
+			set @respuesta = 'Contraseña incorrecta, vuelva a intentarlo;Cantidad de intentos fallidos: ' + (@cantidadIntentosFallidosString);
+		end
+
+	end
+	else
+	begin
+		set @respuesta = 'Su usuario esta bloqueado, por sobrepasar la cantidad de logueos incorrectos';
+	end  
+end
+else
+begin 
+set @respuesta = 'No existe el usuario, vuelva a intentarlo';                              
+end
+
+END
