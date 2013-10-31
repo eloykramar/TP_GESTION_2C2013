@@ -73,7 +73,7 @@ ID_Afiliado int IDENTITY(1,1),
 Nombre varchar(255),
 Apellido varchar(255),
 Nro_Afiliado int,
-Digito_Familiar char(2),
+Digito_Familiar char(2) DEFAULT (01),
 Direccion varchar(255),
 Telefono numeric(18,0),
 Mail varchar(255),
@@ -199,7 +199,7 @@ FROM gd_esquema.Maestra
 
 
 
-create table you_shall_not_crash.DIAGNOSTICO( 
+create table YOU_SHALL_NOT_CRASH.DIAGNOSTICO( 
 ID_DIAGNOSTICO NUMERIC IDENTITY,
 ID_TURNO NUMERIC,
 ID_PROFESIONAL NUMERIC,
@@ -210,7 +210,7 @@ PRIMARY KEY (ID_DIAGNOSTICO))
 GO 
 
 
-create table you_shall_not_crash.ITEM_DIAGNOSTICO(
+create table YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO(
 ID_ITEM NUMERIC IDENTITY,
 ID_DIAGNOSTICO NUMERIC,
 ID_SINTOMA NUMERIC,
@@ -221,7 +221,7 @@ FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES  you_shall_not_crash.DIAGNOSTICO(ID_DIAG
 
 
 
-create table you_shall_not_crash.TIPO_ESPECIALIDAD(
+create table YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD(
 CODIGO_TIPO_ESPECIALIDAD NUMERIC(18,0),
 DESCRIPCION VARCHAR(255),
 
@@ -231,7 +231,7 @@ PRIMARY KEY (CODIGO_TIPO_ESPECIALIDAD)
 
 
 
-create table you_shall_not_crash.ESPECIALIDAD(
+create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD(
 CODIGO_ESPECIALIDAD NUMERIC(18,0),
 DESCRIPCION VARCHAR(255),
 CODIGO_TIPO_ESPECIALIDAD int,
@@ -240,7 +240,7 @@ CODIGO_TIPO_ESPECIALIDAD int,
 PRIMARY KEY (CODIGO_ESPECIALIDAD),
 )
 
-create table you_shall_not_crash.PROFESIONAL(
+create table YOU_SHALL_NOT_CRASH.PROFESIONAL(
 ID_PROFESIONAL NUMERIC IDENTITY,
 --ID_USUARIO NUMERIC,
 NOMBRE VARCHAR(255),
@@ -259,7 +259,7 @@ FOREIGN KEY (DNI) REFERENCES you_shall_not_crash.USUARIO(DNI_USUARIO)
 )
 
 
-create table you_shall_not_crash.ESPECIALIDAD_PROFESIONAL(
+create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(
 CODIGO_ESPECIALIDAD NUMERIC,
 ID_PROFESIONAL NUMERIC,
 
@@ -268,7 +268,7 @@ FOREIGN KEY (ID_PROFESIONAL) REFERENCES  you_shall_not_crash.PROFESIONAL(ID_PROF
 )
 
 
-create table you_shall_not_crash.RECETA(
+create table YOU_SHALL_NOT_CRASH.RECETA(
 ID_RECETA NUMERIC IDENTITY,
 ID_DIAGNOSTICO NUMERIC,
 
@@ -277,7 +277,7 @@ FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES you_shall_not_crash.DIAGNOSTICO(ID_DIAGN
 )
 
 
-create table you_shall_not_crash.SINTOMA(
+create table YOU_SHALL_NOT_CRASH.SINTOMA(
 ID_SINTOMA NUMERIC IDENTITY(1,1),
 DESCRIPCION VARCHAR (255),
 
@@ -300,38 +300,38 @@ FOREIGN KEY (ID_AFILIADO) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_AFILIADO)
 )
 
 --PROFESIONAL--------------------
-insert into you_shall_not_crash.PROFESIONAL(NOMBRE,APELLIDO,DNI,DIRECCION,TELEFONO,MAIL,FECHA_NAC) --activo,matricula y sexo null
+insert into YOU_SHALL_NOT_CRASH.PROFESIONAL(NOMBRE,APELLIDO,DNI,DIRECCION,TELEFONO,MAIL,FECHA_NAC) --activo,matricula y sexo null
 select distinct Medico_Nombre,Medico_Apellido,Medico_Dni,Medico_Direccion,Medico_Telefono,Medico_Mail,Medico_Fecha_Nac
 from gd_esquema.Maestra
 where Medico_Dni is not null
 
 --ESPECIALIDAD_PROFESIONAL-------------------------
-insert into you_shall_not_crash.ESPECIALIDAD_PROFESIONAL
+insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL
 select distinct e.CODIGO_ESPECIALIDAD,p.ID_PROFESIONAL
 from you_shall_not_crash.PROFESIONAL P join gd_esquema.Maestra M on p.DNI=m.Medico_Dni join you_shall_not_crash.ESPECIALIDAD E on M.Especialidad_Codigo=e.CODIGO_ESPECIALIDAD
 
 --TIPO_ESPECIALIDAD-------------------------
-insert into you_shall_not_crash.TIPO_ESPECIALIDAD
+insert into YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD
 select distinct Tipo_Especialidad_Codigo,Tipo_Especialidad_Descripcion
 from gd_esquema.Maestra
 where Tipo_Especialidad_Codigo is not null
 order by Tipo_Especialidad_Codigo
 
 --ESPECIALIDAD-------------------------
-insert into you_shall_not_crash.ESPECIALIDAD(CODIGO_ESPECIALIDAD,DESCRIPCION,CODIGO_TIPO_ESPECIALIDAD)
+insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD(CODIGO_ESPECIALIDAD,DESCRIPCION,CODIGO_TIPO_ESPECIALIDAD)
 select distinct Especialidad_Codigo,Especialidad_Descripcion,Tipo_Especialidad_Codigo
 from gd_esquema.Maestra
 where Especialidad_Codigo is not null
 order by Especialidad_Codigo;
 
 --SINTOMA------------------------
-insert into you_shall_not_crash.SINTOMA
+insert into YOU_SHALL_NOT_CRASH.SINTOMA
 select distinct Consulta_Sintomas
 from gd_esquema.Maestra
 where Consulta_Sintomas is not null;
 
 --TURNO-----------------------------------------------------------
-insert into you_shall_not_crash.TURNO 
+insert into YOU_SHALL_NOT_CRASH.TURNO 
 SELECT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_Fecha) d,
  CASE
     WHEN Max(Bono_Consulta_Numero) is not null
@@ -345,21 +345,21 @@ where Turno_Numero is not null
 group by Turno_Numero;
 
 --DIAGNOSTICO---------------------------
-insert into you_shall_not_crash.DIAGNOSTICO
+insert into YOU_SHALL_NOT_CRASH.DIAGNOSTICO
 select distinct t.id_turno, t.ID_PROFESIONAL,m.Consulta_Enfermedades
 from gd_esquema.Maestra m join you_shall_not_crash.TURNO t on m.Turno_Numero=t.NUMERO
 where Consulta_Enfermedades is not null and FECHA_LLEGADA is not null;
 
 
 --ITEM_DIAGNOSTICO-----------------------------------------
-insert into you_shall_not_crash.ITEM_DIAGNOSTICO
+insert into YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO
 select distinct d.ID_DIAGNOSTICO,s.ID_SINTOMA
 from you_shall_not_crash.TURNO t join you_shall_not_crash.DIAGNOSTICO d on t.ID_TURNO=d.ID_TURNO join gd_esquema.Maestra m on t.NUMERO=m.Turno_Numero join you_shall_not_crash.SINTOMA s on s.DESCRIPCION=m.Consulta_Sintomas
 where Consulta_Enfermedades is not null and FECHA_LLEGADA is not null
 
 
 --RECETA----------------------------
-insert into you_shall_not_crash.RECETA
+insert into YOU_SHALL_NOT_CRASH.RECETA
 select d.ID_DIAGNOSTICO
 from you_shall_not_crash.DIAGNOSTICO d
 
@@ -590,7 +590,7 @@ ADD FOREIGN KEY (ID_SINTOMA) REFERENCES you_shall_not_crash.SINTOMA(ID_SINTOMA);
 ---------------------------------------------------------------------
 ----------------------FUNCIONES Y SPS--------------------------------
 ---------------------------------------------------------------------
-
+GO
 create procedure YOU_SHALL_NOT_CRASH.login(@usuario nvarchar(255), @pass nvarchar(255), @respuesta nvarchar(255) output)
 AS 
 BEGIN                  
@@ -641,3 +641,19 @@ set @respuesta = 'No existe el usuario, vuelva a intentarlo';
 end
 
 END
+GO
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_Rol(@nombreRol nvarchar(255), @respuesta int output)
+AS
+BEGIN
+	IF EXISTS(SELECT * FROM YOU_SHALL_NOT_CRASH.Rol WHERE Rol.Descripcion = @nombreRol)
+	BEGIN
+		set @respuesta = -1
+	END
+	ELSE
+	BEGIN
+		INSERT INTO YOU_SHALL_NOT_CRASH.Rol VALUES (@nombreRol, 1)
+		set @respuesta = (SELECT ID_Rol FROM YOU_SHALL_NOT_CRASH.Rol WHERE Rol.Descripcion = @nombreRol)
+	END
+END
+GO
