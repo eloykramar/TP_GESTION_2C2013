@@ -66,6 +66,18 @@
     <Compile Include="Abm de Rol\Baja_Rol.Designer.cs">
       <DependentUpon>Baja_Rol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm de Rol\Modificar_Rol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Rol\Modificar_Rol.Designer.cs">
+      <DependentUpon>Modificar_Rol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Rol\Modificar_Rol_Particular.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Rol\Modificar_Rol_Particular.Designer.cs">
+      <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,6 +196,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm de Rol\Baja_Rol.resx">
       <DependentUpon>Baja_Rol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Rol\Modificar_Rol.resx">
+      <DependentUpon>Modificar_Rol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Rol\Modificar_Rol_Particular.resx">
+      <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogo.resx">
       <DependentUpon>Dialogo.cs</DependentUpon>

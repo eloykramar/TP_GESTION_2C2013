@@ -92,36 +92,41 @@ namespace Clinica_Frba.Abm_de_Rol
                 {
                     using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Insertar_Rol", conexion))
                     {
-                        conexion.Open();                     
+                        if (textBox1.Text != "")
+                        {
+                            conexion.Open();                     
                       
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@nombreRol", SqlDbType.NVarChar).Value = textBox1.Text;
-                        cmd.Parameters.Add("@respuesta", SqlDbType.Int).Direction = ParameterDirection.Output;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@nombreRol", SqlDbType.NVarChar).Value = textBox1.Text;
+                            cmd.Parameters.Add("@respuesta", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-                        cmd.ExecuteNonQuery();
-                        
-                        int respuesta = Convert.ToInt32(cmd.Parameters["@respuesta"].Value);
+                            cmd.ExecuteNonQuery();                        
+                            int respuesta = Convert.ToInt32(cmd.Parameters["@respuesta"].Value);
 
-                        (new Dialogo("respuesta " +respuesta, "Aceptar")).ShowDialog();
-                        
-                        if (respuesta == -1)
-                        {
-                            (new Dialogo("Ya existe el rol", "Aceptar")).ShowDialog();
-                        }
-                        else
-                        {
-                            foreach (String nombreFunc in listBox1.Items)
+                            if (respuesta == -1)
                             {
-                                SqlCommand insertarFuncs = new SqlCommand("USE GD2C2013 INSERT INTO YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD VALUES (" + respuesta + ", (SELECT ID_Funcionalidad FROM YOU_SHALL_NOT_CRASH.FUNCIONALIDAD WHERE Descripcion = '" + nombreFunc + "'))", conexion);
-                                insertarFuncs.ExecuteNonQuery();
+                                (new Dialogo("Ya existe el rol", "Aceptar")).ShowDialog();
+                            }
+                            else
+                            {
+                                foreach (String nombreFunc in listBox1.Items)
+                                {
+                                    SqlCommand insertarFuncs = new SqlCommand("USE GD2C2013 INSERT INTO YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD VALUES (" + respuesta + ", (SELECT ID_Funcionalidad FROM YOU_SHALL_NOT_CRASH.FUNCIONALIDAD WHERE Descripcion = '" + nombreFunc + "'))", conexion);
+                                    insertarFuncs.ExecuteNonQuery();
+                                }
+
+                                int filasAfectadasTotales = 1 + listBox1.Items.Count;
+                                new Dialogo(nombreRol + " agregado \n" + filasAfectadasTotales + " filas afectadas", "Aceptar").ShowDialog();
+                                }
+                            }
+                            else
+                            {
+                                new Dialogo("Debe Completar el nombre del rol que quiere dar de alta", "Aceptar").ShowDialog();
                             }
 
-                            int filasAfectadasTotales = 1 + listBox1.Items.Count;
-                            new Dialogo(nombreRol + " agregado \n" + filasAfectadasTotales + " filas afectadas", "Aceptar").ShowDialog();
-                        }                       
-
+                        }
                     }
-                }
+                
 
 
                 catch (Exception ex)

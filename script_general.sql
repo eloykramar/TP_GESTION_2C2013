@@ -666,3 +666,15 @@ RETURN (SELECT 0 as RN,'No seleccionado' as NombreRol
 	    SELECT ROW_NUMBER() OVER(ORDER BY r.Descripcion ASC) as RN,r.Descripcion FROM YOU_SHALL_NOT_CRASH.ROL r
 	    );
 GO
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Baja_Logica_Rol(@nombreRol varchar(255))
+AS
+BEGIN
+UPDATE YOU_SHALL_NOT_CRASH.ROL SET Activo=0 WHERE Descripcion = @nombreRol
+
+declare @codigoRol int = (SELECT ID_Rol FROM YOU_SHALL_NOT_CRASH.ROL WHERE Descripcion = @nombreRol)
+
+DELETE FROM YOU_SHALL_NOT_CRASH.ROL_USUARIO WHERE ID_Rol = @codigoRol
+
+END
+GO

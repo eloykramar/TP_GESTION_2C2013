@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Clinica_Frba.Login;
-using Clinica_Frba.Abm_de_Rol;
 
 namespace Clinica_Frba
 {
@@ -17,9 +16,7 @@ namespace Clinica_Frba
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Pantalla_Inicial());
-
-            Application.Run(new ABM_Rol());
+            Application.Run(new Pantalla_Inicial());
         }
     }
 }
