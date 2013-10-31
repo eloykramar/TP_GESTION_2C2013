@@ -74,6 +74,7 @@ Nombre varchar(255),
 Apellido varchar(255),
 Nro_Afiliado int,
 Digito_Familiar char(2) DEFAULT (01),
+Cantidad_Consultas int,
 Direccion varchar(255),
 Telefono numeric(18,0),
 Mail varchar(255),
@@ -394,7 +395,8 @@ CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_CONSULTA (
 ID_Bono_Consulta numeric(18,0) ,
 Fecha_Emision datetime,
 ID_Afiliado int ,
-ID_Turno NUMERIC ,
+ID_Turno NUMERIC,
+Numero_Consulta int
 
 PRIMARY KEY(ID_Bono_Consulta),
 FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
@@ -415,12 +417,12 @@ FOREIGN KEY (ID_Receta_Medica) REFERENCES YOU_SHALL_NOT_CRASH.RECETA(ID_Receta) 
 
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (
+ID_Item int identity (1,1),
 ID_Bono_Farmacia numeric(18,0),
-ID_Item int ,
 ID_Medicamento int ,
 Cantidad int,
 
-PRIMARY KEY(ID_Bono_Farmacia,ID_Item),
+PRIMARY KEY(ID_Item),
 FOREIGN KEY (ID_Bono_Farmacia) REFERENCES YOU_SHALL_NOT_CRASH.BONO_FARMACIA(ID_Bono_Farmacia),
 FOREIGN KEY (ID_Medicamento) REFERENCES YOU_SHALL_NOT_CRASH.MEDICAMENTO(ID_Medicamento) );
 
@@ -446,16 +448,16 @@ WHERE Bono_Farmacia_Medicamento IS NOT NULL
 ;
 
 --BONO CONSULTA---------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision)
-SELECT DISTINCT Bono_Consulta_Numero, Bono_Consulta_Fecha_Impresion
+INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado, ID_Turno)
+SELECT DISTINCT Bono_Consulta_Numero, Bono_Consulta_Fecha_Impresion, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), Turno_Numero
 FROM gd_esquema.Maestra
 WHERE Bono_Consulta_Fecha_Impresion IS NOT NULL AND 
 	  Bono_Consulta_Numero IS NOT NULL
 ;
 
 --BONO FARMACIA---------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia)
-SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero --el distinct lo agregué para q no pinche!
+INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado)
+SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), Turno_Numero
 FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
 	  Bono_Farmacia_Numero IS NOT NULL
@@ -463,11 +465,12 @@ WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
 
 
 --ITEM BONO FARMACIA---------------------------------------------
---INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (ID_Bono_Farmacia)
---SELECT Bono_Farmacia_Numero FROM gd_esquema.Maestra
---WHERE Bono_Farmacia_Numero IS NOT NULL AND
---	  Bono_Farmacia_Medicamento IS NOT NULL
---;
+INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (ID_Bono_Farmacia, ID_Medicamento, Cantidad)
+SELECT Bono_Farmacia_Numero, (select ID_Medicamento from YOU_SHALL_NOT_CRASH.MEDICAMENTO where Descripcion=Bono_Farmacia_Medicamento), 1
+FROM gd_esquema.Maestra
+WHERE Bono_Farmacia_Numero IS NOT NULL AND
+	  Bono_Farmacia_Medicamento IS NOT NULL
+;
 
 
 
