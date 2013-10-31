@@ -23,30 +23,6 @@ namespace Clinica_Frba
             Console.Out.WriteLine("Conexion: " + this.stringDeConexion);
             Console.Out.WriteLine("fecha: " + this.fechaActual.ToString("yyyy/MM/dd"));
 
-            /*ejemplo de como usar la conexion que agarra desde el txt. es solo para que lo vean despues se borra.
-            using (SqlConnection conexion = this.obtenerConexion())
-            {
-                try
-                {                    
-                    conexion.Open();
-
-                    SqlCommand cmd = new SqlCommand("USE GD2C2013 select * from YOU_SHALL_NOT_CRASH.FUNCIONALIDAD", conexion);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable tablaDeNombres = new DataTable();
-
-                    adapter.Fill(tablaDeNombres);
-                    comboBox1.DisplayMember = "Descripcion";
-                    comboBox1.DataSource = tablaDeNombres;
-
-                }
-                catch (Exception ex)
-                {
-                    Console.Write(ex.Message);
-                    (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
-                }   
-            }
-             */
         }
 
         private void configurarse()
@@ -95,6 +71,23 @@ namespace Clinica_Frba
         {
             return new SqlConnection(this.stringDeConexion);
         }
-      
+
+        public void cargarATablaParaDataGripView(string unaConsulta, ref DataTable unaTabla, SqlConnection unaConexion)
+        {
+            SqlCommand cmd = new SqlCommand(unaConsulta, unaConexion);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);            
+            adapter.Fill(unaTabla);
+        }
+
+        public DataGridViewButtonColumn crearBotones(String nombreColumna, String leyendaBoton)
+        {
+            DataGridViewButtonColumn botones = new DataGridViewButtonColumn();
+            botones.HeaderText = nombreColumna;
+            botones.Text = leyendaBoton;
+            botones.UseColumnTextForButtonValue = true;
+            botones.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            return botones;
+        }      
     }
 }

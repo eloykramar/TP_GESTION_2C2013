@@ -20,5 +20,15 @@ namespace Clinica_Frba.Abm_de_Rol
         {
             (new Alta_Rol()).Show();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            (new Baja_Rol()).Show();    
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //(new Modif_Listado_Roles()).Show();    
+        }
     }
 }

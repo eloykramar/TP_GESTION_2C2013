@@ -657,3 +657,12 @@ BEGIN
 	END
 END
 GO
+
+CREATE FUNCTION YOU_SHALL_NOT_CRASH.F_Roles ()
+RETURNS TABLE
+AS
+RETURN (SELECT 0 as RN,'No seleccionado' as NombreRol
+	    UNION
+	    SELECT ROW_NUMBER() OVER(ORDER BY r.Descripcion ASC) as RN,r.Descripcion FROM YOU_SHALL_NOT_CRASH.ROL r
+	    );
+GO
