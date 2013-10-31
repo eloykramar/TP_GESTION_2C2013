@@ -234,6 +234,13 @@ Hora_Fin int,
 PRIMARY KEY (Id_Agenda),
 FOREIGN KEY (Id_Profesional) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_Profesional));
 
+CREATE TABLE YOU_SHALL_NOT_CRASH.COMPRA_BONO (
+Id_compra int identity(1,1),
+Id_Afiliado int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
+Cant_Bonos_Consulta int,
+Cant_Bonos_Farmacia int,
+Monto float)
+
  
 --AGREGAMOS LAS FOREING KEYS FALTANTES:
  
