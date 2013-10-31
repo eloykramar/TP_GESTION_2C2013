@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using Clinica_Frba.Abm_de_Rol;
 
 namespace Clinica_Frba.Login
 {
@@ -47,6 +48,16 @@ namespace Clinica_Frba.Login
         private void button2_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string funcionalidad = comboBox1.Text;
+
+            if (String.Equals(funcionalidad, "ABM Rol"))
+            {
+                (new ABM_Rol()).Show();
+            }
         }
     }
 }

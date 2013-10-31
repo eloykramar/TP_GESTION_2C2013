@@ -7,13 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Clinica_Frba.NewFolder1
+namespace Clinica_Frba.Abm_de_Rol
 {
-    public partial class Form1 : Form
+    public partial class ABM_Rol : Form1
     {
-        public Form1()
+        public ABM_Rol()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            (new Alta_Rol()).Show();
         }
     }
 }

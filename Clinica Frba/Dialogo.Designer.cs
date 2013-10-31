@@ -39,7 +39,7 @@
             this.listBox1.ItemHeight = 15;
             this.listBox1.Location = new System.Drawing.Point(12, 26);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(466, 259);
+            this.listBox1.Size = new System.Drawing.Size(897, 259);
             this.listBox1.TabIndex = 0;
             // 
             // button1
@@ -58,7 +58,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Red;
-            this.ClientSize = new System.Drawing.Size(490, 376);
+            this.ClientSize = new System.Drawing.Size(990, 376);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
             this.Name = "Dialogo";
