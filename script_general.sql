@@ -5,39 +5,6 @@ CREATE SCHEMA YOU_SHALL_NOT_CRASH
 GO
 
 
--- creo funcion util!
-CREATE FUNCTION YOU_SHALL_NOT_CRASH.Split(@String varchar(150), @Delimiter char(1))
-RETURNS @Results table (word varchar(50))
-AS
-BEGIN
-DECLARE @INDEX INT
-
-DECLARE @SLICE varchar(200)
--- Asignar 1 a la variable que utilizaremos en el loop para no iniciar en 0. 
-SELECT @INDEX = 1
-
-WHILE @INDEX !=0
-BEGIN
--- Obtenemos el índice de la primera ocurrencia del split de caracteres. 
-SELECT @INDEX = CHARINDEX(@Delimiter,@STRING)
--- Ahora ponemos todo a la izquierda de el slice de la variable. 
-IF @INDEX != 0
-SELECT @SLICE = LEFT(@STRING,@INDEX - 1)
-ELSE
-SELECT @SLICE = @STRING
-
-insert into @Results(word) values(@SLICE)
-
-SELECT @STRING = RIGHT(@STRING,LEN(@STRING) - @INDEX)
--- Salimos del loop si terminamos la búsqueda 
-IF LEN(@STRING) = 0 BREAK
-END
-
-RETURN
-END
----------------------------------------------------------------------------------
-GO
-
 --CREACION TABLAS VACIAS
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.FUNCIONALIDAD (
@@ -45,16 +12,19 @@ ID_Funcionalidad int IDENTITY(1,1),
 Descripcion varchar(255), 
 PRIMARY KEY(ID_Funcionalidad) );
 
+
 CREATE TABLE YOU_SHALL_NOT_CRASH.ROL (
 ID_Rol int IDENTITY(1,1),
 Descripcion varchar(255),
 Activo bit DEFAULT (1),
 PRIMARY KEY(ID_Rol) );
 
+
 CREATE TABLE YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD (
 ID_Rol int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.ROL(ID_Rol), 
 ID_Funcionalidad int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.FUNCIONALIDAD(ID_Funcionalidad), 
 PRIMARY KEY (ID_Rol, ID_Funcionalidad) );
+
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.USUARIO (
 Username varchar(255),
@@ -63,10 +33,12 @@ DNI_Usuario numeric(18,0) UNIQUE, -- antes aca estaba ID_USUARIO, pero creo que 
 Intentos_Fallidos int, 
 PRIMARY KEY (Username) );
 
+
 CREATE TABLE YOU_SHALL_NOT_CRASH.ROL_USUARIO (
 ID_Rol int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.ROL(ID_Rol), 
 DNI_Usuario numeric(18,0) FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.USUARIO(DNI_Usuario), 
 PRIMARY KEY (ID_Rol, DNI_Usuario) );
+
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.AFILIADO (
 ID_Afiliado int IDENTITY(1,1),
@@ -88,12 +60,209 @@ Fecha_Baja DateTime,
 PRIMARY KEY (ID_Afiliado) );
 
 
+create table YOU_SHALL_NOT_CRASH.DIAGNOSTICO( 
+ID_DIAGNOSTICO NUMERIC IDENTITY,
+ID_TURNO NUMERIC,
+ID_PROFESIONAL NUMERIC,
+DESCRIPCION nvarchar(255)
+
+PRIMARY KEY (ID_DIAGNOSTICO))
+
+
+create table YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO(
+ID_ITEM NUMERIC IDENTITY,
+ID_DIAGNOSTICO NUMERIC,
+ID_SINTOMA NUMERIC,
+
+PRIMARY KEY (ID_ITEM),
+FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES  you_shall_not_crash.DIAGNOSTICO(ID_DIAGNOSTICO)
+)
+
+
+create table YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD(
+CODIGO_TIPO_ESPECIALIDAD int,
+DESCRIPCION VARCHAR(255),
+
+PRIMARY KEY (CODIGO_TIPO_ESPECIALIDAD)
+)
+
+
+create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD(
+CODIGO_ESPECIALIDAD NUMERIC(18,0),
+DESCRIPCION VARCHAR(255),
+CODIGO_TIPO_ESPECIALIDAD int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD(CODIGO_TIPO_ESPECIALIDAD),
+
+PRIMARY KEY (CODIGO_ESPECIALIDAD),
+)
+
+
+create table YOU_SHALL_NOT_CRASH.PROFESIONAL(
+ID_PROFESIONAL NUMERIC IDENTITY,
+--ID_USUARIO NUMERIC,
+NOMBRE VARCHAR(255),
+APELLIDO VARCHAR(255),
+DNI NUMERIC(18,0),
+DIRECCION VARCHAR(255),
+TELEFONO NUMERIC(18,0),
+MAIL VARCHAR(255),
+FECHA_NAC DATETIME,
+SEXO VARCHAR(9),
+MATRICULA INT, --VER COMO VAMOS A CREAR LA MATRICULA, POR AHORA NULL
+ACTIVO bit, --SI/NO
+
+PRIMARY KEY (ID_PROFESIONAL),
+FOREIGN KEY (DNI) REFERENCES you_shall_not_crash.USUARIO(DNI_USUARIO)
+)
+
+
+create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(
+CODIGO_ESPECIALIDAD NUMERIC,
+ID_PROFESIONAL NUMERIC,
+
+FOREIGN KEY (CODIGO_ESPECIALIDAD) REFERENCES  you_shall_not_crash.ESPECIALIDAD(CODIGO_ESPECIALIDAD),
+FOREIGN KEY (ID_PROFESIONAL) REFERENCES  you_shall_not_crash.PROFESIONAL(ID_PROFESIONAL)
+)
+
+
+create table YOU_SHALL_NOT_CRASH.RECETA(
+ID_RECETA NUMERIC IDENTITY,
+ID_DIAGNOSTICO NUMERIC,
+
+PRIMARY KEY (ID_RECETA),
+FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES you_shall_not_crash.DIAGNOSTICO(ID_DIAGNOSTICO)
+)
+
+
+create table YOU_SHALL_NOT_CRASH.SINTOMA(
+ID_SINTOMA NUMERIC IDENTITY(1,1),
+DESCRIPCION VARCHAR (255),
+
+PRIMARY KEY (ID_SINTOMA)
+)
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_CONSULTA (
+ID_Bono_Consulta int,
+Fecha_Emision datetime,
+ID_Afiliado int ,
+Numero_Consulta_Afiliado int
+
+PRIMARY KEY(ID_Bono_Consulta),
+FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado))
+
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_FARMACIA (
+ID_Bono_Farmacia numeric(18,0) ,
+Fecha_Emision datetime,
+ID_Afiliado int ,
+ID_Receta_Medica NUMERIC ,
+Fecha_Prescripcion_Medica datetime,
+--ACA NO DEBERIA IR LA FECHA DE VENCIMIENTO DEL BONO?
+
+PRIMARY KEY(ID_Bono_Farmacia),
+FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
+FOREIGN KEY (ID_Receta_Medica) REFERENCES YOU_SHALL_NOT_CRASH.RECETA(ID_Receta) )
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.MEDICAMENTO (
+ID_Medicamento int identity(1,1),
+Descripcion varchar(255),
+
+PRIMARY KEY(ID_Medicamento) );
+
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (
+ID_Item int identity (1,1),
+ID_Bono_Farmacia numeric(18,0),
+ID_Medicamento int ,
+Cantidad int,
+
+PRIMARY KEY(ID_Item),
+FOREIGN KEY (ID_Bono_Farmacia) REFERENCES YOU_SHALL_NOT_CRASH.BONO_FARMACIA(ID_Bono_Farmacia),
+FOREIGN KEY (ID_Medicamento) REFERENCES YOU_SHALL_NOT_CRASH.MEDICAMENTO(ID_Medicamento) )
+
+
+create table YOU_SHALL_NOT_CRASH.TURNO(
+ID_TURNO NUMERIC IDENTITY,
+NUMERO NUMERIC(18,0),
+ID_PROFESIONAL NUMERIC,
+ID_AFILIADO INT,
+FECHA DATETIME,
+FECHA_LLEGADA DATETIME,
+ID_Bono_Consulta INT,
+Cancelado bit DEFAULT (0), 
+
+PRIMARY KEY (ID_TURNO),
+FOREIGN KEY (ID_PROFESIONAL) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL(ID_PROFESIONAL),
+FOREIGN KEY (ID_AFILIADO) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_AFILIADO),
+FOREIGN KEY (ID_Bono_Consulta) REFERENCES YOU_SHALL_NOT_CRASH.BONO_CONSULTA(ID_Bono_Consulta)
+)
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.PLAN_MEDICO (
+ID_Plan numeric(18,0),
+Descripcion varchar(255), 
+Precio_plan numeric(18,2),
+Precio_bono_consulta numeric(18,2),
+Precio_bono_farmacia numeric(18,2),
+
+PRIMARY KEY(ID_Plan) );
+
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.ESTADO_CIVIL (
+ID_Estado_Civil int identity(1,1),
+Descripcion varchar(255),
+PRIMARY KEY(ID_Estado_Civil) );
+
+--Cancelaciones: Se tomará para la migracion el día 01/01/2013 como fecha default de cancelacion.
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.CANCELACION_TURNO (
+ID_Cancelacion int identity(1,1),
+Tipo_Cancelacion varchar(30),
+Detalle varchar(255),
+Fecha datetime,
+ID_Turno numeric
+
+PRIMARY KEY (ID_Cancelacion),
+FOREIGN KEY (ID_Turno) REFERENCES YOU_SHALL_NOT_CRASH.TURNO (ID_TURNO))
+
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.AGENDA (
+Id_Agenda int identity(1,1),	
+Id_Profesional numeric,
+Dia int,
+Hora_Inicio int,
+Hora_Fin int,
+
+PRIMARY KEY (Id_Agenda),
+FOREIGN KEY (Id_Profesional) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_Profesional));
+
+ 
+--AGREGAMOS LAS FOREING KEYS FALTANTES:
+ 
+ALTER TABLE YOU_SHALL_NOT_CRASH.AFILIADO
+ADD FOREIGN KEY (ID_Estado_Civil)
+REFERENCES YOU_SHALL_NOT_CRASH.ESTADO_CIVIL(ID_Estado_Civil);
+
+ALTER TABLE YOU_SHALL_NOT_CRASH.AFILIADO
+ADD FOREIGN KEY (ID_Plan)
+REFERENCES YOU_SHALL_NOT_CRASH.PLAN_MEDICO(ID_Plan);
+
+ALTER TABLE YOU_SHALL_NOT_CRASH.DIAGNOSTICO
+ADD FOREIGN KEY (ID_TURNO) REFERENCES you_shall_not_crash.TURNO(ID_TURNO);
+
+ALTER TABLE YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO
+ADD FOREIGN KEY (ID_SINTOMA) REFERENCES you_shall_not_crash.SINTOMA(ID_SINTOMA);
+
 
 
 
 ---------------------------------------------------------------------------------------------------------------
 
 --COMPLETADO TABLAS
+
+INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Soltero/a');
+INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Casado/a');
+INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Viudo/a');
+INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Concubinato');
+INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Divorciado/a');
 
 --Creo roles que se pide por enunciado
 INSERT INTO YOU_SHALL_NOT_CRASH.ROL values('Administrativo', 1)
@@ -184,121 +353,42 @@ INSERT INTO YOU_SHALL_NOT_CRASH.ROL_USUARIO
 values (@cod_profesional, 0)
 ;
 
+--PLAN MEDICO-----------------------------------------------------
+INSERT INTO YOU_SHALL_NOT_CRASH.PLAN_MEDICO (ID_Plan,Descripcion,Precio_bono_consulta,Precio_bono_farmacia)
+SELECT DISTINCT Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
+FROM gd_esquema.Maestra
+;
+
+
 INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre, Apellido, Direccion, Telefono, Mail, Fecha_Nac, DNI, ID_Plan, Digito_Familiar)
 SELECT DISTINCT Paciente_Nombre, Paciente_Apellido, Paciente_Direccion, Paciente_Telefono, Paciente_Mail, Paciente_Fecha_Nac, Paciente_Dni, Plan_Med_Codigo, 01
 FROM gd_esquema.Maestra
 ;
 
 
+--BONO CONSULTA---------------------------------------------------
+INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado)
+SELECT DISTINCT (Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
+FROM gd_esquema.Maestra
+WHERE Bono_Consulta_Fecha_Impresion IS NOT NULL AND 
+	  Bono_Consulta_Numero IS NOT NULL 
+;
+
+--BONO FARMACIA---------------------------------------------------
+INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado)
+SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
+FROM gd_esquema.Maestra
+WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
+	  Bono_Farmacia_Numero IS NOT NULL;  
 
 
-
-
-----------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-create table YOU_SHALL_NOT_CRASH.DIAGNOSTICO( 
-ID_DIAGNOSTICO NUMERIC IDENTITY,
-ID_TURNO NUMERIC,
-ID_PROFESIONAL NUMERIC,
-DESCRIPCION nvarchar(255)
-
-PRIMARY KEY (ID_DIAGNOSTICO))
-
-GO 
-
-
-create table YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO(
-ID_ITEM NUMERIC IDENTITY,
-ID_DIAGNOSTICO NUMERIC,
-ID_SINTOMA NUMERIC,
-
-PRIMARY KEY (ID_ITEM),
-FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES  you_shall_not_crash.DIAGNOSTICO(ID_DIAGNOSTICO),
-)
-
-
-
-create table YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD(
-CODIGO_TIPO_ESPECIALIDAD NUMERIC(18,0),
-DESCRIPCION VARCHAR(255),
-
-
-PRIMARY KEY (CODIGO_TIPO_ESPECIALIDAD)
-)
-
-
-
-create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD(
-CODIGO_ESPECIALIDAD NUMERIC(18,0),
-DESCRIPCION VARCHAR(255),
-CODIGO_TIPO_ESPECIALIDAD int,
-
-
-PRIMARY KEY (CODIGO_ESPECIALIDAD),
-)
-
-create table YOU_SHALL_NOT_CRASH.PROFESIONAL(
-ID_PROFESIONAL NUMERIC IDENTITY,
---ID_USUARIO NUMERIC,
-NOMBRE VARCHAR(255),
-APELLIDO VARCHAR(255),
-DNI NUMERIC(18,0),
-DIRECCION VARCHAR(255),
-TELEFONO NUMERIC(18,0),
-MAIL VARCHAR(255),
-FECHA_NAC DATETIME,
-SEXO VARCHAR(9),
-MATRICULA INT, --VER COMO VAMOS A CREAR LA MATRICULA, POR AHORA NULL
-ACTIVO bit, --SI/NO
-
-PRIMARY KEY (ID_PROFESIONAL),
-FOREIGN KEY (DNI) REFERENCES you_shall_not_crash.USUARIO(DNI_USUARIO)
-)
-
-
-create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(
-CODIGO_ESPECIALIDAD NUMERIC,
-ID_PROFESIONAL NUMERIC,
-
-FOREIGN KEY (CODIGO_ESPECIALIDAD) REFERENCES  you_shall_not_crash.ESPECIALIDAD(CODIGO_ESPECIALIDAD),
-FOREIGN KEY (ID_PROFESIONAL) REFERENCES  you_shall_not_crash.PROFESIONAL(ID_PROFESIONAL)
-)
-
-
-create table YOU_SHALL_NOT_CRASH.RECETA(
-ID_RECETA NUMERIC IDENTITY,
-ID_DIAGNOSTICO NUMERIC,
-
-PRIMARY KEY (ID_RECETA),
-FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES you_shall_not_crash.DIAGNOSTICO(ID_DIAGNOSTICO)
-)
-
-
-create table YOU_SHALL_NOT_CRASH.SINTOMA(
-ID_SINTOMA NUMERIC IDENTITY(1,1),
-DESCRIPCION VARCHAR (255),
-
-PRIMARY KEY (ID_SINTOMA)
-)
-
-
-create table YOU_SHALL_NOT_CRASH.TURNO(
-ID_TURNO NUMERIC IDENTITY,
-NUMERO NUMERIC(18,0),
-ID_PROFESIONAL NUMERIC,
-ID_AFILIADO INT,
-FECHA DATETIME,
-FECHA_LLEGADA DATETIME,
-Cancelado bit DEFAULT (0), 
-
-PRIMARY KEY (ID_TURNO),
-FOREIGN KEY (ID_PROFESIONAL) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL(ID_PROFESIONAL),
-FOREIGN KEY (ID_AFILIADO) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_AFILIADO)
-)
+--ITEM BONO FARMACIA---------------------------------------------
+INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (ID_Bono_Farmacia, ID_Medicamento, Cantidad)
+SELECT Bono_Farmacia_Numero, (select ID_Medicamento from YOU_SHALL_NOT_CRASH.MEDICAMENTO where Descripcion=Bono_Farmacia_Medicamento), 1
+FROM gd_esquema.Maestra
+WHERE Bono_Farmacia_Numero IS NOT NULL AND
+	  Bono_Farmacia_Medicamento IS NOT NULL
+;
 
 --PROFESIONAL--------------------
 insert into YOU_SHALL_NOT_CRASH.PROFESIONAL(NOMBRE,APELLIDO,DNI,DIRECCION,TELEFONO,MAIL,FECHA_NAC) --activo,matricula y sexo null
@@ -326,7 +416,7 @@ where Especialidad_Codigo is not null
 order by Especialidad_Codigo;
 
 --SINTOMA------------------------
-insert into YOU_SHALL_NOT_CRASH.SINTOMA
+insert into YOU_SHALL_NOT_CRASH.SINTOMA(DESCRIPCION)
 select distinct Consulta_Sintomas
 from gd_esquema.Maestra
 where Consulta_Sintomas is not null;
@@ -338,12 +428,12 @@ SELECT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_
     WHEN Max(Bono_Consulta_Numero) is not null
      THEN dateadd(MINUTE, -15, Max(Turno_Fecha))
      ELSE NULL
-     END as llegada,
+     END as llegada,  M.Bono_Consulta_Numero,
  0
 --suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes
 from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
 where Turno_Numero is not null
-group by Turno_Numero;
+group by Turno_Numero, M.Bono_Consulta_Numero;
 
 --DIAGNOSTICO---------------------------
 insert into YOU_SHALL_NOT_CRASH.DIAGNOSTICO
@@ -365,81 +455,6 @@ select d.ID_DIAGNOSTICO
 from you_shall_not_crash.DIAGNOSTICO d
 
 
-
-
-
------------------------------------------------------------------------------------------------
-
-
-
-
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.PLAN_MEDICO (
-ID_Plan numeric(18,0),
-Descripcion varchar(255), 
-Precio_plan numeric(18,2),
-Precio_bono_consulta numeric(18,2),
-Precio_bono_farmacia numeric(18,2),
-
-PRIMARY KEY(ID_Plan) );
-
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.MEDICAMENTO (
-ID_Medicamento int identity(1,1),
-Descripcion varchar(255),
-
-PRIMARY KEY(ID_Medicamento) );
-
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_CONSULTA (
-ID_Bono_Consulta numeric(18,0) ,
-Fecha_Emision datetime,
-ID_Afiliado int ,
-ID_Turno NUMERIC,
-Numero_Consulta int
-
-PRIMARY KEY(ID_Bono_Consulta),
-FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
-FOREIGN KEY (ID_Turno) REFERENCES YOU_SHALL_NOT_CRASH.TURNO(ID_Turno) );
-
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_FARMACIA (
-ID_Bono_Farmacia numeric(18,0) ,
-Fecha_Emision datetime,
-ID_Afiliado int ,
-ID_Receta_Medica NUMERIC ,
-Fecha_Prescripcion_Medica datetime,
---ACA NO DEBERIA IR LA FECHA DE VENCIMIENTO DEL BONO?
-
-PRIMARY KEY(ID_Bono_Farmacia),
-FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
-FOREIGN KEY (ID_Receta_Medica) REFERENCES YOU_SHALL_NOT_CRASH.RECETA(ID_Receta) );
-
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (
-ID_Item int identity (1,1),
-ID_Bono_Farmacia numeric(18,0),
-ID_Medicamento int ,
-Cantidad int,
-
-PRIMARY KEY(ID_Item),
-FOREIGN KEY (ID_Bono_Farmacia) REFERENCES YOU_SHALL_NOT_CRASH.BONO_FARMACIA(ID_Bono_Farmacia),
-FOREIGN KEY (ID_Medicamento) REFERENCES YOU_SHALL_NOT_CRASH.MEDICAMENTO(ID_Medicamento) );
-
-
-
-
-
-
-
-
---PLAN MEDICO-----------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.PLAN_MEDICO (ID_Plan,Descripcion,Precio_bono_consulta,Precio_bono_farmacia)
-SELECT DISTINCT Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia 
-FROM gd_esquema.Maestra
-;
-
-
 --MEDICAMENTO-----------------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.MEDICAMENTO (Descripcion)
 SELECT DISTINCT Bono_Farmacia_Medicamento 
@@ -447,66 +462,9 @@ FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Medicamento IS NOT NULL
 ;
 
---BONO CONSULTA---------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado, ID_Turno)
-SELECT DISTINCT Bono_Consulta_Numero, Bono_Consulta_Fecha_Impresion, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), Turno_Numero
-FROM gd_esquema.Maestra
-WHERE Bono_Consulta_Fecha_Impresion IS NOT NULL AND 
-	  Bono_Consulta_Numero IS NOT NULL
-;
-
---BONO FARMACIA---------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado)
-SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), Turno_Numero
-FROM gd_esquema.Maestra
-WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
-	  Bono_Farmacia_Numero IS NOT NULL
-;  
+--TURNO
 
 
---ITEM BONO FARMACIA---------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (ID_Bono_Farmacia, ID_Medicamento, Cantidad)
-SELECT Bono_Farmacia_Numero, (select ID_Medicamento from YOU_SHALL_NOT_CRASH.MEDICAMENTO where Descripcion=Bono_Farmacia_Medicamento), 1
-FROM gd_esquema.Maestra
-WHERE Bono_Farmacia_Numero IS NOT NULL AND
-	  Bono_Farmacia_Medicamento IS NOT NULL
-;
-
-
-
-
-
----------------------------------------------------------------------------------------
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.ESTADO_CIVIL (
-ID_Estado_Civil int identity(1,1),
-Descripcion varchar(255),
-PRIMARY KEY(ID_Estado_Civil) );
-
-INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Soltero/a');
-INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Casado/a');
-INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Viudo/a');
-INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Concubinato');
-INSERT INTO YOU_SHALL_NOT_CRASH.ESTADO_CIVIL VALUES ('Divorciado/a');
-
---Cancelaciones: Se tomará para la migracion el día 01/01/2013 como fecha default de cancelacion.
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.CANCELACION_TURNO (
-ID_Cancelacion int identity(1,1),
-Tipo_Cancelacion varchar(30),
-Detalle varchar(255),
-Fecha datetime,
-ID_Turno numeric,
-
-PRIMARY KEY (ID_Cancelacion),
-FOREIGN KEY (ID_Turno) REFERENCES YOU_SHALL_NOT_CRASH.TURNO (ID_TURNO))
-
-
--- Se consideran "cancelados" los turnos anteriores a la fecha actual a los que no se haya presentado el paciente.
--- Se considera que al no tener detallado los motivos el tipo de cancelacion se asume "por el paciente" y "sin motivo" en
--- el detalle.
--- Por nueva restriccion de dominio se cancelan todos los turnos agendados para días Domingos con tipo de cancelacion
--- "por el profesional" con motivo "cambio de agenda del profesional".
 INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO
 SELECT 
    CASE
@@ -522,23 +480,23 @@ SELECT
    '01/01/2013' Fecha, ID_TURNO as IdTurno 
 FROM YOU_SHALL_NOT_CRASH.TURNO
 WHERE (FECHA_LLEGADA IS NULL AND FECHA<GETDATE()) OR (datepart(dw,FECHA)=7 AND FECHA>GETDATE()) ;
+
+---------------------------------------------------------------------------------------
+
+
+
+-- Se consideran "cancelados" los turnos anteriores a la fecha actual a los que no se haya presentado el paciente.
+-- Se considera que al no tener detallado los motivos el tipo de cancelacion se asume "por el paciente" y "sin motivo" en
+-- el detalle.
+-- Por nueva restriccion de dominio se cancelan todos los turnos agendados para días Domingos con tipo de cancelacion
+-- "por el profesional" con motivo "cambio de agenda del profesional".
+
  
 --Ahora actualizo el booleano de los turnos que fueron cancelados
 UPDATE YOU_SHALL_NOT_CRASH.TURNO SET Cancelado=1 WHERE ID_TURNO IN (SELECT ID_TURNO FROM YOU_SHALL_NOT_CRASH.CANCELACION_TURNO)
 
 
 --AGENDA-----
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.AGENDA (
-Id_Agenda int identity(1,1),	
-Id_Profesional numeric,
-Dia int,
-Hora_Inicio int,
-Hora_Fin int,
-
-PRIMARY KEY (Id_Agenda),
-FOREIGN KEY (Id_Profesional) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_Profesional));
-
 
 --ESTRATEGIA:
 --DADO QUE EN LA TABLA MAESTRA TODOS LOS HORARIOS DE ATENTION DE TODOS LOS MEDICOS SON DE 8 A 18HS Y DE DOMINGOS A JUEVES.
@@ -551,41 +509,8 @@ SELECT p.Id_Profesional, datepart(dw,TURNO_FECHA), 1800, 800 --mAX(dateNAME(dw,T
 FROM  gd_esquema.Maestra join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Maestra.Medico_Dni=p.DNI
 WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7 
 GROUP BY p.Id_Profesional, datepart(dw,TURNO_FECHA)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  
- --AGREGAMOS LAS FOREING KEYS FALTANTES:
- 
-ALTER TABLE YOU_SHALL_NOT_CRASH.AFILIADO
-ADD FOREIGN KEY (ID_Estado_Civil)
-REFERENCES YOU_SHALL_NOT_CRASH.ESTADO_CIVIL(ID_Estado_Civil);
 
-ALTER TABLE YOU_SHALL_NOT_CRASH.AFILIADO
-ADD FOREIGN KEY (ID_Plan)
-REFERENCES YOU_SHALL_NOT_CRASH.PLAN_MEDICO(ID_Plan);
-
-ALTER TABLE YOU_SHALL_NOT_CRASH.DIAGNOSTICO
-ADD FOREIGN KEY (ID_TURNO) REFERENCES you_shall_not_crash.TURNO(ID_TURNO);
-
-ALTER TABLE YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO
-ADD FOREIGN KEY (ID_SINTOMA) REFERENCES you_shall_not_crash.SINTOMA(ID_SINTOMA);
 
 --SELECT * FROM YOU_SHALL_NOT_CRASH.Split('med1+med2+med3','+');
 
@@ -594,6 +519,38 @@ ADD FOREIGN KEY (ID_SINTOMA) REFERENCES you_shall_not_crash.SINTOMA(ID_SINTOMA);
 ----------------------FUNCIONES Y SPS--------------------------------
 ---------------------------------------------------------------------
 GO
+-- creo funcion util!
+CREATE FUNCTION YOU_SHALL_NOT_CRASH.Split(@String varchar(150), @Delimiter char(1))
+RETURNS @Results table (word varchar(50))
+AS
+BEGIN
+DECLARE @INDEX INT
+
+DECLARE @SLICE varchar(200)
+-- Asignar 1 a la variable que utilizaremos en el loop para no iniciar en 0. 
+SELECT @INDEX = 1
+
+WHILE @INDEX !=0
+BEGIN
+-- Obtenemos el índice de la primera ocurrencia del split de caracteres. 
+SELECT @INDEX = CHARINDEX(@Delimiter,@STRING)
+-- Ahora ponemos todo a la izquierda de el slice de la variable. 
+IF @INDEX != 0
+SELECT @SLICE = LEFT(@STRING,@INDEX - 1)
+ELSE
+SELECT @SLICE = @STRING
+
+insert into @Results(word) values(@SLICE)
+
+SELECT @STRING = RIGHT(@STRING,LEN(@STRING) - @INDEX)
+-- Salimos del loop si terminamos la búsqueda 
+IF LEN(@STRING) = 0 BREAK
+END
+
+RETURN
+END
+GO
+
 create procedure YOU_SHALL_NOT_CRASH.login(@usuario nvarchar(255), @pass nvarchar(255), @respuesta nvarchar(255) output)
 AS 
 BEGIN                  
