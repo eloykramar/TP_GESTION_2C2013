@@ -370,7 +370,13 @@ FROM gd_esquema.Maestra
 INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre, Apellido, Direccion, Telefono, Mail, Fecha_Nac, DNI, ID_Plan, Digito_Familiar)
 SELECT DISTINCT Paciente_Nombre, Paciente_Apellido, Paciente_Direccion, Paciente_Telefono, Paciente_Mail, Paciente_Fecha_Nac, Paciente_Dni, Plan_Med_Codigo, 01
 FROM gd_esquema.Maestra
+where Paciente_Dni is not NULL
 ;
+
+--Al numero de afiliado para la migracion le asignamos el mismo valor del ID, ya que consideramos que ninguno tiene familiares asignados
+INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nro_Afiliado)
+SELECT ID_Afiliado
+FROM YOU_SHALL_NOT_CRASH.AFILIADO
 
 
 --BONO CONSULTA---------------------------------------------------
