@@ -156,7 +156,7 @@ Fecha_Emision datetime,
 ID_Afiliado int ,
 ID_Receta_Medica NUMERIC ,
 Fecha_Prescripcion_Medica datetime,
---ACA NO DEBERIA IR LA FECHA DE VENCIMIENTO DEL BONO?
+Fecha_Vencimiento datetime,
 
 PRIMARY KEY(ID_Bono_Farmacia),
 FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
