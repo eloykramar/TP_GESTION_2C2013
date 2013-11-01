@@ -5,6 +5,7 @@ DROP FUNCTION YOU_SHALL_NOT_CRASH.F_Roles
 DROP PROCEDURE YOU_SHALL_NOT_CRASH.Baja_Logica_Rol
 DROP PROCEDURE YOU_SHALL_NOT_CRASH.Traer_Info_Afiliado
 DROP PROCEDURE YOU_SHALL_NOT_CRASH.Comprar_Bonos
+DROP PROCEDURE YOU_SHALL_NOT_CRASH.Registrar_Compra 
 
 
 ------------------------------------------------------

@@ -15,6 +15,9 @@ namespace Clinica_Frba.Compra_de_Bono
         String usuario;
         int id_Afiliado;
         int id_Plan;
+        decimal precioBonoConsulta;
+        decimal precioBonoFarmacia;
+
 
         public Compra(String unUsuario, String unRol)
         {
@@ -72,14 +75,14 @@ namespace Clinica_Frba.Compra_de_Bono
 
                         cmd.ExecuteNonQuery();
                         int nroAfiliado = Convert.ToInt32(cmd.Parameters["@nroAfiliado"].Value);
-                        decimal precioConsulta = Convert.ToDecimal(cmd.Parameters["@precioConsulta"].Value);
-                        decimal precioFarmacia = Convert.ToDecimal(cmd.Parameters["@precioFarmacia"].Value);
+                        precioBonoConsulta = Convert.ToDecimal(cmd.Parameters["@precioConsulta"].Value);
+                        precioBonoFarmacia = Convert.ToDecimal(cmd.Parameters["@precioFarmacia"].Value);
                         id_Afiliado = Convert.ToInt32(cmd.Parameters["@idAfiliado"].Value);
                         id_Plan = Convert.ToInt32(cmd.Parameters["@idPlan"].Value);
                         
                         textBox1.Text = nroAfiliado.ToString();                  
-                        label2.Text = "Precio: " + precioConsulta.ToString();
-                        label5.Text = "Precio: " + precioFarmacia.ToString();
+                        label6.Text = precioBonoConsulta.ToString();
+                        label7.Text = precioBonoFarmacia.ToString();
                     }
                 }
                 catch (Exception ex)
@@ -93,11 +96,14 @@ namespace Clinica_Frba.Compra_de_Bono
 
         //finalizar compra
         private void button1_Click(object sender, EventArgs e)
-        {
-            decimal monto;
-            using (SqlConnection conexion = this.obtenerConexion())
-            {
-                try
+        {            
+            int cantBonosConsulta = Convert.ToInt32(numericUpDown1.Value);
+            int cantBonosFarmacia = Convert.ToInt32(numericUpDown2.Value);
+            decimal monto = ((precioBonoConsulta * cantBonosConsulta) + (precioBonoFarmacia * cantBonosFarmacia));
+
+            try
+            {                  
+                using (SqlConnection conexion = this.obtenerConexion())
                 {
                     using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Comprar_Bonos", conexion))
                     {
@@ -105,23 +111,31 @@ namespace Clinica_Frba.Compra_de_Bono
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@idAfiliado", SqlDbType.Int).Value = id_Afiliado;
                         cmd.Parameters.Add("@idPlan", SqlDbType.Int).Value = id_Plan;
-                        cmd.Parameters.Add("@cantBonosConsulta", SqlDbType.Int).Value = numericUpDown1.Value;
-                        cmd.Parameters.Add("@cantBonosFarmacia", SqlDbType.Int).Value = numericUpDown2.Value;
+                        cmd.Parameters.Add("@cantBonosConsulta", SqlDbType.Int).Value = cantBonosConsulta;
+                        cmd.Parameters.Add("@cantBonosFarmacia", SqlDbType.Int).Value = cantBonosFarmacia;
 
-                        cmd.ExecuteNonQuery();
-
-                        new Dialogo("todo ok", "Aceptar").Show();
+                        cmd.ExecuteNonQuery();                        
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.Write(ex.Message);
-                    (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+                    
+                    using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Registrar_Compra", conexion))
+                    {                       
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idAfiliado", SqlDbType.Int).Value = id_Afiliado;                        
+                        cmd.Parameters.Add("@cantBonosConsulta", SqlDbType.Int).Value = cantBonosConsulta;
+                        cmd.Parameters.Add("@cantBonosFarmacia", SqlDbType.Int).Value = cantBonosFarmacia;
+                        cmd.Parameters.Add("@monto", SqlDbType.Decimal).Value = monto;
+
+                        cmd.ExecuteNonQuery();        
+                    }
+                     
+                    new Dialogo("Compra finalizada exitosamente ;Cantidad bonos consulta: " + cantBonosConsulta + ", precio unitario: " + precioBonoConsulta + ";Cantidad bonos farmacia: " + cantBonosFarmacia + ", precio unitario: " + precioBonoFarmacia + ";Monto total: " + monto, "Aceptar").Show();                    
                 }
             }
-
-        }
-
-        
+            catch (Exception ex)
+            {
+                    Console.Write(ex.Message);
+                    (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+            }
+        }    
     }
 }

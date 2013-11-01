@@ -710,3 +710,10 @@ declare @IdFarmacia int = ((select max(ID_Bono_Farmacia) from YOU_SHALL_NOT_CRAS
 
 END
 GO
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Registrar_Compra (@idAfiliado int, @cantBonosConsulta int, @cantBonosFarmacia int, @monto numeric(18,2))
+AS
+BEGIN
+INSERT INTO YOU_SHALL_NOT_CRASH.COMPRA_BONO values (@idAfiliado,@cantBonosConsulta,@cantBonosFarmacia,@monto)
+END
+GO
