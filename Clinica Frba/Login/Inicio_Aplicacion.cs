@@ -8,14 +8,21 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using Clinica_Frba.Abm_de_Rol;
+using Clinica_Frba.Compra_de_Bono;
 
 namespace Clinica_Frba.Login
 {
     public partial class Inicio_Aplicacion : Form1
     {
+        string usuario;
+        string rol;
+
         public Inicio_Aplicacion(String unUsuario, String unRol)
         {
             InitializeComponent();
+
+            usuario = unUsuario;
+            rol = unRol;
 
             label1.Text = "Sesión inciada como: " + unUsuario;
             label2.Text = "Rol: " + unRol;
@@ -58,6 +65,11 @@ namespace Clinica_Frba.Login
             {
                 (new ABM_Rol()).Show();
             }
+
+            if (String.Equals(funcionalidad, "Compra de bonos"))
+            {
+                (new Compra(usuario,rol)).Show();
+            }            
         }
     }
 }

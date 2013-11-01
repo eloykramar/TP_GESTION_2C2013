@@ -78,6 +78,12 @@
     <Compile Include="Abm de Rol\Modificar_Rol_Particular.Designer.cs">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </Compile>
+    <Compile Include="Compra de Bono\Compra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra de Bono\Compra.Designer.cs">
+      <DependentUpon>Compra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,12 +150,6 @@
     <Compile Include="Registrar Agenda\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compra de Bono\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Compra de Bono\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Pedir Turno\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm de Rol\Modificar_Rol_Particular.resx">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra de Bono\Compra.resx">
+      <DependentUpon>Compra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogo.resx">
       <DependentUpon>Dialogo.cs</DependentUpon>

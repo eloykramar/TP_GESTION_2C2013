@@ -15,3 +15,4 @@ C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\C
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Rol.Baja_Rol.resources
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Rol.Modificar_Rol.resources
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Abm_de_Rol.Modificar_Rol_Particular.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Debug\Clinica_Frba.Compra_de_Bono.Compra.resources

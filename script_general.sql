@@ -239,7 +239,7 @@ Id_compra int identity(1,1),
 Id_Afiliado int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
 Cant_Bonos_Consulta int,
 Cant_Bonos_Farmacia int,
-Monto float)
+Monto numeric(18,2))
 
  
 --AGREGAMOS LAS FOREING KEYS FALTANTES:
@@ -372,6 +372,9 @@ SELECT DISTINCT Paciente_Nombre, Paciente_Apellido, Paciente_Direccion, Paciente
 FROM gd_esquema.Maestra
 where Paciente_Dni is not NULL
 ;
+
+--creamos un afiliado para el admin
+INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre,DNI, ID_Plan, Digito_Familiar) values ('admin',0,555555,1)
 
 --Al numero de afiliado para la migracion le asignamos el mismo valor del ID, ya que consideramos que ninguno tiene familiares asignados
 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado = ID_Afiliado;
@@ -647,5 +650,26 @@ declare @codigoRol int = (SELECT ID_Rol FROM YOU_SHALL_NOT_CRASH.ROL WHERE Descr
 
 DELETE FROM YOU_SHALL_NOT_CRASH.ROL_USUARIO WHERE ID_Rol = @codigoRol
 
+END
+GO
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Traer_Info_Afiliado(@nombreUsuario varchar(255), @nroAfiliado int output, @precioConsulta numeric(18,2) output, @precioFarmacia numeric(18,2) output)
+AS
+BEGIN
+set @nroAfiliado =(select Cast (Nro_Afiliado as varchar) + Cast(Digito_Familiar as varchar) 
+					from YOU_SHALL_NOT_CRASH.afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) 
+					where u.Username = @nombreUsuario)
+					
+set @precioConsulta = (select Precio_Bono_Consulta 
+						from YOU_SHALL_NOT_CRASH.PLAN_MEDICO pm join 
+						YOU_SHALL_NOT_CRASH.afiliado a on (pm.ID_Plan = a.ID_Plan) join
+						YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) 
+						where u.Username = @nombreUsuario)
+ 
+set @precioFarmacia = (select Precio_Bono_Farmacia
+						from YOU_SHALL_NOT_CRASH.PLAN_MEDICO pm join 
+						YOU_SHALL_NOT_CRASH.afiliado a on (pm.ID_Plan = a.ID_Plan) join
+						YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) 
+						where u.Username = @nombreUsuario) 
 END
 GO
