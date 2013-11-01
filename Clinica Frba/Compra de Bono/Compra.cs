@@ -109,6 +109,7 @@ namespace Clinica_Frba.Compra_de_Bono
                     {
                         conexion.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@fechaActual", SqlDbType.DateTime).Value = getFechaActual();
                         cmd.Parameters.Add("@idAfiliado", SqlDbType.Int).Value = id_Afiliado;
                         cmd.Parameters.Add("@idPlan", SqlDbType.Int).Value = id_Plan;
                         cmd.Parameters.Add("@cantBonosConsulta", SqlDbType.Int).Value = cantBonosConsulta;
