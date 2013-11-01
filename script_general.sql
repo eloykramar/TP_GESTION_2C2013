@@ -55,7 +55,7 @@ DNI numeric(18,0)FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.USUARIO(DNI_Usuario)
 Sexo char(1),
 ID_Estado_Civil int,
 Familiares_A_Cargo int,
-ID_Plan NUMERIC, 
+ID_Plan int, 
 Fecha_Baja DateTime,
 PRIMARY KEY (ID_Afiliado) );
 
@@ -140,25 +140,37 @@ DESCRIPCION VARCHAR (255),
 PRIMARY KEY (ID_SINTOMA)
 )
 
+CREATE TABLE YOU_SHALL_NOT_CRASH.PLAN_MEDICO (
+ID_Plan int,
+Descripcion varchar(255), 
+Precio_plan numeric(18,2),
+Precio_bono_consulta numeric(18,2),
+Precio_bono_farmacia numeric(18,2),
+
+PRIMARY KEY(ID_Plan) );
+
 CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_CONSULTA (
 ID_Bono_Consulta int,
 Fecha_Emision datetime,
 ID_Afiliado int ,
-Numero_Consulta_Afiliado int
+Numero_Consulta_Afiliado int,
+ID_Plan int
 
 PRIMARY KEY(ID_Bono_Consulta),
-FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado))
-
+FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
+FOREIGN KEY (ID_Plan) REFERENCES YOU_SHALL_NOT_CRASH.Plan_Medico(ID_Plan))
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_FARMACIA (
 ID_Bono_Farmacia numeric(18,0) ,
 Fecha_Emision datetime,
 ID_Afiliado int ,
+ID_Plan int,
 ID_Receta_Medica NUMERIC ,
 Fecha_Prescripcion_Medica datetime,
 Fecha_Vencimiento datetime,
 
 PRIMARY KEY(ID_Bono_Farmacia),
+FOREIGN KEY (ID_Plan) REFERENCES YOU_SHALL_NOT_CRASH.Plan_Medico(ID_Plan),
 FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
 FOREIGN KEY (ID_Receta_Medica) REFERENCES YOU_SHALL_NOT_CRASH.RECETA(ID_Receta) )
 
@@ -195,15 +207,6 @@ FOREIGN KEY (ID_PROFESIONAL) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL(ID_PROFE
 FOREIGN KEY (ID_AFILIADO) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_AFILIADO),
 FOREIGN KEY (ID_Bono_Consulta) REFERENCES YOU_SHALL_NOT_CRASH.BONO_CONSULTA(ID_Bono_Consulta)
 )
-
-CREATE TABLE YOU_SHALL_NOT_CRASH.PLAN_MEDICO (
-ID_Plan numeric(18,0),
-Descripcion varchar(255), 
-Precio_plan numeric(18,2),
-Precio_bono_consulta numeric(18,2),
-Precio_bono_farmacia numeric(18,2),
-
-PRIMARY KEY(ID_Plan) );
 
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.ESTADO_CIVIL (
@@ -381,16 +384,16 @@ UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado = ID_Afiliado;
 
 
 --BONO CONSULTA---------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado)
-SELECT DISTINCT (Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
+INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado, ID_Plan)
+SELECT DISTINCT (Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
 FROM gd_esquema.Maestra
 WHERE Bono_Consulta_Fecha_Impresion IS NOT NULL AND 
 	  Bono_Consulta_Numero IS NOT NULL 
 ;
 
 --BONO FARMACIA---------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado)
-SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
+INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado, ID_Plan)
+SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
 FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
 	  Bono_Farmacia_Numero IS NOT NULL;  
@@ -653,10 +656,19 @@ DELETE FROM YOU_SHALL_NOT_CRASH.ROL_USUARIO WHERE ID_Rol = @codigoRol
 END
 GO
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Traer_Info_Afiliado(@nombreUsuario varchar(255), @nroAfiliado int output, @precioConsulta numeric(18,2) output, @precioFarmacia numeric(18,2) output)
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Traer_Info_Afiliado(@nombreUsuario varchar(255), @nroAfiliado int output, @precioConsulta numeric(18,2) output, @precioFarmacia numeric(18,2) output, @idAfiliado int output, @idPlan int output)
 AS
 BEGIN
-set @nroAfiliado =(select Cast (Nro_Afiliado as varchar) + Cast(Digito_Familiar as varchar) 
+set @idAfiliado = (select a.ID_Afiliado 
+					from YOU_SHALL_NOT_CRASH.afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) 
+					where u.Username = @nombreUsuario)
+					
+set @idPlan = (select a.ID_Plan 
+					from YOU_SHALL_NOT_CRASH.afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) 
+					where u.Username = @nombreUsuario)					
+
+
+set @nroAfiliado = (select Cast (Nro_Afiliado as varchar) + Cast(Digito_Familiar as varchar) 
 					from YOU_SHALL_NOT_CRASH.afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) 
 					where u.Username = @nombreUsuario)
 					
