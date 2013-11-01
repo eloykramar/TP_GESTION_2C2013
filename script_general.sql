@@ -685,3 +685,28 @@ set @precioFarmacia = (select Precio_Bono_Farmacia
 						where u.Username = @nombreUsuario) 
 END
 GO
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Comprar_Bonos(@idAfiliado int, @idPlan int, @cantBonosConsulta int, @cantBonosFarmacia int)
+AS
+BEGIN
+declare @IdConsulta int = ((select max(ID_Bono_consulta) from YOU_SHALL_NOT_CRASH.BONO_CONSULTA) + 1)
+declare @IdFarmacia int = ((select max(ID_Bono_Farmacia) from YOU_SHALL_NOT_CRASH.BONO_FARMACIA) + 1)
+	
+	WHILE @cantBonosConsulta <> 0
+	BEGIN		
+		INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado, ID_Plan) 
+		values (@IdConsulta, GETDATE(), @idAfiliado, @idPlan)
+		SET @cantBonosConsulta = (@cantBonosConsulta - 1)
+		SET @IdConsulta = (@IdConsulta + 1)
+	END
+	
+		WHILE @cantBonosFarmacia <> 0
+	BEGIN
+		INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(ID_Bono_Farmacia, Fecha_Emision, ID_Afiliado, ID_Plan, Fecha_Vencimiento) 
+		values (@IdFarmacia, GETDATE(), @idAfiliado, @idPlan, GETDATE()+60)
+		SET @cantBonosFarmacia = (@cantBonosFarmacia - 1)
+		SET @IdFarmacia = (@IdFarmacia + 1)
+	END
+
+END
+GO
