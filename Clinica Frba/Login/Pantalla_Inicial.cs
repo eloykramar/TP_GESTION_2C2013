@@ -73,6 +73,8 @@ namespace Clinica_Frba.Login
                 output.Append(hashedBytes[i].ToString("x2").ToLower());
 
             return output.ToString();
-        } 
+        }
+
+       
     }
 }

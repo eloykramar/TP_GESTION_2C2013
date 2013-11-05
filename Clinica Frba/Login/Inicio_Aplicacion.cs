@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using Clinica_Frba.Abm_de_Rol;
+using Clinica_Frba.ABM_de_Afiliado;
 using Clinica_Frba.Compra_de_Bono;
 
 namespace Clinica_Frba.Login
@@ -64,6 +65,11 @@ namespace Clinica_Frba.Login
             if (String.Equals(funcionalidad, "ABM Rol"))
             {
                 (new ABM_Rol()).Show();
+            }
+
+            if (String.Equals(funcionalidad, "ABM Afiliado"))
+            {
+                (new ABM_Afiliado()).Show();
             }
 
             if (String.Equals(funcionalidad, "Compra de bonos"))

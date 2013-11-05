@@ -76,6 +76,7 @@
             this.Controls.Add(this.button1);
             this.Name = "ABM_Rol";
             this.Text = "ABM_Rol";
+            this.Load += new System.EventHandler(this.ABM_Rol_Load_1);
             this.ResumeLayout(false);
 
         }
