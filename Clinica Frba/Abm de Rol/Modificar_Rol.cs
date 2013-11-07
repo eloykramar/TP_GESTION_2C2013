@@ -128,13 +128,11 @@ namespace Clinica_Frba.Abm_de_Rol
                         dataGridView2.Columns.Add(botonModificar);
                     }
 
-                    if (e.ColumnIndex == 3)
-                    {
-                        if (e.ColumnIndex == 3)//boton modificar rol
-                        {
-                            (new Modificar_Rol_Particular(nombreRol)).Show();
-                        }
-                    }
+                      if (e.ColumnIndex == 3)//boton modificar rol
+                      {
+                          (new Modificar_Rol_Particular(nombreRol)).Show();
+                      }
+                    
                 }
             }
         }
