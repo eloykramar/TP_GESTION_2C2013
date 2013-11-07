@@ -25,7 +25,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Busqueda.SuspendLayout();
@@ -43,7 +43,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.Busqueda.Controls.Add(this.textBox2);
             this.Busqueda.Controls.Add(this.label1);
             this.Busqueda.Controls.Add(this.textBox1);
-            this.Busqueda.Controls.Add(this.button2);
+            this.Busqueda.Controls.Add(this.btnBuscar);
             this.Busqueda.Controls.Add(this.button1);
             this.Busqueda.Location = new System.Drawing.Point(28, 33);
             this.Busqueda.Name = "Busqueda";
@@ -111,6 +111,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             // 
             this.textBox2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.textBox2.Location = new System.Drawing.Point(112, 69);
+            this.textBox2.MaxLength = 18;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(127, 20);
             this.textBox2.TabIndex = 4;
@@ -132,15 +133,15 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.textBox1.Size = new System.Drawing.Size(127, 20);
             this.textBox1.TabIndex = 2;
             // 
-            // button2
+            // btnBuscar
             // 
-            this.button2.Location = new System.Drawing.Point(425, 152);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(84, 30);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Buscar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnBuscar.Location = new System.Drawing.Point(425, 152);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(84, 30);
+            this.btnBuscar.TabIndex = 1;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // button1
             // 
@@ -165,6 +166,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             // 
             // ABM_Afiliado
             // 
+            this.AcceptButton = this.btnBuscar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 462);
@@ -228,11 +230,11 @@ namespace Clinica_Frba.ABM_de_Afiliado
         private TextBox textBox2;
         private Label label1;
         private TextBox textBox1;
-        private Button button2;
+        private Button btnBuscar;
         private Button button1;
         private DataGridView dataGridView1;
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
             using (SqlConnection conexion = this.obtenerConexion())
             {   string nom  = " (Nombre+' '+Apellido) like '%" + textBox1.Text + "%' AND";
@@ -269,9 +271,9 @@ namespace Clinica_Frba.ABM_de_Afiliado
             if (!String.Equals(textBox2.Text, ""))
             {
                 string Str = textBox2.Text.Trim();
-                int Num;
+                long Num;
 
-                bool isNum = int.TryParse(Str, out Num);
+                bool isNum = long.TryParse(Str, out Num);
 
                 if (!isNum)
                 {
@@ -303,8 +305,8 @@ namespace Clinica_Frba.ABM_de_Afiliado
         }
 
         private void btnModif_Click(object sender, EventArgs e)
-        { string id=dataGridView1.CurrentRow.Cells[0].Value.ToString();//dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].FormattedValue(int)
-            (new DetalleAfiliado.Modif(id)).Show();
+        { string id=dataGridView1.CurrentRow.Cells["ID_Afiliado"].Value.ToString();//dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].FormattedValue(int)
+             (new DetalleAfiliado.Modif(id)).Show();
         }
 
 

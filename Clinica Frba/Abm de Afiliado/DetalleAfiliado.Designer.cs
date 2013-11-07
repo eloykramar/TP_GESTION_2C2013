@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtId = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.numConsultas = new System.Windows.Forms.NumericUpDown();
             this.numFACargo = new System.Windows.Forms.NumericUpDown();
@@ -66,6 +67,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtId);
             this.groupBox1.Controls.Add(this.btnGuardar);
             this.groupBox1.Controls.Add(this.numConsultas);
             this.groupBox1.Controls.Add(this.numFACargo);
@@ -102,6 +104,14 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Detalle Afiliado";
+            // 
+            // txtId
+            // 
+            this.txtId.Location = new System.Drawing.Point(215, -1);
+            this.txtId.Name = "txtId";
+            this.txtId.Size = new System.Drawing.Size(63, 20);
+            this.txtId.TabIndex = 2;
+            this.txtId.Visible = false;
             // 
             // btnGuardar
             // 
@@ -254,6 +264,7 @@
             this.txtNroAf.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtNroAf.Location = new System.Drawing.Point(106, 174);
             this.txtNroAf.Name = "txtNroAf";
+            this.txtNroAf.ReadOnly = true;
             this.txtNroAf.Size = new System.Drawing.Size(127, 20);
             this.txtNroAf.TabIndex = 23;
             // 
@@ -269,9 +280,11 @@
             // txtDNI
             // 
             this.txtDNI.Location = new System.Drawing.Point(106, 101);
+            this.txtDNI.MaxLength = 18;
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(127, 20);
             this.txtDNI.TabIndex = 21;
+            this.txtDNI.TextChanged += new System.EventHandler(this.txtDNI_TextChanged);
             // 
             // label4
             // 
@@ -295,9 +308,11 @@
             // 
             this.txtTel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtTel.Location = new System.Drawing.Point(357, 65);
+            this.txtTel.MaxLength = 18;
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(127, 20);
             this.txtTel.TabIndex = 17;
+            this.txtTel.TextChanged += new System.EventHandler(this.txtTel_TextChanged);
             // 
             // label6
             // 
@@ -406,5 +421,6 @@
         protected System.Windows.Forms.NumericUpDown numConsultas;
         protected System.Windows.Forms.NumericUpDown numFACargo;
         protected System.Windows.Forms.TextBox txtUser;
+        protected System.Windows.Forms.TextBox txtId;
     }
 }

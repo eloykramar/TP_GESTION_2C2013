@@ -1,6 +1,6 @@
 ﻿namespace Clinica_Frba.DetalleAfiliado
 {
-    partial class Modif
+    partial class Alta
     {
         /// <summary>
         /// Required designer variable.
@@ -28,28 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numConsultas)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numFACargo)).BeginInit();
             this.SuspendLayout();
             // 
-            // Modif
+            // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(531, 373);
-            this.Name = "Modif";
+            this.Name = "Alta";
             this.Text = "Alta";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numConsultas)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numFACargo)).EndInit();
+            this.Load += new System.EventHandler(this.Alta_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
 
     }
 }

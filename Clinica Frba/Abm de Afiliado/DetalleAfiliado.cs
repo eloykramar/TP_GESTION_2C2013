@@ -71,14 +71,79 @@ namespace Clinica_Frba.DetalleAfiliado
         {
         }
 
+        private void validar()
+        {
+            string problemas = "";
+            if (String.Equals(txtDNI.Text, "")){
+                problemas += "\n El DNI es un campo necesario.";
+            }
+            if (String.Equals(txtNombre.Text, "")){
+                problemas+="\n El Nombre es un campo necesario.";
+            }
+            if (String.Equals(txtApellido.Text, "")){
+                problemas+="\n El Apellido es un campo necesario.";
+            }
+            if (cmbCivil.SelectedIndex==0){
+                problemas+="\n Elija un Estado Civil.";
+            }
+            if (cmbPlan.SelectedIndex==0){
+                problemas+="\n Elija un Plan Medico.";
+            }
+            if (String.Equals(txtUser.Text, "")){
+                problemas+="\n El Nombre de Usuario es un campo necesario.";
+            }
+            
+            if (String.Equals(problemas, "")){
+                this.guardar(); 
+            }else{
+                MessageBox.Show(this,"Revise los siguientes problemas:" + problemas, "Error");
+            }
+
+        }
+
+
         public virtual void btnGuardar_Click(object sender, EventArgs e)
         {
-            this.guardar();   
+            this.validar();  
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtDNI_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.Equals(txtDNI.Text, ""))
+            {
+                string Str = txtDNI.Text.Trim();
+                long Num;
+
+                bool isNum = long.TryParse(Str, out Num);
+
+                if (!isNum)
+                {
+                    MessageBox.Show("Solo se aceptan numeros enteros", "Error");
+                    txtDNI.Text = "";
+                }
+            }
+        }
+
+        private void txtTel_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.Equals(txtTel.Text, ""))
+            {
+                string Str = txtTel.Text.Trim();
+                long Num;
+
+                bool isNum = long.TryParse(Str, out Num);
+
+                if (!isNum)
+                {
+                    MessageBox.Show("Solo se aceptan numeros enteros", "Error");
+                    txtTel.Text = "";
+                }
+            }
         }
 
         
