@@ -540,8 +540,8 @@ CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_AGENDA (
 ID_Item int identity(1,1),
 ID_Agenda int,
 Dia int,
-Hora_Inicio time,
-Hora_Fin time,
+Hora_Inicio int,
+Hora_Fin int,
 
 PRIMARY KEY (Id_Item),
 FOREIGN KEY (ID_Agenda) REFERENCES YOU_SHALL_NOT_CRASH.AGENDA (Id_Agenda));
@@ -555,7 +555,7 @@ GROUP BY p.Id_Profesional
 order by 1
 
 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA 
-SELECT a.ID_Agenda, datepart(dw,TURNO_FECHA), '8:00', '18:00' --mAX(dateNAME(dw,TURNO_FECHA)),MAX(TURNO_FECHA), Max(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', ''))), Min(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', '')))
+SELECT a.ID_Agenda, datepart(dw,TURNO_FECHA), 800, 1800 --mAX(dateNAME(dw,TURNO_FECHA)),MAX(TURNO_FECHA), Max(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', ''))), Min(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', '')))
 FROM  gd_esquema.Maestra 
 	join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Maestra.Medico_Dni=p.DNI 
 	join YOU_SHALL_NOT_CRASH.AGENDA a on p.ID_PROFESIONAL = a.Id_Profesional
