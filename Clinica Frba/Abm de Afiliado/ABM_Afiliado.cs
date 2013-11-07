@@ -12,7 +12,9 @@ namespace Clinica_Frba.ABM_de_Afiliado
 {
     public partial class ABM_Afiliado : Form1
     {
-
+        public List<string> users = null;
+        public List<string> dnis = null;
+        public List<string> values = null;
         private void InitializeComponent()
         {
             this.Busqueda = new System.Windows.Forms.GroupBox();
@@ -296,7 +298,10 @@ namespace Clinica_Frba.ABM_de_Afiliado
 
         private void button3_Click(object sender, EventArgs e)
         {
-          (new DetalleAfiliado.Alta()).Show();
+            this.users = new List<string>();
+            this.dnis = new List<string>();
+            this.values = new List<string>();
+          (new DetalleAfiliado.Alta(this, 1)).ShowDialog();
         }
 
         private void ABM_Afiliado_Load(object sender, EventArgs e)
@@ -306,7 +311,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
 
         private void btnModif_Click(object sender, EventArgs e)
         { string id=dataGridView1.CurrentRow.Cells["ID_Afiliado"].Value.ToString();//dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].FormattedValue(int)
-             (new DetalleAfiliado.Modif(id)).Show();
+             (new DetalleAfiliado.Modif(id)).ShowDialog();
         }
 
 

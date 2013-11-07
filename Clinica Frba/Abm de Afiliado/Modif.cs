@@ -25,11 +25,13 @@ namespace Clinica_Frba.DetalleAfiliado
                     afi.Read();
                     txtUser.ReadOnly = true;
                     txtDNI.ReadOnly = true;
+                    txtNombre.ReadOnly = true;
+                    txtApellido.ReadOnly = true;
                     
                     txtNombre.Text = Convert.ToString(afi["Nombre"]);
                     txtApellido.Text = Convert.ToString(afi["Apellido"]);
                     txtMail.Text = Convert.ToString(afi["Mail"]);
-                    txtDNI.Text = Convert.ToString(afi["DNI"]);
+                    txtDNI.Text = Convert.ToString((afi["DNI"]));
                     txtTel.Text = Convert.ToString(afi["Telefono"]);
                     txtDir.Text = Convert.ToString(afi["Direccion"]);
                     txtNroAf.Text = Convert.ToString(afi["Nro_Afiliado"]);
@@ -68,9 +70,8 @@ namespace Clinica_Frba.DetalleAfiliado
                 {
                     conexion.Open();
                     SqlCommand modAfi = new SqlCommand(
-                    "USE GD2C2013 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nombre='"+ txtNombre.Text
-                    + "', Apellido='" + txtApellido.Text
-                    + "', Direccion='" + txtDir.Text
+                    "USE GD2C2013 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET "
+                    + " Direccion='" + txtDir.Text
                     + "', Telefono=" + telefono
                     + ", ID_Estado_Civil=" + cmbCivil.SelectedValue.ToString()
                     + ", Cantidad_Consultas=" + numConsultas.Value.ToString()
@@ -78,8 +79,7 @@ namespace Clinica_Frba.DetalleAfiliado
                     + "', Sexo='" + cmbSexo.SelectedValue.ToString()
                     + "', Familiares_a_Cargo=" + numFACargo.Value.ToString()
                     + ", ID_Plan=" + cmbPlan.SelectedValue.ToString() 
-                    + ", Fecha_Nac='" + dtpNac.Value.ToShortDateString() 
-                    + "' WHERE ID_Afiliado=" + txtId.Text, conexion);
+                    + " WHERE ID_Afiliado=" + txtId.Text, conexion);
                     modAfi.ExecuteNonQuery();
                     MessageBox.Show("Los datos del afiliado se han modificado satisfactoriamente", "Modificado");
                     this.Close();
@@ -92,6 +92,5 @@ namespace Clinica_Frba.DetalleAfiliado
             }
         }
 
-    
     }
 }

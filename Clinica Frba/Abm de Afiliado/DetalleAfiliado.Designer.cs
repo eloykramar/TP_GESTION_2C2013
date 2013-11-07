@@ -125,6 +125,7 @@
             // 
             // numConsultas
             // 
+            this.numConsultas.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.numConsultas.Location = new System.Drawing.Point(357, 174);
             this.numConsultas.Name = "numConsultas";
             this.numConsultas.Size = new System.Drawing.Size(127, 20);
@@ -132,6 +133,7 @@
             // 
             // numFACargo
             // 
+            this.numFACargo.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.numFACargo.Location = new System.Drawing.Point(161, 211);
             this.numFACargo.Name = "numFACargo";
             this.numFACargo.Size = new System.Drawing.Size(72, 20);
@@ -148,6 +150,7 @@
             // 
             // txtUser
             // 
+            this.txtUser.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtUser.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtUser.Location = new System.Drawing.Point(357, 246);
             this.txtUser.Name = "txtUser";
@@ -166,6 +169,7 @@
             // 
             // cmbCivil
             // 
+            this.cmbCivil.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.cmbCivil.FormattingEnabled = true;
             this.cmbCivil.Location = new System.Drawing.Point(357, 138);
             this.cmbCivil.Name = "cmbCivil";
@@ -174,6 +178,7 @@
             // 
             // txtMail
             // 
+            this.txtMail.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtMail.Location = new System.Drawing.Point(357, 101);
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(127, 20);
@@ -181,6 +186,7 @@
             // 
             // cmbPlan
             // 
+            this.cmbPlan.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.cmbPlan.FormattingEnabled = true;
             this.cmbPlan.Location = new System.Drawing.Point(106, 137);
             this.cmbPlan.Name = "cmbPlan";
@@ -208,6 +214,7 @@
             // 
             // cmbSexo
             // 
+            this.cmbSexo.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.cmbSexo.FormattingEnabled = true;
             this.cmbSexo.Location = new System.Drawing.Point(357, 210);
             this.cmbSexo.Name = "cmbSexo";
@@ -261,6 +268,7 @@
             // 
             // txtNroAf
             // 
+            this.txtNroAf.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtNroAf.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtNroAf.Location = new System.Drawing.Point(106, 174);
             this.txtNroAf.Name = "txtNroAf";
@@ -279,6 +287,7 @@
             // 
             // txtDNI
             // 
+            this.txtDNI.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtDNI.Location = new System.Drawing.Point(106, 101);
             this.txtDNI.MaxLength = 18;
             this.txtDNI.Name = "txtDNI";
@@ -306,6 +315,7 @@
             // 
             // txtTel
             // 
+            this.txtTel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtTel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtTel.Location = new System.Drawing.Point(357, 65);
             this.txtTel.MaxLength = 18;
@@ -325,6 +335,7 @@
             // 
             // txtApellido
             // 
+            this.txtApellido.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtApellido.Location = new System.Drawing.Point(357, 29);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(127, 20);
@@ -350,6 +361,7 @@
             // 
             // txtDir
             // 
+            this.txtDir.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtDir.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtDir.Location = new System.Drawing.Point(106, 65);
             this.txtDir.Name = "txtDir";
@@ -367,6 +379,7 @@
             // 
             // txtNombre
             // 
+            this.txtNombre.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtNombre.Location = new System.Drawing.Point(106, 29);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(127, 20);

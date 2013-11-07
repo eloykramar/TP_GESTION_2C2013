@@ -39,7 +39,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(531, 373);
             this.Name = "Modif";
-            this.Text = "Alta";
+            this.Text = "Modificar Afiliado";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numConsultas)).EndInit();
