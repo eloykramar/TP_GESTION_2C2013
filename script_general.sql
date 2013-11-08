@@ -44,8 +44,8 @@ CREATE TABLE YOU_SHALL_NOT_CRASH.AFILIADO (
 ID_Afiliado int IDENTITY(1,1),
 Nombre varchar(255),
 Apellido varchar(255),
-Nro_Afiliado int,
-Digito_Familiar char(2) DEFAULT (01),
+Nro_Afiliado int, -- raiz del numero de afiliado
+Digito_Familiar char(2) DEFAULT (01), --, el nro afiliado completo seria nro_afiliado concatenado con el digito familiar
 Cantidad_Consultas int,
 Direccion varchar(255),
 Telefono numeric(18,0),
