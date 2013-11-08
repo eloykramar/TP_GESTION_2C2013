@@ -48,6 +48,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abm de Afiliado\Alta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\Alta.Designer.cs">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Afiliado\Modif.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\Modif.Designer.cs">
+      <DependentUpon>Modif.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Afiliado\DetalleAfiliado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\DetalleAfiliado.Designer.cs">
+      <DependentUpon>DetalleAfiliado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm de Rol\ABM_Rol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,11 +138,11 @@
     <Compile Include="Registro de Usuario\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm de Afiliado\Form1.cs">
+    <Compile Include="Abm de Afiliado\ABM_Afiliado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm de Afiliado\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Abm de Afiliado\ABM_Afiliado.Designer.cs">
+      <DependentUpon>ABM_Afiliado.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm de Profesional\Form1.cs">
       <SubType>Form</SubType>
@@ -188,6 +206,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Abm de Afiliado\ABM_Afiliado.resx">
+      <DependentUpon>ABM_Afiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\Modif.resx">
+      <DependentUpon>Modif.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\DetalleAfiliado.resx">
+      <DependentUpon>DetalleAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm de Rol\ABM_Rol.resx">
       <DependentUpon>ABM_Rol.cs</DependentUpon>
     </EmbeddedResource>
