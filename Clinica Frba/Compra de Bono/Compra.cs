@@ -41,7 +41,7 @@ namespace Clinica_Frba.Compra_de_Bono
                 try
                 {
                     conexion.Open();
-                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE (Cast (Nro_Afiliado as varchar) + Cast(Digito_Familiar as varchar)) = '" +nroAfiliado+"'", conexion);
+                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE Nro_Afiliado = '" +nroAfiliado+"'", conexion);
                     string usuarioBuscado = (string)buscarUsuario.ExecuteScalar();
 
                     traer_Info_Afiliado(usuarioBuscado);
