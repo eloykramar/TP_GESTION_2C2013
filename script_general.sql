@@ -367,9 +367,9 @@ SELECT DISTINCT Plan_Med_Codigo, Plan_Med_Descripcion, Plan_Med_Precio_Bono_Cons
 FROM gd_esquema.Maestra
 ;
 
-
-INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre, Apellido, Direccion, Telefono, Mail, Fecha_Nac, DNI, ID_Plan, Digito_Familiar)
-SELECT DISTINCT Paciente_Nombre, Paciente_Apellido, Paciente_Direccion, Paciente_Telefono, Paciente_Mail, Paciente_Fecha_Nac, Paciente_Dni, Plan_Med_Codigo, 01
+--Por defecto se carga sexo masculino, digito familiar 1, estado civil soltero, familiares a cargo 0
+INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre, Apellido, Direccion, Telefono, Mail, Fecha_Nac, DNI, ID_Plan, Digito_Familiar, Sexo, ID_Estado_Civil, Familiares_A_Cargo, Cantidad_Consultas)
+SELECT DISTINCT Paciente_Nombre, Paciente_Apellido, Paciente_Direccion, Paciente_Telefono, Paciente_Mail, Paciente_Fecha_Nac, Paciente_Dni, Plan_Med_Codigo, 01, 'M', 1, 0, 0
 FROM gd_esquema.Maestra
 where Paciente_Dni is not NULL
 ;
@@ -391,7 +391,7 @@ WHERE Bono_Consulta_Fecha_Impresion IS NOT NULL AND
 
 --BONO FARMACIA---------------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado, ID_Plan)
-SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
+SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)	
 FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
 	  Bono_Farmacia_Numero IS NOT NULL;  
@@ -562,6 +562,13 @@ FROM  gd_esquema.Maestra
 WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7 
 GROUP BY p.Id_Profesional, datepart(dw,TURNO_FECHA), a.Id_Agenda
 order by 1,2
+
+
+--CARGA INICIAL DE CANTIDAD DE CONSULTAS
+UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Cantidad_Consultas=(SELECT COUNT(DISTINCT T.ID_Bono_Consulta) FROM YOU_SHALL_NOT_CRASH.TURNO T WHERE T.ID_AFILIADO=AFILIADO.ID_AFILIADO)
+
+
+
 
 
 --SELECT * FROM YOU_SHALL_NOT_CRASH.Split('med1+med2+med3','+');
@@ -752,3 +759,19 @@ BEGIN
 INSERT INTO YOU_SHALL_NOT_CRASH.COMPRA_BONO values (@idAfiliado,@cantBonosConsulta,@cantBonosFarmacia,@monto)
 END
 GO
+
+---------------------------------------------------------------------
+-----------------------------TRIGGERS--------------------------------
+---------------------------------------------------------------------
+GO
+CREATE TRIGGER NUEVO_AFILIADO ON YOU_SHALL_NOT_CRASH.AFILIADO
+AFTER INSERT
+AS BEGIN
+
+DECLARE @NRO INT
+
+SET @NRO = (SELECT (ID_AFILIADO * 100) FROM YOU_SHALL_NOT_CRASH.AFILIADO WHERE DNI=(SELECT TOP 1 DNI FROM INSERTED ORDER BY Digito_Familiar))
+
+UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado=(Nro_Afiliado + @NRO) WHERE DNI IN (SELECT DNI FROM inserted)
+ 
+END; 
