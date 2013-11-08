@@ -709,7 +709,7 @@ set @idPlan = (select a.ID_Plan
 					where u.Username = @nombreUsuario)					
 
 
-set @nroAfiliado = (select Cast (Nro_Afiliado as varchar) + Cast(Digito_Familiar as varchar) 
+set @nroAfiliado = (select Nro_Afiliado
 					from YOU_SHALL_NOT_CRASH.afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) 
 					where u.Username = @nombreUsuario)
 					
