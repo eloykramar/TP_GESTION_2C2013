@@ -83,7 +83,7 @@ namespace Clinica_Frba.Abm_de_Rol
         }
 
         
-        //buscar
+        //crear rol
         private void button1_Click(object sender, EventArgs e)
         {
             using (SqlConnection conexion = this.obtenerConexion())

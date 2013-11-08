@@ -83,6 +83,7 @@ namespace Clinica_Frba.Compra_de_Bono
                         textBox1.Text = nroAfiliado.ToString();                  
                         label6.Text = precioBonoConsulta.ToString();
                         label7.Text = precioBonoFarmacia.ToString();
+                        label8.Text = "Usuario afiliado: " + unUsuario;
                     }
                 }
                 catch (Exception ex)
@@ -137,6 +138,7 @@ namespace Clinica_Frba.Compra_de_Bono
                     Console.Write(ex.Message);
                     (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
             }
-        }    
+        }
+  
     }
 }

@@ -30,7 +30,7 @@ namespace Clinica_Frba.Registrar_Agenda
         {
             if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex != -1)
             {
-                String idProfesional = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+                String idProfesional = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
                 String nombre = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
                 String apellido = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
 

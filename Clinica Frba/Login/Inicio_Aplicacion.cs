@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using Clinica_Frba.Abm_de_Rol;
 using Clinica_Frba.ABM_de_Afiliado;
 using Clinica_Frba.Compra_de_Bono;
+using Clinica_Frba.Registrar_Agenda;
 
 namespace Clinica_Frba.Login
 {
@@ -70,6 +71,11 @@ namespace Clinica_Frba.Login
             if (String.Equals(funcionalidad, "ABM Afiliado"))
             {
                 (new ABM_Afiliado()).Show();
+            }
+
+            if (String.Equals(funcionalidad, "Registrar Agenda del medico"))
+            {
+                (new Seleccionar_Profesional()).Show();
             }
 
             if (String.Equals(funcionalidad, "Compra de bonos"))
