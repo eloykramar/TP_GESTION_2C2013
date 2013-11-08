@@ -759,6 +759,46 @@ INSERT INTO YOU_SHALL_NOT_CRASH.COMPRA_BONO values (@idAfiliado,@cantBonosConsul
 END
 GO
 
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_Agenda(@idProfesional numeric, @fechaInicio datetime, @fechaFin datetime, @respuesta int output)
+AS
+BEGIN
+
+declare @fi datetime
+declare @ff datetime
+declare @flag int
+DECLARE CUR CURSOR 
+FOR SELECT Fecha_Inicio, Fecha_Fin 
+	from YOU_SHALL_NOT_CRASH.AGENDA 
+	where Id_Profesional = @idProfesional
+
+OPEN cur	
+FETCH cur INTO @fi, @ff
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	if (@fechaInicio between @fi and @ff) or (@fechaFin between @fi and @ff)
+		set @flag = 1		
+	FETCH cur INTO @fi, @ff
+END
+
+CLOSE cur
+DEALLOCATE cur
+
+if @flag = 1
+BEGIN
+	set @respuesta = -1
+END
+ELSE
+BEGIN
+	INSERT INTO YOU_SHALL_NOT_CRASH.AGENDA VALUES (@idProfesional, @fechaInicio, @fechaFin)
+	SET @respuesta = (select ID_Agenda 
+					from YOU_SHALL_NOT_CRASH.AGENDA 
+					where Id_Profesional = @idProfesional and
+						Fecha_Inicio = @fechaInicio and 
+						Fecha_Fin = @fechaFin)		
+END
+END
+GO
+
 ---------------------------------------------------------------------
 -----------------------------TRIGGERS--------------------------------
 ---------------------------------------------------------------------
