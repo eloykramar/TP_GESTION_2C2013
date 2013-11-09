@@ -410,11 +410,6 @@ select distinct Medico_Nombre,Medico_Apellido,Medico_Dni,Medico_Direccion,Medico
 from gd_esquema.Maestra
 where Medico_Dni is not null
 
---ESPECIALIDAD_PROFESIONAL-------------------------
-insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL
-select distinct e.CODIGO_ESPECIALIDAD,p.ID_PROFESIONAL
-from you_shall_not_crash.PROFESIONAL P join gd_esquema.Maestra M on p.DNI=m.Medico_Dni join you_shall_not_crash.ESPECIALIDAD E on M.Especialidad_Codigo=e.CODIGO_ESPECIALIDAD
-
 --TIPO_ESPECIALIDAD-------------------------
 insert into YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD
 select distinct Tipo_Especialidad_Codigo,Tipo_Especialidad_Descripcion
@@ -428,6 +423,11 @@ select distinct Especialidad_Codigo,Especialidad_Descripcion,Tipo_Especialidad_C
 from gd_esquema.Maestra
 where Especialidad_Codigo is not null
 order by Especialidad_Codigo;
+
+--ESPECIALIDAD_PROFESIONAL-------------------------
+insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL
+select distinct e.CODIGO_ESPECIALIDAD,p.ID_PROFESIONAL
+from you_shall_not_crash.PROFESIONAL P join gd_esquema.Maestra M on p.DNI=m.Medico_Dni join you_shall_not_crash.ESPECIALIDAD E on M.Especialidad_Codigo=e.CODIGO_ESPECIALIDAD
 
 --SINTOMA------------------------
 insert into YOU_SHALL_NOT_CRASH.SINTOMA(DESCRIPCION)
@@ -799,6 +799,25 @@ END
 END
 GO
 
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_turno (@fecha dateTime, @Profesional varchar(255))
+AS
+BEGIN 
+	declare @Numero numeric(18,0) = (SELECT MAX(NUMERO) FROM YOU_SHALL_NOT_CRASH.TURNO) +1
+	declare @IdProfesional numeric(18,0) = ( SELECT MAX(ID_PROFESIONAL) FROM YOU_SHALL_NOT_CRASH.PROFESIONAL WHERE @Profesional = (NOMBRE + ' ' + APELLIDO))
+	
+	BEGIN TRANSACTION
+	INSERT INTO YOU_SHALL_NOT_CRASH.TURNO (NUMERO, ID_PROFESIONAL, FECHA, Cancelado)
+	values (@Numero,@IdProfesional,@fecha,0)
+	if ( @@ERROR != 0)
+	BEGIN 
+	rollback 
+	END
+	ELSE BEGIN 
+	commit
+	END
+			
+END
+GO
 ---------------------------------------------------------------------
 -----------------------------TRIGGERS--------------------------------
 ---------------------------------------------------------------------
