@@ -18,9 +18,9 @@ namespace Clinica_Frba.ABM_de_Afiliado
         private void InitializeComponent()
         {
             this.Busqueda = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.btnModif = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnAlta = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -28,7 +28,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnClean = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Busqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -36,9 +36,9 @@ namespace Clinica_Frba.ABM_de_Afiliado
             // 
             // Busqueda
             // 
-            this.Busqueda.Controls.Add(this.button5);
+            this.Busqueda.Controls.Add(this.btnDelete);
             this.Busqueda.Controls.Add(this.btnModif);
-            this.Busqueda.Controls.Add(this.button3);
+            this.Busqueda.Controls.Add(this.btnAlta);
             this.Busqueda.Controls.Add(this.comboBox1);
             this.Busqueda.Controls.Add(this.label3);
             this.Busqueda.Controls.Add(this.label2);
@@ -46,7 +46,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.Busqueda.Controls.Add(this.label1);
             this.Busqueda.Controls.Add(this.textBox1);
             this.Busqueda.Controls.Add(this.btnBuscar);
-            this.Busqueda.Controls.Add(this.button1);
+            this.Busqueda.Controls.Add(this.btnClean);
             this.Busqueda.Location = new System.Drawing.Point(28, 33);
             this.Busqueda.Name = "Busqueda";
             this.Busqueda.Size = new System.Drawing.Size(515, 188);
@@ -54,14 +54,15 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.Busqueda.TabStop = false;
             this.Busqueda.Text = "Busqueda";
             // 
-            // button5
+            // btnDelete
             // 
-            this.button5.Location = new System.Drawing.Point(425, 107);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(84, 30);
-            this.button5.TabIndex = 10;
-            this.button5.Text = "Eliminar";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnDelete.Location = new System.Drawing.Point(425, 107);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(84, 30);
+            this.btnDelete.TabIndex = 10;
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnModif
             // 
@@ -73,15 +74,15 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.btnModif.UseVisualStyleBackColor = true;
             this.btnModif.Click += new System.EventHandler(this.btnModif_Click);
             // 
-            // button3
+            // btnAlta
             // 
-            this.button3.Location = new System.Drawing.Point(425, 19);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(84, 30);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "Nuevo";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnAlta.Location = new System.Drawing.Point(425, 19);
+            this.btnAlta.Name = "btnAlta";
+            this.btnAlta.Size = new System.Drawing.Size(84, 30);
+            this.btnAlta.TabIndex = 9;
+            this.btnAlta.Text = "Nuevo";
+            this.btnAlta.UseVisualStyleBackColor = true;
+            this.btnAlta.Click += new System.EventHandler(this.btnAlta_Click);
             // 
             // comboBox1
             // 
@@ -145,15 +146,15 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // button1
+            // btnClean
             // 
-            this.button1.Location = new System.Drawing.Point(6, 152);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(84, 30);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Limpiar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnClean.Location = new System.Drawing.Point(6, 152);
+            this.btnClean.Name = "btnClean";
+            this.btnClean.Size = new System.Drawing.Size(84, 30);
+            this.btnClean.TabIndex = 0;
+            this.btnClean.Text = "Limpiar";
+            this.btnClean.UseVisualStyleBackColor = true;
+            this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
             // 
             // dataGridView1
             // 
@@ -163,6 +164,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             this.dataGridView1.Location = new System.Drawing.Point(28, 227);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(515, 212);
             this.dataGridView1.TabIndex = 4;
             // 
@@ -205,7 +207,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
                     comboBox1.DataSource = tablaDeNombres;
 
                     //lleno el datagrid
-                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_Afiliado, (Nombre+' '+Apellido) Nombre, DNI, Direccion, Telefono from YOU_SHALL_NOT_CRASH.AFILIADO", conexion);
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_Afiliado, (Nombre+' '+Apellido) Nombre, DNI, Direccion, Telefono from YOU_SHALL_NOT_CRASH.AFILIADO WHERE Fecha_Baja IS NULL", conexion);
 
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                     DataTable table = new DataTable();
@@ -233,25 +235,22 @@ namespace Clinica_Frba.ABM_de_Afiliado
         private Label label1;
         private TextBox textBox1;
         private Button btnBuscar;
-        private Button button1;
+        private Button btnClean;
         private DataGridView dataGridView1;
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             using (SqlConnection conexion = this.obtenerConexion())
-            {   string nom  = " (Nombre+' '+Apellido) like '%" + textBox1.Text + "%' AND";
-                string dni  = " DNI=" + textBox2.Text + " AND";
-                string plan = " ID_Plan=" + comboBox1.SelectedValue + " AND";
+            {
+                string nom = " AND (Nombre+' '+Apellido) like '%" + textBox1.Text + "%'";
+                string dni = " AND DNI=" + textBox2.Text;
+                string plan = " AND ID_Plan=" + comboBox1.SelectedValue;
 
-                string where = "";
-
-                if (!String.Equals(textBox1.Text, "")) where = nom;
+                string where = "where Fecha_Baja IS NULL";
+                if (!String.Equals(textBox1.Text, "")) where += nom;
                 if (!String.Equals(textBox2.Text, "")) where += dni;
                 if (!String.Equals(comboBox1.SelectedValue.ToString(), "")) where += plan;
-                if (!String.Equals(where, "")) {
-                    where = "where"+where;
-                where = where.Substring(0, where.Length -4);
-                }
+                
                
 
                 //lleno el datagrid
@@ -285,18 +284,18 @@ namespace Clinica_Frba.ABM_de_Afiliado
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnClean_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
             textBox2.Text = "";
             comboBox1.SelectedIndex = 0;
         }
 
-        private Button button5;
+        private Button btnDelete;
         private Button btnModif;
-        private Button button3;
+        private Button btnAlta;
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnAlta_Click(object sender, EventArgs e)
         {
             this.users = new List<string>();
             this.dnis = new List<string>();
@@ -310,9 +309,33 @@ namespace Clinica_Frba.ABM_de_Afiliado
         }
 
         private void btnModif_Click(object sender, EventArgs e)
-        { string id=dataGridView1.CurrentRow.Cells["ID_Afiliado"].Value.ToString();//dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].FormattedValue(int)
+        {
+            int c = dataGridView1.SelectedRows.Count; 
+            if (c < 1) return;
+            string id=dataGridView1.CurrentRow.Cells["ID_Afiliado"].Value.ToString();//dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].FormattedValue(int)
              (new DetalleAfiliado.Modif(id)).ShowDialog();
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            int c = dataGridView1.SelectedRows.Count; 
+            if (c < 1) return;
+            string id = dataGridView1.CurrentRow.Cells["ID_Afiliado"].Value.ToString();//dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].FormattedValue(int)
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+               
+                //lleno el datagrid
+
+                SqlCommand del = new SqlCommand("USE GD2C2013 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Fecha_Baja=getDate() WHERE ID_Afiliado=" + id, conexion);
+                conexion.Open();
+                del.ExecuteNonQuery();
+
+                btnClean.PerformClick();
+                btnBuscar.PerformClick();
+            }          
+
+        }
+
 
 
 
