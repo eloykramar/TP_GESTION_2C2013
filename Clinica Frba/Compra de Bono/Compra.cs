@@ -33,7 +33,8 @@ namespace Clinica_Frba.Compra_de_Bono
         }
 
         private void button2_Click(object sender, EventArgs e)
-        {
+        {   
+            if (textBox1.Text.Equals("")) return;
             int nroAfiliado = Convert.ToInt32(textBox1.Text);
 
             using (SqlConnection conexion = this.obtenerConexion())
@@ -137,6 +138,23 @@ namespace Clinica_Frba.Compra_de_Bono
             {
                     Console.Write(ex.Message);
                     (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.Equals(textBox1.Text, ""))
+            {
+                string Str = textBox1.Text.Trim();
+                long Num;
+
+                bool isNum = long.TryParse(Str, out Num);
+
+                if (!isNum)
+                {
+                    MessageBox.Show("Solo se aceptan numeros enteros");
+                    textBox1.Text = "";
+                }
             }
         }
   
