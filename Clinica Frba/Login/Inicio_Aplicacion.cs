@@ -14,6 +14,7 @@ using Clinica_Frba.Registrar_Agenda;
 using Clinica_Frba.ABM_de_Profesional;
 using Clinica_Frba.Pedir_Turno;
 using Clinica_Frba.Registro_de_LLegada;
+using Clinica_Frba.Cancelar_Atencion;
 
 namespace Clinica_Frba.Login
 {
@@ -99,6 +100,11 @@ namespace Clinica_Frba.Login
             if (String.Equals(funcionalidad, "Registro de llegada para atencion medica"))
             {
                 (new BuscarProf(0)).Show();
+            }
+
+            if (String.Equals(funcionalidad, "Cancelacion de turno"))
+            {
+                (new Menu_Cancelar(rol,usuario)).menu_handler();
             }
         }
     }

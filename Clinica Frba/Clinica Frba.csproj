@@ -54,6 +54,12 @@
     <Compile Include="Abm de Afiliado\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm de Afiliado\ABM_Afiliado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Afiliado\ABM_Afiliado.Designer.cs">
+      <DependentUpon>ABM_Afiliado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm de Afiliado\Modif.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,11 +132,29 @@
     <Compile Include="Abm de Rol\Modificar_Rol_Particular.Designer.cs">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cancelar Atencion\Buscar_Afi_Canc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\Buscar_Afi_Canc.Designer.cs">
+      <DependentUpon>Buscar_Afi_Canc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Afi.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Afi.Designer.cs">
       <DependentUpon>Buscar_Prof_Canc_Afi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Prof.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Prof.Designer.cs">
+      <DependentUpon>Buscar_Prof_Canc_Prof.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\Menu_Cancelar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\Menu_Cancelar.Designer.cs">
+      <DependentUpon>Menu_Cancelar.cs</DependentUpon>
     </Compile>
     <Compile Include="Cancelar Atencion\SelecionTurnoCanc.cs">
       <SubType>Form</SubType>
@@ -216,11 +240,11 @@
     <Compile Include="Registro de Usuario\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm de Afiliado\ABM_Afiliado.cs">
+    <Compile Include="Abm de Afiliado\Buscar_Afiliado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm de Afiliado\ABM_Afiliado.Designer.cs">
-      <DependentUpon>ABM_Afiliado.cs</DependentUpon>
+    <Compile Include="Abm de Afiliado\Buscar_Afiliado.Designer.cs">
+      <DependentUpon>Buscar_Afiliado.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm de Especialidades Medicas\Form1.cs">
       <SubType>Form</SubType>
@@ -256,6 +280,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Abm de Afiliado\ABM_Afiliado.resx">
       <DependentUpon>ABM_Afiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Afiliado\Buscar_Afiliado.resx">
+      <DependentUpon>Buscar_Afiliado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm de Afiliado\Alta.resx">
       <DependentUpon>Alta.cs</DependentUpon>
@@ -293,8 +320,17 @@
     <EmbeddedResource Include="Abm de Rol\Modificar_Rol_Particular.resx">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\Buscar_Afi_Canc.resx">
+      <DependentUpon>Buscar_Afi_Canc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\Buscar_Prof_Canc_Afi.resx">
       <DependentUpon>Buscar_Prof_Canc_Afi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\Buscar_Prof_Canc_Prof.resx">
+      <DependentUpon>Buscar_Prof_Canc_Prof.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\Menu_Cancelar.resx">
+      <DependentUpon>Menu_Cancelar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\SelecionTurnoCanc.resx">
       <DependentUpon>SelecionTurnoCanc.cs</DependentUpon>

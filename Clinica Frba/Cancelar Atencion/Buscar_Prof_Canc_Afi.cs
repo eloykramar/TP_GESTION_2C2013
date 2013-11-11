@@ -18,8 +18,22 @@ namespace Clinica_Frba.Cancelar_Atencion
         }
         public override void turnos()
         {
-            //abro ventana para dar baja
-            MessageBox.Show("doy de baja un turno");
+            // abro ventana para reservar
+            int c = dataGridView1.SelectedRows.Count;
+            if (c < 1) return;
+            int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
+            string afi = textBox2.Text;
+            int idA = getIdAfiliadoxNro(afi);
+            if (idA != 0)
+            {
+                //abro ventana para dar baja
+                MessageBox.Show("doy de baja un turno");
+                //(new Turnos(idP, idA)).ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("El nro de afiliado incorrecto", "Error");
+            }
         }
 
 

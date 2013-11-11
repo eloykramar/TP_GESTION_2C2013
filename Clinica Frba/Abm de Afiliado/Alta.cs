@@ -13,10 +13,10 @@ namespace Clinica_Frba.DetalleAfiliado
 
     public partial class Alta : DetalleAfiliado
     {
-        public ABM_de_Afiliado.ABM_Afiliado preAlta;
+        public ABM_de_Afiliado.Buscar_Afiliado preAlta;
         int digito;
 
-        public Alta( ABM_de_Afiliado.ABM_Afiliado P_prealta, int P_digito)//ref List<string> P_users, ref List<string> P_dnis, ref List<string> P_values, int P_digito)
+        public Alta(ABM_de_Afiliado.Buscar_Afiliado P_prealta, int P_digito)//ref List<string> P_users, ref List<string> P_dnis, ref List<string> P_values, int P_digito)
         {
             preAlta = P_prealta;
             digito = P_digito;
