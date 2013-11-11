@@ -125,21 +125,44 @@ namespace Clinica_Frba.Pedir_Turno
 
         private void btnTurnos_Click(object sender, EventArgs e)
         {
+            
             this.turnos();
         }
 
-        private void Busqueda_Enter(object sender, EventArgs e)
-        {
-
-        }
         public virtual void turnos()
-        {
+        {   // abro ventana para reservar
             int c = dataGridView1.SelectedRows.Count;
             if (c < 1) return;
             int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
             string afi = textBox2.Text;
-            int idA = 0;//falta validar q el afiliado exista
-            (new Turnos(idP, idA)).ShowDialog();
+            int idA = getIdAfiliadoxNro(afi);
+            if (idA != 0)
+            {
+                (new Turnos(idP, idA)).ShowDialog();
+            }else
+            {
+                MessageBox.Show("El nro de afiliado incorrecto", "Error");
+            }
+        }
+
+        public int getIdAfiliadoxNro(string nro)
+        {
+            int id = 0;
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+                SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO WHERE Fecha_Baja IS NULL and Nro_Afiliado="+nro, conexion);
+                try
+                {
+                    conexion.Open();
+                    id = (Int32)cmd2.ExecuteScalar();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                   return 0;
+                }
+            }
+            
         }
     }
 }

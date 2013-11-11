@@ -12,13 +12,31 @@ namespace Clinica_Frba.Registro_de_LLegada
 {
     public partial class BuscarProf : Pedir_Turnos
     {
-        public BuscarProf(int x)  : base(x)
+        int IdAfiliado = 0;
+        public BuscarProf(int idA)  : base(idA)
         {
-
+            InitializeComponent();
+            IdAfiliado = idA;
         }
         public override void turnos()
         {
-            MessageBox.Show("hola");
+            //abro ventana para confirmar
+            int c = dataGridView1.SelectedRows.Count;
+            if (c < 1) return;
+            int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
+            string afi = textBox2.Text;
+            int idA = getIdAfiliadoxNro(afi);
+            if (idA != 0)
+            {
+                (new Seleccion_Turno(idP, idA)).ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("El nro de afiliado incorrecto", "Error");
+            }
+            
         }
+
+
     }
 }

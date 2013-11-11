@@ -60,7 +60,6 @@
             this.Busqueda.TabIndex = 7;
             this.Busqueda.TabStop = false;
             this.Busqueda.Text = "Busqueda";
-            this.Busqueda.Enter += new System.EventHandler(this.Busqueda_Enter);
             // 
             // btnTurnos
             // 
@@ -158,6 +157,7 @@
             // 
             // Pedir_Turnos
             // 
+            this.AcceptButton = this.btnBuscar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 425);

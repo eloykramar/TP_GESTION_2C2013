@@ -1,6 +1,6 @@
-﻿namespace Clinica_Frba.NewFolder7
+﻿namespace Clinica_Frba.Cancelar_Atencion
 {
-    partial class Form1
+    partial class Seleccion_Turno_Canc
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // btnPrincipal
+            // 
+            this.btnPrincipal.Text = "Cancelar Turno";
+            // 
+            // Seleccion_Turno_Canc
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(376, 321);
+            this.Name = "Seleccion_Turno_Canc";
+            this.groupBox1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

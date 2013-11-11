@@ -126,6 +126,18 @@
     <Compile Include="Abm de Rol\Modificar_Rol_Particular.Designer.cs">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc.Designer.cs">
+      <DependentUpon>Buscar_Prof_Canc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\SelecionTurnoCanc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\SelecionTurnoCanc.Designer.cs">
+      <DependentUpon>SelecionTurnoCanc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Compra de Bono\Compra.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +204,12 @@
     <Compile Include="Registro de LLegada\BuscarProf.Designer.cs">
       <DependentUpon>BuscarProf.cs</DependentUpon>
     </Compile>
+    <Compile Include="Registro de LLegada\SeleccionTurno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de LLegada\SeleccionTurno.Designer.cs">
+      <DependentUpon>SeleccionTurno.cs</DependentUpon>
+    </Compile>
     <Compile Include="Registro de Usuario\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,12 +238,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Registro Resultado Atencion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Cancelar Atencion\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Cancelar Atencion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Generar Receta\Form1.cs">
@@ -281,6 +293,12 @@
     <EmbeddedResource Include="Abm de Rol\Modificar_Rol_Particular.resx">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\Buscar_Prof_Canc.resx">
+      <DependentUpon>Buscar_Prof_Canc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\SelecionTurnoCanc.resx">
+      <DependentUpon>SelecionTurnoCanc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Compra de Bono\Compra.resx">
       <DependentUpon>Compra.cs</DependentUpon>
     </EmbeddedResource>
@@ -318,6 +336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de LLegada\BuscarProf.resx">
       <DependentUpon>BuscarProf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de LLegada\SeleccionTurno.resx">
+      <DependentUpon>SeleccionTurno.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
