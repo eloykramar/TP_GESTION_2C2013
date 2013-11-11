@@ -405,8 +405,8 @@ WHERE Bono_Farmacia_Numero IS NOT NULL AND
 ;
 
 --PROFESIONAL--------------------
-insert into YOU_SHALL_NOT_CRASH.PROFESIONAL(NOMBRE,APELLIDO,DNI,DIRECCION,TELEFONO,MAIL,FECHA_NAC) --activo,matricula y sexo null
-select distinct Medico_Nombre,Medico_Apellido,Medico_Dni,Medico_Direccion,Medico_Telefono,Medico_Mail,Medico_Fecha_Nac
+insert into YOU_SHALL_NOT_CRASH.PROFESIONAL(NOMBRE,APELLIDO,DNI,DIRECCION,TELEFONO,MAIL,FECHA_NAC,ACTIVO) --matricula y sexo null
+select distinct Medico_Nombre,Medico_Apellido,Medico_Dni,Medico_Direccion,Medico_Telefono,Medico_Mail,Medico_Fecha_Nac,1
 from gd_esquema.Maestra
 where Medico_Dni is not null
 
@@ -444,10 +444,23 @@ SELECT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_
      ELSE NULL
      END as llegada,  M.Bono_Consulta_Numero,
  0
---suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes
+--suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes, solo los turnos pasados
 from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
-where Turno_Numero is not null
+where Turno_Numero is not null and Turno_Fecha<getdate()
 group by Turno_Numero, M.Bono_Consulta_Numero;
+
+insert into YOU_SHALL_NOT_CRASH.TURNO 
+SELECT DISTINCT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_Fecha) d,
+ CASE
+    WHEN Max(Bono_Consulta_Numero) is not null
+     THEN dateadd(MINUTE, -15, Max(Turno_Fecha))
+     ELSE NULL
+     END as llegada,  NULL,
+ 0
+--suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes, solo los turnos pasados
+from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
+where Turno_Numero is not null and Turno_Fecha>getdate() and M.Bono_Consulta_Numero is null
+group by Turno_Numero;
 
 --DIAGNOSTICO---------------------------
 insert into YOU_SHALL_NOT_CRASH.DIAGNOSTICO
@@ -569,8 +582,16 @@ UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Cantidad_Consultas=(SELECT COUNT(DISTINC
 
 
 
+--Tabla para registrar dias cancelados por un profesional
 
---SELECT * FROM YOU_SHALL_NOT_CRASH.Split('med1+med2+med3','+');
+CREATE TABLE YOU_SHALL_NOT_CRASH.CANCELACION_DIA (
+ID_CANCELACION_DIA int identity(1,1),
+ID_PROFESIONAL numeric(18,0),
+DiaHora_inicio DATETIME,
+DiaHora_Fin DATETIME,
+
+PRIMARY KEY (ID_CANCELACION_DIA),
+FOREIGN KEY (ID_PROFESIONAL) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_PROFESIONAL));
 
 
 ---------------------------------------------------------------------
@@ -799,15 +820,14 @@ END
 END
 GO
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_turno (@fecha dateTime, @Profesional varchar(255))
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_turno (@fecha dateTime, @profesional varchar(255), @afiliado int)
 AS
 BEGIN 
 	declare @Numero numeric(18,0) = (SELECT MAX(NUMERO) FROM YOU_SHALL_NOT_CRASH.TURNO) +1
-	declare @IdProfesional numeric(18,0) = ( SELECT MAX(ID_PROFESIONAL) FROM YOU_SHALL_NOT_CRASH.PROFESIONAL WHERE @Profesional = (NOMBRE + ' ' + APELLIDO))
 	
 	BEGIN TRANSACTION
-	INSERT INTO YOU_SHALL_NOT_CRASH.TURNO (NUMERO, ID_PROFESIONAL, FECHA, Cancelado)
-	values (@Numero,@IdProfesional,@fecha,0)
+	INSERT INTO YOU_SHALL_NOT_CRASH.TURNO (NUMERO, ID_PROFESIONAL, ID_AFILIADO, FECHA, Cancelado)
+	values (@Numero,@profesional,@afiliado,@fecha,0)
 	if ( @@ERROR != 0)
 	BEGIN 
 	rollback 

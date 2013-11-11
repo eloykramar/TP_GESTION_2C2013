@@ -13,8 +13,8 @@ namespace Clinica_Frba.Cancelar_Atencion
 {
     public partial class Seleccion_Turno_Canc : Seleccion_Turno
     {
-        public Seleccion_Turno_Canc(int x, int y)
-            : base(x, y)
+        public Seleccion_Turno_Canc(int idP, int idA)
+            : base(idP, idA)
         {
             InitializeComponent();
         }

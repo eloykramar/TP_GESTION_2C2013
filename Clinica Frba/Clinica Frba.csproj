@@ -126,11 +126,11 @@
     <Compile Include="Abm de Rol\Modificar_Rol_Particular.Designer.cs">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc.cs">
+    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Afi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc.Designer.cs">
-      <DependentUpon>Buscar_Prof_Canc.cs</DependentUpon>
+    <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Afi.Designer.cs">
+      <DependentUpon>Buscar_Prof_Canc_Afi.cs</DependentUpon>
     </Compile>
     <Compile Include="Cancelar Atencion\SelecionTurnoCanc.cs">
       <SubType>Form</SubType>
@@ -293,8 +293,8 @@
     <EmbeddedResource Include="Abm de Rol\Modificar_Rol_Particular.resx">
       <DependentUpon>Modificar_Rol_Particular.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cancelar Atencion\Buscar_Prof_Canc.resx">
-      <DependentUpon>Buscar_Prof_Canc.cs</DependentUpon>
+    <EmbeddedResource Include="Cancelar Atencion\Buscar_Prof_Canc_Afi.resx">
+      <DependentUpon>Buscar_Prof_Canc_Afi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\SelecionTurnoCanc.resx">
       <DependentUpon>SelecionTurnoCanc.cs</DependentUpon>

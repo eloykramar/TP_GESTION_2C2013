@@ -10,15 +10,16 @@ using Clinica_Frba.Pedir_Turno;
 
 namespace Clinica_Frba.Cancelar_Atencion
 {
-    public partial class Buscar_Prof_Canc : Pedir_Turnos
+    public partial class Buscar_Prof_Canc_Afi : Pedir_Turnos
     {
-        public Buscar_Prof_Canc(int x) : base(x)
+        public Buscar_Prof_Canc_Afi(int x) : base(x)
         {
             InitializeComponent();
         }
         public override void turnos()
         {
             //abro ventana para dar baja
+            MessageBox.Show("doy de baja un turno");
         }
 
 

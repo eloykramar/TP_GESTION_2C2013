@@ -81,7 +81,7 @@ namespace Clinica_Frba.Pedir_Turno
 
                 string where = "where P.ACTIVO=1";
                 if (!String.Equals(textBox1.Text, "")) where += nom;
-                if (!String.Equals(comboBox1.SelectedValue.ToString(), "")) where += esp;
+                if (comboBox1.SelectedIndex>0) where += esp;
 
 
 

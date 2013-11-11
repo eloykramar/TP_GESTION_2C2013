@@ -12,14 +12,15 @@ namespace Clinica_Frba.Pedir_Turno
 {
     public partial class Turnos : Form1
     {
+        int idAfiliado;
+        int idProfesional;
         
         
-        
-        public Turnos(int idProfesional, int idAfiliado)
+        public Turnos(int idP, int idA)
         {
             InitializeComponent();
-
-            List<Turno_por_profesional> Lista_turnos = new List<Turno_por_profesional>();
+            idAfiliado = idA;
+            idProfesional = idP;
             List<String> Lista_dias = new List<String>();
             
             try
@@ -27,30 +28,26 @@ namespace Clinica_Frba.Pedir_Turno
 
                 using (SqlConnection conexion = this.obtenerConexion())
                 {   //la declaracion de abajo solo está para q no pinche. hay q redefinir la busqueda para q lo haga con estos ids en vez de la busqueda con like.
-                    string pProfesional = "";
+                    //string pProfesional = "";
                     conexion.Open();
 
                     SqlCommand cmd = new SqlCommand(string.Format(
-                             "SELECT  (p.NOMBRE + ' ' + p.APELLIDO) as Nombre, t.FECHA as Fecha, (DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL and t.FECHA>=GETDATE() and t.Cancelado!= 1 and t.FECHA is not null and (p.NOMBRE + ' ' + p.APELLIDO) like '%{0}%' order by t.FECHA", pProfesional), conexion);
+                             "SELECT t.ID_TURNO, (p.NOMBRE + ' ' + p.APELLIDO) as Nombre, t.FECHA as Fecha, (DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.FECHA>=GETDATE() and t.Cancelado=0 and t.ID_PROFESIONAL={0} order by t.FECHA", idProfesional.ToString()), conexion);
                    
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        Turno_por_profesional turno = new Turno_por_profesional();
-                        turno.profesional = reader.GetString(0);
-                        turno.fecha = Convert.ToString(reader.GetSqlDateTime(1));
-                        turno.dia = reader.GetString(2);
-                        Lista_turnos.Add(turno);
-                    }
-
-                    reader.Close();
+                    SqlDataAdapter adapter2 = new SqlDataAdapter(cmd);
+                    DataTable table = new DataTable();
+                    table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+                    adapter2.Fill(table);
+                    dataGridView1.DataSource = table;
+                    dataGridView1.Columns["ID_TURNO"].Visible = false;
+                    dataGridView1.ReadOnly = true; 
+                    
                     cmd.Dispose();
                     
                     cmd = new SqlCommand(string.Format(
-                        "SELECT distinct DATEPART ( WEEKDAY, t.FECHA ),(DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL and t.FECHA>=GETDATE() and t.Cancelado!= 1 and t.FECHA is not null and (p.NOMBRE + ' ' + p.APELLIDO) like '%{0}%'", pProfesional), conexion);
-                    
-                    reader = cmd.ExecuteReader();
+                        "SELECT distinct DATEPART ( WEEKDAY, t.FECHA ),(DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.Cancelado=0 and t.FECHA>=GETDATE() and t.FECHA is not null and p.ID_PROFESIONAL={0}", idProfesional), conexion);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
                    
                     while (reader.Read())
                     {
@@ -63,7 +60,7 @@ namespace Clinica_Frba.Pedir_Turno
                     conexion.Close();
                     
                     comboBox4.DataSource = Lista_dias;
-                    dataGridView1.DataSource = Lista_turnos;
+                    
 
                 }//FIN USING
             }
@@ -84,17 +81,26 @@ namespace Clinica_Frba.Pedir_Turno
         public void button2_Click(object sender, EventArgs e)
         {
             List<Turno_por_profesional> lista_filtrados = new List<Turno_por_profesional>();
-            String profesional = (Convert.ToString(dataGridView1[0,0].Value));
+            //String profesional = (Convert.ToString(dataGridView1[0,0].Value));
             string dia =Convert.ToString(comboBox4.SelectedItem);
 
             using (SqlConnection conexion = this.obtenerConexion())
             {
                 conexion.Open();
                 SqlCommand cmd = new SqlCommand(string.Format(
-                                 "SELECT  (p.NOMBRE + ' ' + p.APELLIDO) as Nombre, t.FECHA as Fecha, (DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL and t.FECHA>=GETDATE() and t.Cancelado!= 1 and t.FECHA is not null and (p.NOMBRE + ' ' + p.APELLIDO) like '%{0}%' and (DATENAME ( weekday, t.FECHA )) like '%{1}%' order by t.FECHA", profesional, dia), conexion);
-
+                                 "SELECT t.ID_TURNO, (p.NOMBRE + ' ' + p.APELLIDO) as Nombre, t.FECHA as Fecha, (DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.FECHA>=GETDATE() and t.Cancelado=0 and t.ID_PROFESIONAL={0} and (DATENAME ( weekday, t.FECHA )) like '%{1}%' order by t.FECHA", idProfesional.ToString(), dia), conexion);
+                
+                SqlDataAdapter adapter2 = new SqlDataAdapter(cmd);
+                DataTable table = new DataTable();
+                table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+                adapter2.Fill(table);
+                dataGridView1.DataSource = table;
+                dataGridView1.Columns["ID_TURNO"].Visible = false;
+                dataGridView1.ReadOnly = true;
+                
+                /*
                 SqlDataReader reader = cmd.ExecuteReader();
-
+                
                 while (reader.Read())
                 {
                     Turno_por_profesional turno_filtrado = new Turno_por_profesional();
@@ -108,7 +114,7 @@ namespace Clinica_Frba.Pedir_Turno
                 reader.Close();
                 conexion.Close();
 
-                dataGridView1.DataSource= lista_filtrados;
+                dataGridView1.DataSource= lista_filtrados;*/
             }
 
         }
@@ -117,7 +123,7 @@ namespace Clinica_Frba.Pedir_Turno
         {
             
             DateTime dia_reservacion = (dateTimePicker1.Value);
-            String profesional = Convert.ToString(dataGridView1[0,0].Value);
+            //String profesional = Convert.ToString(dataGridView1[0,0].Value);
 
             String fecha_reservacion = dia_reservacion.ToString("d");
             Int64 hh_mm= Convert.ToInt64(comboBox1.SelectedItem);
@@ -148,7 +154,7 @@ namespace Clinica_Frba.Pedir_Turno
             {
                 conexion.Open();
                 SqlCommand cmd = new SqlCommand(string.Format(
-                    "SELECT t.Fecha FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL and t.FECHA>=GETDATE() and t.Cancelado!= 1 and t.FECHA is not null and (p.NOMBRE + ' ' + p.APELLIDO) like '%{0}%' AND t.FECHA = '{1}'", profesional ,fecha_reservacion), conexion);
+                    "SELECT t.Fecha FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL and t.FECHA>=GETDATE() and t.Cancelado!= 1 and t.FECHA is not null and t.ID_PROFESIONAL={0} AND t.FECHA = '{1}'", idProfesional.ToString() ,fecha_reservacion), conexion);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.HasRows)
@@ -165,7 +171,8 @@ namespace Clinica_Frba.Pedir_Turno
                     cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Insertar_turno", conexion);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = fecha_reservacion;
-                    cmd.Parameters.Add("@profesional", SqlDbType.VarChar).Value = profesional;
+                    cmd.Parameters.Add("@profesional", SqlDbType.Int).Value = idProfesional;
+                    cmd.Parameters.Add("@afiliado", SqlDbType.Int).Value = idAfiliado;
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Su turno ha sido ingresado correctamente");
                     conexion.Close();
@@ -186,7 +193,7 @@ namespace Clinica_Frba.Pedir_Turno
                 conexion.Open();
 
                 SqlCommand cmd = new SqlCommand(string.Format(
-                    "SELECT t.Hora_Inicio,t.Hora_Fin FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p, YOU_SHALL_NOT_CRASH.ITEM_AGENDA t,YOU_SHALL_NOT_CRASH.AGENDA a where p.ID_PROFESIONAL = a.ID_PROFESIONAL and a.ID_AGENDA=t.id_agenda and (p.NOMBRE + ' ' + p.APELLIDO) like '%{0}%' AND DATEPART(weekday,'{1}') = Dia", profesional, dia_actual), conexion);
+                    "SELECT t.Hora_Inicio,t.Hora_Fin FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p, YOU_SHALL_NOT_CRASH.ITEM_AGENDA t,YOU_SHALL_NOT_CRASH.AGENDA a where p.ID_PROFESIONAL = a.ID_PROFESIONAL and a.ID_AGENDA=t.id_agenda and p.ID_PROFESIONAL={0} AND DATEPART(weekday,'{1}') = Dia", idProfesional, dia_actual), conexion);
                 SqlDataReader reader = cmd.ExecuteReader();
 
 

@@ -41,9 +41,9 @@
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Controls.Add(this.btnPrincipal);
             this.groupBox1.Controls.Add(this.btnSalir);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(7, 7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(357, 297);
+            this.groupBox1.Size = new System.Drawing.Size(553, 301);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Turnos";
@@ -53,16 +53,16 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 19);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 19);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(345, 236);
+            this.dataGridView1.Size = new System.Drawing.Size(527, 236);
             this.dataGridView1.TabIndex = 7;
             // 
             // btnPrincipal
             // 
-            this.btnPrincipal.Location = new System.Drawing.Point(234, 261);
+            this.btnPrincipal.Location = new System.Drawing.Point(422, 261);
             this.btnPrincipal.Name = "btnPrincipal";
             this.btnPrincipal.Size = new System.Drawing.Size(117, 30);
             this.btnPrincipal.TabIndex = 2;
@@ -72,7 +72,7 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(6, 261);
+            this.btnSalir.Location = new System.Drawing.Point(12, 261);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(84, 30);
             this.btnSalir.TabIndex = 1;
@@ -84,7 +84,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 352);
+            this.ClientSize = new System.Drawing.Size(566, 315);
             this.Controls.Add(this.groupBox1);
             this.Name = "Seleccion_Turno";
             this.Text = "Turnos";

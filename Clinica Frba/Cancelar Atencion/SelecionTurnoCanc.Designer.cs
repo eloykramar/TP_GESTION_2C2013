@@ -39,7 +39,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 321);
+            this.ClientSize = new System.Drawing.Size(568, 321);
             this.Name = "Seleccion_Turno_Canc";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

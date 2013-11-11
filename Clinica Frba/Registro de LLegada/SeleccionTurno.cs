@@ -29,7 +29,9 @@ namespace Clinica_Frba.Registro_de_LLegada
                     conexion.Open();
                     string dia="12/11/2013";//FALTA LEERLO DEL ARCHIVO DE CONFIG.
                     //lleno el datagrid
-                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA, CANCELADO FROM YOU_SHALL_NOT_CRASH.TURNO where ID_AFILIADO="+idA+" AND ID_PROFESIONAL="+idP+" AND FECHA>='"+dia+"'", conexion);
+                    string busquedaDeAfiliado = "";
+                    if (idA > 0) busquedaDeAfiliado = "ID_AFILIADO=" + idA;
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA, CANCELADO FROM YOU_SHALL_NOT_CRASH.TURNO where "+busquedaDeAfiliado+" AND "+"ID_PROFESIONAL="+idP+" AND FECHA>='"+dia+"'", conexion);
 
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                     DataTable table = new DataTable();
