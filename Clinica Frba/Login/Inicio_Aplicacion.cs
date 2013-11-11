@@ -13,7 +13,7 @@ using Clinica_Frba.Compra_de_Bono;
 using Clinica_Frba.Registrar_Agenda;
 using Clinica_Frba.ABM_de_Profesional;
 using Clinica_Frba.Pedir_Turno;
-//using Clinica_Frba.Registrar_Llegada;
+using Clinica_Frba.Registro_de_LLegada;
 
 namespace Clinica_Frba.Login
 {
@@ -98,7 +98,7 @@ namespace Clinica_Frba.Login
 
             if (String.Equals(funcionalidad, "Registro de llegada para atencion medica"))
             {
-              //  (new BusquedaProf()).Show();
+                (new BuscarProf(0)).Show();
             }
         }
     }

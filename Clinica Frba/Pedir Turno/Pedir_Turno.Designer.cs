@@ -175,16 +175,16 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox Busqueda;
-        private System.Windows.Forms.Button btnTurnos;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.Button btnClean;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.GroupBox Busqueda;
+        public System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.Button btnTurnos;
+        public System.Windows.Forms.ComboBox comboBox1;
+        public System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label label2;
+        public System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.Label label1;
+        public System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.Button btnBuscar;
+        public System.Windows.Forms.Button btnClean;
     }
 }

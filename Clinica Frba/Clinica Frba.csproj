@@ -66,6 +66,36 @@
     <Compile Include="Abm de Afiliado\DetalleAfiliado.Designer.cs">
       <DependentUpon>DetalleAfiliado.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm de Profesional\ABM_Profesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\ABM_Profesional.Designer.cs">
+      <DependentUpon>ABM_Profesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\Alta_Profesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\Alta_Profesional.Designer.cs">
+      <DependentUpon>Alta_Profesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\Baja_Profesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\Baja_Profesional.Designer.cs">
+      <DependentUpon>Baja_Profesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\Busqueda_Por_DNI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\Busqueda_Por_DNI.Designer.cs">
+      <DependentUpon>Busqueda_Por_DNI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\Modificacion_Profesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\Modificacion_Profesional.Designer.cs">
+      <DependentUpon>Modificacion_Profesional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm de Rol\ABM_Rol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +162,18 @@
     <Compile Include="Login\Pantalla_Seleccion_Rol.Designer.cs">
       <DependentUpon>Pantalla_Seleccion_Rol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pedir Turno\Pedir_Turno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pedir Turno\Pedir_Turno.Designer.cs">
+      <DependentUpon>Pedir_Turno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pedir Turno\Turnos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pedir Turno\Turnos.Designer.cs">
+      <DependentUpon>Turnos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Registrar Agenda\Registrar_Agenda.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +185,12 @@
     </Compile>
     <Compile Include="Registrar Agenda\Seleccionar_Profesional.Designer.cs">
       <DependentUpon>Seleccionar_Profesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de LLegada\BuscarProf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de LLegada\BuscarProf.Designer.cs">
+      <DependentUpon>BuscarProf.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro de Usuario\Form1.cs">
       <SubType>Form</SubType>
@@ -156,12 +204,6 @@
     <Compile Include="Abm de Afiliado\ABM_Afiliado.Designer.cs">
       <DependentUpon>ABM_Afiliado.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm de Profesional\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm de Profesional\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Abm de Especialidades Medicas\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,18 +214,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Abm de Planes\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Pedir Turno\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pedir Turno\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Registro de LLegada\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Registro de LLegada\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro Resultado Atencion\Form1.cs">
@@ -224,6 +254,18 @@
     <EmbeddedResource Include="Abm de Afiliado\DetalleAfiliado.resx">
       <DependentUpon>DetalleAfiliado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\ABM_Profesional.resx">
+      <DependentUpon>ABM_Profesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\Alta_Profesional.resx">
+      <DependentUpon>Alta_Profesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\Baja_Profesional.resx">
+      <DependentUpon>Baja_Profesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\Busqueda_Por_DNI.resx">
+      <DependentUpon>Busqueda_Por_DNI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm de Rol\ABM_Rol.resx">
       <DependentUpon>ABM_Rol.cs</DependentUpon>
     </EmbeddedResource>
@@ -257,6 +299,12 @@
     <EmbeddedResource Include="Login\Pantalla_Seleccion_Rol.resx">
       <DependentUpon>Pantalla_Seleccion_Rol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pedir Turno\Pedir_Turno.resx">
+      <DependentUpon>Pedir_Turno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pedir Turno\Turnos.resx">
+      <DependentUpon>Turnos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -267,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Registrar Agenda\Seleccionar_Profesional.resx">
       <DependentUpon>Seleccionar_Profesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de LLegada\BuscarProf.resx">
+      <DependentUpon>BuscarProf.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

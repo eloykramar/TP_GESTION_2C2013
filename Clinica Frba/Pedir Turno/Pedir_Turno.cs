@@ -13,7 +13,16 @@ namespace Clinica_Frba.Pedir_Turno
 {
     public partial class Pedir_Turnos : Form1
     {
+        public Pedir_Turnos()
+        {
+            arrancar(0);
+        }
         public Pedir_Turnos(int Afiliado)
+        {
+            arrancar(Afiliado);
+        }
+
+        public void arrancar(int Afiliado)
         {
             InitializeComponent();
             if (Afiliado != 0)
@@ -58,7 +67,6 @@ namespace Clinica_Frba.Pedir_Turno
                 }
             }
         }
-
         private void Pedir_Turno_Load(object sender, EventArgs e)
         {
 
@@ -117,17 +125,21 @@ namespace Clinica_Frba.Pedir_Turno
 
         private void btnTurnos_Click(object sender, EventArgs e)
         {
+            this.turnos();
+        }
+
+        private void Busqueda_Enter(object sender, EventArgs e)
+        {
+
+        }
+        public virtual void turnos()
+        {
             int c = dataGridView1.SelectedRows.Count;
             if (c < 1) return;
             int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
             string afi = textBox2.Text;
             int idA = 0;//falta validar q el afiliado exista
             (new Turnos(idP, idA)).ShowDialog();
-        }
-
-        private void Busqueda_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }
