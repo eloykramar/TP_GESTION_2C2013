@@ -15,7 +15,7 @@ namespace Clinica_Frba.Pedir_Turno
         
         
         
-        public Turnos(String pProfesional)
+        public Turnos(int idProfesional, int idAfiliado)
         {
             InitializeComponent();
 
@@ -26,7 +26,8 @@ namespace Clinica_Frba.Pedir_Turno
             {
 
                 using (SqlConnection conexion = this.obtenerConexion())
-                {
+                {   //la declaracion de abajo solo está para q no pinche. hay q redefinir la busqueda para q lo haga con estos ids en vez de la busqueda con like.
+                    string pProfesional = "";
                     conexion.Open();
 
                     SqlCommand cmd = new SqlCommand(string.Format(

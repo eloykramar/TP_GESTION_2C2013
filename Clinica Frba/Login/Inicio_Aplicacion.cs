@@ -11,6 +11,9 @@ using Clinica_Frba.Abm_de_Rol;
 using Clinica_Frba.ABM_de_Afiliado;
 using Clinica_Frba.Compra_de_Bono;
 using Clinica_Frba.Registrar_Agenda;
+using Clinica_Frba.ABM_de_Profesional;
+using Clinica_Frba.Pedir_Turno;
+//using Clinica_Frba.Registrar_Llegada;
 
 namespace Clinica_Frba.Login
 {
@@ -82,6 +85,21 @@ namespace Clinica_Frba.Login
             {
                 (new Compra(usuario,rol)).Show();
             }            
+            
+            if (String.Equals(funcionalidad, "ABM Profesional"))
+            {
+                (new ABM_Profesional()).Show();
+            }
+
+            if (String.Equals(funcionalidad, "Pedir turno"))
+            {
+                (new Pedir_Turnos(0)).Show();
+            }
+
+            if (String.Equals(funcionalidad, "Registro de llegada para atencion medica"))
+            {
+              //  (new BusquedaProf()).Show();
+            }
         }
     }
 }
