@@ -88,6 +88,69 @@ namespace Clinica_Frba
             botones.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
             return botones;
-        }      
+        }
+
+        public int getIdAfiliadoxNro(string nro)
+        {
+            int id = 0;
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+                SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO WHERE Fecha_Baja IS NULL and Nro_Afiliado=" + nro, conexion);
+                try
+                {
+                    conexion.Open();
+                    id = (Int32)cmd2.ExecuteScalar();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    return 0;
+                }
+            }
+
+        }
+
+        public int getNroxUser(string user)
+        {
+            int nro = 0;
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+                SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select Nro_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO A join YOU_SHALL_NOT_CRASH.USUARIo U ON A.DNI=U.DNI_USUARIO WHERE A.Fecha_Baja IS NULL and U.USERNAME='" + user + "'", conexion);
+                try
+                {
+                    conexion.Open();
+                    nro = (int)cmd2.ExecuteScalar();
+                    return nro;
+                }
+                catch (Exception ex)
+                {
+                    return 0;
+                }
+            }
+
+        }
+        public int getIdPxUser(string user)
+        {
+            int id = 0;
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+                SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL P join YOU_SHALL_NOT_CRASH.USUARIo U ON P.DNI=U.DNI_USUARIO WHERE P.ACTIVO=1 and U.USERNAME='" + user + "'", conexion);
+                try
+                {
+                    conexion.Open();
+                    id = (int)cmd2.ExecuteScalar();
+                    return id;
+                }
+                catch (Exception ex)
+                {
+                    return 0;
+                }
+            }
+
+        }
+        public int getIdAxUser(string user)
+        {
+            return getIdAfiliadoxNro(getNroxUser(user).ToString());
+        }
     }
 }

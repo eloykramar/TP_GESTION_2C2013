@@ -1,6 +1,6 @@
-﻿namespace Clinica_Frba.NewFolder6
+﻿namespace Clinica_Frba.Registro_Resultado_Atencion
 {
-    partial class Form1
+    partial class Seleccion_Turno_Result
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // btnPrincipal
+            // 
+            this.btnPrincipal.Text = "Registrar Resultado";
+            // 
+            // Seleccion_Turno_Result
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(566, 315);
+            this.Name = "Seleccion_Turno_Result";
+            this.Text = "Seleccion de Turno";
+            this.groupBox1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

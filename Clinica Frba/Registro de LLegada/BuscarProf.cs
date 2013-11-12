@@ -37,6 +37,11 @@ namespace Clinica_Frba.Registro_de_LLegada
             
         }
 
+        private void btnTurnos_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

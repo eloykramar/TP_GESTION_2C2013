@@ -30,8 +30,8 @@ namespace Clinica_Frba.Registro_de_LLegada
                     string dia="12/11/2013";//FALTA LEERLO DEL ARCHIVO DE CONFIG.
                     //lleno el datagrid
                     string busquedaDeAfiliado = "";
-                    if (idA > 0) busquedaDeAfiliado = "ID_AFILIADO=" + idA;
-                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA, CANCELADO FROM YOU_SHALL_NOT_CRASH.TURNO where "+busquedaDeAfiliado+" AND "+"ID_PROFESIONAL="+idP+" AND FECHA>='"+dia+"'", conexion);
+                    if (idA > 0) busquedaDeAfiliado = " AND ID_AFILIADO=" + idA;
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA, CANCELADO FROM YOU_SHALL_NOT_CRASH.TURNO where ID_PROFESIONAL=" + idP + busquedaDeAfiliado + " AND FECHA>='" + dia + "'", conexion);
 
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                     DataTable table = new DataTable();

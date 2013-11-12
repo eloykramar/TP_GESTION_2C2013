@@ -144,25 +144,5 @@ namespace Clinica_Frba.Pedir_Turno
                 MessageBox.Show("El nro de afiliado incorrecto", "Error");
             }
         }
-
-        public int getIdAfiliadoxNro(string nro)
-        {
-            int id = 0;
-            using (SqlConnection conexion = this.obtenerConexion())
-            {
-                SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO WHERE Fecha_Baja IS NULL and Nro_Afiliado="+nro, conexion);
-                try
-                {
-                    conexion.Open();
-                    id = (Int32)cmd2.ExecuteScalar();
-                    return id;
-                }
-                catch (Exception ex)
-                {
-                   return 0;
-                }
-            }
-            
-        }
     }
 }

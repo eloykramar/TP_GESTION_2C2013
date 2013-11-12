@@ -31,6 +31,10 @@
             this.Busqueda.SuspendLayout();
             this.SuspendLayout();
             // 
+            // btnTurnos
+            // 
+            this.btnTurnos.Click += new System.EventHandler(this.btnTurnos_Click);
+            // 
             // BuscarProf
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

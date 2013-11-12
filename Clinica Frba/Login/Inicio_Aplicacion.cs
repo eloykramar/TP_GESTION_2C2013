@@ -14,6 +14,7 @@ using Clinica_Frba.Registrar_Agenda;
 using Clinica_Frba.ABM_de_Profesional;
 using Clinica_Frba.Pedir_Turno;
 using Clinica_Frba.Registro_de_LLegada;
+using Clinica_Frba.Registro_Resultado_Atencion;
 using Clinica_Frba.Cancelar_Atencion;
 
 namespace Clinica_Frba.Login
@@ -94,7 +95,7 @@ namespace Clinica_Frba.Login
 
             if (String.Equals(funcionalidad, "Pedir turno"))
             {
-                (new Pedir_Turnos(0)).Show();
+                (new Pedir_Turnos(getNroxUser(usuario))).Show();
             }
 
             if (String.Equals(funcionalidad, "Registro de llegada para atencion medica"))
@@ -104,8 +105,14 @@ namespace Clinica_Frba.Login
 
             if (String.Equals(funcionalidad, "Cancelacion de turno"))
             {
-                (new Menu_Cancelar(rol,usuario)).menu_handler();
+                (new Menu_Cancelar(rol, usuario)).menu_handler();
             }
+
+            if (String.Equals(funcionalidad, "Registro de resultado de atencion medica"))
+            {
+                (new Seleccion_Turno_Result( getIdPxUser(usuario),0)).ShowDialog();
+            }
+
         }
     }
 }
