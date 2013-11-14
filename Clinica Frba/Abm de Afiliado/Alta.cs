@@ -20,10 +20,12 @@ namespace Clinica_Frba.DetalleAfiliado
         {
             preAlta = P_prealta;
             digito = P_digito;
+            txtNombre.Focus();
         }
 
         public override void guardar()
         {
+            int antes;
             string telefono = "NULL";
             if (!String.Equals(txtTel.Text, ""))  telefono = txtTel.Text;
             
@@ -76,8 +78,10 @@ namespace Clinica_Frba.DetalleAfiliado
                                 {
                                     if (MessageBox.Show("Desea agregar un hijo?", "Alta familiar", MessageBoxButtons.YesNo) == DialogResult.Yes)
                                     {
+                                        antes = preAlta.users.Count();
                                         (new Alta(preAlta, digito)).ShowDialog();
-                                        digito++;
+                                        if (antes == preAlta.users.Count()) break;
+                                        digito ++;
                                     }
                                     else break;
                                 }

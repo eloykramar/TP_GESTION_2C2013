@@ -36,17 +36,6 @@ namespace Clinica_Frba.Pedir_Turno
                 {
                     conexion.Open();
 
-                    SqlCommand cmd = new SqlCommand("USE GD2C2013 select CODIGO_ESPECIALIDAD, Descripcion from YOU_SHALL_NOT_CRASH.ESPECIALIDAD", conexion);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable tablaDeNombres = new DataTable();
-                    tablaDeNombres.Rows.Add();
-                    tablaDeNombres.AcceptChanges();
-                    adapter.Fill(tablaDeNombres);
-                    comboBox1.DisplayMember = "Descripcion";
-                    comboBox1.ValueMember = "CODIGO_ESPECIALIDAD";
-                    comboBox1.DataSource = tablaDeNombres;
-
                     //lleno el datagrid
                     SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select DISTINCT ID_Profesional, (Nombre+' '+Apellido) Nombre, DNI from YOU_SHALL_NOT_CRASH.PROFESIONAL where ACTIVO = 1", conexion);
 
@@ -77,17 +66,17 @@ namespace Clinica_Frba.Pedir_Turno
             using (SqlConnection conexion = this.obtenerConexion())
             {
                 string nom = " AND (P.Nombre+' '+P.Apellido) like '%" + textBox1.Text + "%'";
-                string esp = " AND EP.CODIGO_ESPECIALIDAD=" + comboBox1.SelectedValue;
+                string esp = " AND E.Descripcion like '%" + textBox3.Text + "%'";
 
                 string where = "where P.ACTIVO=1";
                 if (!String.Equals(textBox1.Text, "")) where += nom;
-                if (comboBox1.SelectedIndex>0) where += esp;
+                if (!String.Equals(textBox3.Text, "")) where += esp;
 
 
 
                 //lleno el datagrid
 
-                SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select DISTINCT P.ID_Profesional, (Nombre+' '+Apellido) Nombre, DNI from YOU_SHALL_NOT_CRASH.PROFESIONAL P JOIN YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL EP ON EP.ID_PROFESIONAL=P.ID_PROFESIONAL " + where, conexion);
+                SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select DISTINCT P.ID_Profesional, (Nombre+' '+Apellido) Nombre, DNI from (YOU_SHALL_NOT_CRASH.PROFESIONAL P JOIN YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL EP ON EP.ID_PROFESIONAL=P.ID_PROFESIONAL) join YOU_SHALL_NOT_CRASH.ESPECIALIDAD E ON E.CODIGO_ESPECIALIDAD=EP.CODIGO_ESPECIALIDAD " + where, conexion);
 
                 SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                 DataTable table = new DataTable();
@@ -120,7 +109,8 @@ namespace Clinica_Frba.Pedir_Turno
         {
             textBox1.Text = "";
             if (!textBox2.ReadOnly) textBox2.Text = "";
-            comboBox1.SelectedIndex = 0;
+            textBox3.Text = "";
+            dataGridView1.DataSource = "";
         }
 
         private void btnTurnos_Click(object sender, EventArgs e)

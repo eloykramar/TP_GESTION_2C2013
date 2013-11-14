@@ -150,6 +150,12 @@
     <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Prof.Designer.cs">
       <DependentUpon>Buscar_Prof_Canc_Prof.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cancelar Atencion\DiaCancelado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\DiaCancelado.designer.cs">
+      <DependentUpon>DiaCancelado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cancelar Atencion\Menu_Cancelar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,11 +264,11 @@
     <Compile Include="Abm de Planes\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registro Resultado Atencion\Form1.cs">
+    <Compile Include="Registro Resultado Atencion\SeleccionTurno_Res.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registro Resultado Atencion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registro Resultado Atencion\SeleccionTurno_Res.Designer.cs">
+      <DependentUpon>SeleccionTurno_Res.cs</DependentUpon>
     </Compile>
     <Compile Include="Generar Receta\Form1.cs">
       <SubType>Form</SubType>
@@ -329,6 +335,9 @@
     <EmbeddedResource Include="Cancelar Atencion\Buscar_Prof_Canc_Prof.resx">
       <DependentUpon>Buscar_Prof_Canc_Prof.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\DiaCancelado.resx">
+      <DependentUpon>DiaCancelado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\Menu_Cancelar.resx">
       <DependentUpon>Menu_Cancelar.cs</DependentUpon>
     </EmbeddedResource>
@@ -375,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de LLegada\SeleccionTurno.resx">
       <DependentUpon>SeleccionTurno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Resultado Atencion\SeleccionTurno_Res.resx">
+      <DependentUpon>SeleccionTurno_Res.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

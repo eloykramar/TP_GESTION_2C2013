@@ -20,7 +20,8 @@ namespace Clinica_Frba.Cancelar_Atencion
         public override void turnos()
         {
             //abro ventana para dar baja
-            MessageBox.Show("doy de baja un dia");
+            int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
+            new DiaCancelado(idP).ShowDialog();
         }
 
 

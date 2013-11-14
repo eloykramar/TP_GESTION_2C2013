@@ -12,7 +12,6 @@ namespace Clinica_Frba.Abm_de_Rol
 {
     public partial class Alta_Rol : Form1
     {
-        string nombreRol;
         string funcionalidad;
         
         public Alta_Rol()
@@ -116,7 +115,7 @@ namespace Clinica_Frba.Abm_de_Rol
                                 }
 
                                 int filasAfectadasTotales = 1 + listBox1.Items.Count;
-                                new Dialogo(nombreRol + " agregado \n" + filasAfectadasTotales + " filas afectadas", "Aceptar").ShowDialog();
+                                new Dialogo(textBox1.Text + " agregado \n" + filasAfectadasTotales + " filas afectadas", "Aceptar").ShowDialog();
                                 }
                             }
                             else

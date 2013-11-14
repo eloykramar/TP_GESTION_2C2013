@@ -30,7 +30,6 @@
         {
             this.Busqueda = new System.Windows.Forms.GroupBox();
             this.btnTurnos = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -39,14 +38,15 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnClean = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.Busqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // Busqueda
             // 
+            this.Busqueda.Controls.Add(this.textBox3);
             this.Busqueda.Controls.Add(this.btnTurnos);
-            this.Busqueda.Controls.Add(this.comboBox1);
             this.Busqueda.Controls.Add(this.label3);
             this.Busqueda.Controls.Add(this.label2);
             this.Busqueda.Controls.Add(this.textBox2);
@@ -70,14 +70,6 @@
             this.btnTurnos.Text = "Turnos";
             this.btnTurnos.UseVisualStyleBackColor = true;
             this.btnTurnos.Click += new System.EventHandler(this.btnTurnos_Click);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(112, 107);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(127, 21);
-            this.comboBox1.TabIndex = 8;
             // 
             // label3
             // 
@@ -155,6 +147,13 @@
             this.dataGridView1.Size = new System.Drawing.Size(515, 212);
             this.dataGridView1.TabIndex = 6;
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(112, 107);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(127, 20);
+            this.textBox3.TabIndex = 11;
+            // 
             // Pedir_Turnos
             // 
             this.AcceptButton = this.btnBuscar;
@@ -178,7 +177,6 @@
         public System.Windows.Forms.GroupBox Busqueda;
         public System.Windows.Forms.DataGridView dataGridView1;
         public System.Windows.Forms.Button btnTurnos;
-        public System.Windows.Forms.ComboBox comboBox1;
         public System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox textBox2;
@@ -186,5 +184,6 @@
         public System.Windows.Forms.TextBox textBox1;
         public System.Windows.Forms.Button btnBuscar;
         public System.Windows.Forms.Button btnClean;
+        public System.Windows.Forms.TextBox textBox3;
     }
 }

@@ -66,6 +66,8 @@ namespace Clinica_Frba.Login
 
         private void button1_Click(object sender, EventArgs e)
         {
+            int nro = 0;
+            
             string funcionalidad = comboBox1.Text;
 
             if (String.Equals(funcionalidad, "ABM Rol"))
@@ -95,7 +97,8 @@ namespace Clinica_Frba.Login
 
             if (String.Equals(funcionalidad, "Pedir turno"))
             {
-                (new Pedir_Turnos(getNroxUser(usuario))).Show();
+                if (String.Equals(rol, "Afiliado")) nro = getNroxUser(usuario);
+                (new Pedir_Turnos(nro)).Show();
             }
 
             if (String.Equals(funcionalidad, "Registro de llegada para atencion medica"))

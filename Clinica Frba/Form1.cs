@@ -104,6 +104,7 @@ namespace Clinica_Frba
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.Message);
                     return 0;
                 }
             }
@@ -124,6 +125,7 @@ namespace Clinica_Frba
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.Message);
                     return 0;
                 }
             }
@@ -143,6 +145,7 @@ namespace Clinica_Frba
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.Message);
                     return 0;
                 }
             }

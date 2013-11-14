@@ -145,5 +145,24 @@ namespace Clinica_Frba.DetalleAfiliado
                 }
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (TextBox t in groupBox1.Controls.OfType<TextBox>())
+                    if (!t.ReadOnly) t.Text = "";
+
+                foreach (ComboBox c in groupBox1.Controls.OfType<ComboBox>())
+                    c.SelectedIndex = 0;
+
+                numConsultas.Value = 0;
+                numFACargo.Value = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

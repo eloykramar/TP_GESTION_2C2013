@@ -55,7 +55,7 @@ namespace Clinica_Frba.DetalleAfiliado
                 }
                 
             }
-
+            
         }
     
 

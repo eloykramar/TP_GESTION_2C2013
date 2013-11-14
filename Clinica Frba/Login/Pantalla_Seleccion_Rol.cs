@@ -56,8 +56,9 @@ namespace Clinica_Frba.Login
         private void button1_Click(object sender, EventArgs e)
         {            
             String rol = comboBox1.Text;
+            Hide();
+            new Inicio_Aplicacion(usuario, rol).ShowDialog();
             Close();
-            new Inicio_Aplicacion(usuario, rol).Show();
         }
     }
 }

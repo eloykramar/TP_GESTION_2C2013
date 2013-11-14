@@ -147,6 +147,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
+            textBox1.Focus();
         }
         
         public Buscar_Afiliado()
@@ -241,6 +242,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
             textBox1.Text = "";
             textBox2.Text = "";
             comboBox1.SelectedIndex = 0;
+            dataGridView1.DataSource = "";
         }
 
 

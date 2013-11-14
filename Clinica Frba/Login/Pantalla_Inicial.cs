@@ -41,8 +41,10 @@ namespace Clinica_Frba.Login
 
                         respuesta = (cmd.Parameters["@respuesta"].Value.ToString());
                         if (String.Equals(respuesta, "abrir sesion"))
-                        {                                                           
-                            new Pantalla_Seleccion_Rol(usuario).Show();
+                        {
+                            this.Hide();
+                            (new Pantalla_Seleccion_Rol(usuario)).ShowDialog();
+                            this.Show();
                         }
                         else
                         {

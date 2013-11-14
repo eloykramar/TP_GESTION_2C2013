@@ -38,7 +38,12 @@ namespace Clinica_Frba.ABM_de_Afiliado
         {
             int c = dataGridView1.SelectedRows.Count;
             if (c < 1) return;
-            string id = dataGridView1.CurrentRow.Cells["ID_Afiliado"].Value.ToString();//dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].FormattedValue(int)
+            string id = dataGridView1.CurrentRow.Cells["ID_Afiliado"].Value.ToString();
+            string nom = dataGridView1.CurrentRow.Cells["Nombre"].Value.ToString();
+
+            if (MessageBox.Show("¿Esta seguro que desea eliminar al afiliado " + nom + "?", "Confirme", MessageBoxButtons.YesNo) != DialogResult.Yes)
+            { return; }
+
             using (SqlConnection conexion = this.obtenerConexion())
             {
 
