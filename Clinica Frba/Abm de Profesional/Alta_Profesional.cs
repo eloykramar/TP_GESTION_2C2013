@@ -8,13 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 
-namespace Clinica_Frba.ABM_de_Profesional
+namespace Clinica_Frba.Abm_de_Profesional
 {
     public partial class Alta_Profesional : Form1
     {
         public Alta_Profesional()
         {
             InitializeComponent();
+            
             using (SqlConnection conexion = this.obtenerConexion())
             {
                 try
@@ -45,14 +46,15 @@ namespace Clinica_Frba.ABM_de_Profesional
             bool result = true;
 
             if (textBox9.Text == "") { errorProvider1.SetError(label9, "Campo obligatorio"); result = false; } else { errorProvider1.Clear(); }
-            if (!maskedTextBox1.MaskFull) { errorProvider2.SetError(label7, "Campo obligatorio"); result = false; } else { errorProvider2.Clear(); }
-            //if (!maskedTextBox2.MaskFull) { errorProvider9.SetError(label8, "Campoooo"); result = false; } else { errorProvider9.Clear(); }
+            if (dateTimePicker1.Text == "") { errorProvider7.SetError(label7, "Seleccione una fecha."); result = false; } else { errorProvider7.Clear(); }
             if (textBox5.Text == "") { errorProvider3.SetError(label5, "Campo obligatorio"); result = false; } else { errorProvider3.Clear(); }
             if (maskedTextBox4.Text == "") { errorProvider4.SetError(label1, "Campo obligatorio"); result = false; } else { errorProvider4.Clear(); }
             if (maskedTextBox5.Text == "") { errorProvider5.SetError(label2, "Campo obligatorio"); result = false; } else { errorProvider5.Clear(); }
             if (textBox3.Text == "") { errorProvider6.SetError(label3, "Campo obligatorio"); result = false; } else { errorProvider6.Clear(); }
             if (listBox1.Items.Count == 0) { errorProvider7.SetError(label11, "Seleccione al menos una especialidad"); result = false; } else { errorProvider7.Clear(); }
             if (!checkBox1.Checked && !checkBox2.Checked) { errorProvider8.SetError(label10, "Seleccione una opción"); result = false; } else { errorProvider8.Clear(); }
+            if (textBox4.Text == "") { errorProvider10.SetError(label4, "Campo obligatorio"); result = false; } else { errorProvider1.Clear(); }
+            if (textBox1.Text == "") { errorProvider11.SetError(label6, "Campo obligatorio"); result = false; } else { errorProvider1.Clear(); }
 
             return result;
         }
@@ -82,6 +84,8 @@ namespace Clinica_Frba.ABM_de_Profesional
                             (new Dialogo("Ya existe el profesional con D.N.I.:"+textBox3.Text+".", "Aceptar")).ShowDialog();
                             result = false;
                         }
+
+                        
                     }
                 }
                 catch (Exception ex)
@@ -228,7 +232,7 @@ namespace Clinica_Frba.ABM_de_Profesional
             listBox1.Items.Clear();
         }
 
-
+        //GUARDAR
         private void button1_Click(object sender, EventArgs e)
         {
             bool res;
@@ -238,7 +242,7 @@ namespace Clinica_Frba.ABM_de_Profesional
             {
                 if (res2 = vProfesionalRepetido())
                 {
-                    using (SqlConnection conexion = this.obtenerConexion())
+                     using (SqlConnection conexion = this.obtenerConexion())
                     {
                         try
                         {
@@ -252,18 +256,18 @@ namespace Clinica_Frba.ABM_de_Profesional
                                 cmd.Parameters.Add("@dni", SqlDbType.Int).Value = textBox3.Text;
                                 cmd.Parameters.Add("@direccion", SqlDbType.NVarChar).Value = textBox5.Text;
                                 cmd.Parameters.Add("@matricula", SqlDbType.NVarChar).Value = textBox9.Text;
-                                cmd.Parameters.Add("@fecha_nac", SqlDbType.NVarChar).Value = maskedTextBox1.Text + " " + maskedTextBox2.Text;
+                                cmd.Parameters.Add("@fecha_nac", SqlDbType.NVarChar).Value = dateTimePicker1.Text;
                                 if (checkBox1.Checked) { cmd.Parameters.Add("@sexo", SqlDbType.NVarChar).Value = checkBox1.Text; } else { cmd.Parameters.Add("@sexo", SqlDbType.NVarChar).Value = checkBox2.Text; }
                                 cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = textBox4.Text;
                                 cmd.Parameters.Add("@telefono", SqlDbType.Int).Value = textBox1.Text;
-                                cmd.Parameters.Add("@resu", SqlDbType.Int).Direction = ParameterDirection.Output;
+                                //cmd.Parameters.Add("@resu", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                                 cmd.ExecuteNonQuery();
 
-                                int respuesta = Convert.ToInt32(cmd.Parameters["@resultado"].Value);
-                                if (respuesta == 1) { (new Dialogo("Todo ok", "Aceptar")).ShowDialog();}
-
-                              }
+                                //int respuesta = Convert.ToInt32(cmd.Parameters["@resultado"].Value);
+                                //if (respuesta == 1) { (new Dialogo("Profesional dado de alta satisfactoriamente", "Aceptar")).ShowDialog();}
+                                MessageBox.Show("Profesional dado de alta satisfactoriamente.", "Aceptar");
+                             }
 
                             using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.insertar_prof_espec", conexion))
                             {
@@ -288,7 +292,8 @@ namespace Clinica_Frba.ABM_de_Profesional
                         catch (Exception ex)
                         {
                             Console.Write(ex.Message);
-                            (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+                            MessageBox.Show(ex.Message, "Error");
+                            //(new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
                         }
                     }
                     
@@ -300,6 +305,10 @@ namespace Clinica_Frba.ABM_de_Profesional
             }
 
         }
+
+
+
+
     }
 }
 

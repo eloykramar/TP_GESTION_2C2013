@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 
 
-namespace Clinica_Frba.ABM_de_Profesional
+namespace Clinica_Frba.Abm_de_Profesional
 {
     public partial class Busqueda_Por_DNI : Form1
     {
