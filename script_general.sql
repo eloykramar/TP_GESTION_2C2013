@@ -410,6 +410,12 @@ select distinct Medico_Nombre,Medico_Apellido,Medico_Dni,Medico_Direccion,Medico
 from gd_esquema.Maestra
 where Medico_Dni is not null
 
+
+--ESPECIALIDAD_PROFESIONAL-------------------------
+insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL
+select distinct e.CODIGO_ESPECIALIDAD,p.ID_PROFESIONAL
+from you_shall_not_crash.PROFESIONAL P join gd_esquema.Maestra M on p.DNI=m.Medico_Dni join you_shall_not_crash.ESPECIALIDAD E on M.Especialidad_Codigo=e.CODIGO_ESPECIALIDAD
+
 --TIPO_ESPECIALIDAD-------------------------
 insert into YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD
 select distinct Tipo_Especialidad_Codigo,Tipo_Especialidad_Descripcion
@@ -424,10 +430,6 @@ from gd_esquema.Maestra
 where Especialidad_Codigo is not null
 order by Especialidad_Codigo;
 
---ESPECIALIDAD_PROFESIONAL-------------------------
-insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL
-select distinct e.CODIGO_ESPECIALIDAD,p.ID_PROFESIONAL
-from you_shall_not_crash.PROFESIONAL P join gd_esquema.Maestra M on p.DNI=m.Medico_Dni join you_shall_not_crash.ESPECIALIDAD E on M.Especialidad_Codigo=e.CODIGO_ESPECIALIDAD
 
 --SINTOMA------------------------
 insert into YOU_SHALL_NOT_CRASH.SINTOMA(DESCRIPCION)
@@ -838,6 +840,127 @@ BEGIN
 			
 END
 GO
+
+
+create procedure YOU_SHALL_NOT_CRASH.dni_profesional_nuevo(@dni nvarchar(255), @resultado INT output)
+AS 
+BEGIN       
+	declare @dni2 numeric(18,0) = CONVERT(numeric(18,0),@dni);  
+      
+	IF EXISTS(select p.DNI from YOU_SHALL_NOT_CRASH.PROFESIONAL P where p.DNI=@dni2)
+	BEGIN
+		SET @resultado = 1
+	END
+	ELSE
+	BEGIN
+		SET @resultado = 0
+	END
+END
+
+go
+
+
+
+create procedure YOU_SHALL_NOT_CRASH.insertar_prof_espec(@dni nvarchar(255),@especialidad nvarchar(255))
+AS
+BEGIN
+	DECLARE @dni2 numeric(18,0) = CONVERT(numeric(18,0),@dni)
+	DECLARE @prof_id numeric(18,0)
+	DECLARE @esp_id numeric(18,0)
+	
+	set @prof_id=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p where p.DNI=@dni2)
+	set @esp_id=(select e.CODIGO_ESPECIALIDAD from YOU_SHALL_NOT_CRASH.ESPECIALIDAD e where @especialidad=e.DESCRIPCION)
+	--insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(CODIGO_ESPECIALIDAD, ID_PROFESIONAL)
+	--values(@esp_id,@prof_id)
+END
+
+GO
+
+-----------POR  AHORA DEJO COMO USUARIO NOM.AP.FECHA-NAC
+ALTER PROCEDURE YOU_SHALL_NOT_CRASH.insertar_profesional(@nombre varchar(255),@apellido varchar(255),@dni int,@direccion varchar(255),@matricula int,@fecha_nac nvarchar(255),@sexo varchar(9),@mail varchar(255), @telefono int)
+AS
+BEGIN
+
+	INSERT INTO YOU_SHALL_NOT_CRASH.USUARIO(Username,Pass,DNI_Usuario,Intentos_Fallidos) 
+	VALUES (@nombre+@apellido+CONVERT(VARCHAR,YEAR(@fecha_nac)), 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', @dni, 0)
+
+	declare @cod_profesional int
+	set @cod_profesional=(SELECT ID_Rol FROM YOU_SHALL_NOT_CRASH.ROL WHERE Descripcion='Profesional')	
+	INSERT INTO YOU_SHALL_NOT_CRASH.ROL_USUARIO(ID_Rol,DNI_Usuario)
+	VALUES(@cod_profesional,@dni)
+	
+	declare @dni_profesional numeric(18,0)
+	set @dni_profesional=(SELECT DNI_Usuario FROM YOU_SHALL_NOT_CRASH.USUARIO  WHERE DNI_Usuario=@dni)
+	
+	INSERT INTO YOU_SHALL_NOT_CRASH.PROFESIONAL(NOMBRE,APELLIDO,DNI,DIRECCION,TELEFONO,MAIL,FECHA_NAC,SEXO,MATRICULA,ACTIVO)
+	VALUES(@nombre,@apellido, (SELECT DNI_Usuario FROM YOU_SHALL_NOT_CRASH.USUARIO  WHERE DNI_Usuario=@dni_profesional),@direccion,convert(numeric(18,0),@telefono),@mail,CONVERT(datetime, @fecha_nac+' '+'00:00:00'),@sexo,@matricula,1)
+END
+
+select *
+from YOU_SHALL_NOT_CRASH.PROFESIONAL p
+where p.DNI=9999999
+go
+
+
+----PARA LA BAJA LOGICA DE UN PROF, TAMB SE DAN DE BAJA EN FORMA LOGICA LOS TURNOS
+alter PROCEDURE YOU_SHALL_NOT_CRASH.Baja_Logica_Profesional(@dni nvarchar(9))
+AS
+BEGIN
+	declare @dni2 numeric(18,0)=convert(numeric(18,0),@dni)
+	
+	UPDATE YOU_SHALL_NOT_CRASH.PROFESIONAL SET Activo=0 WHERE DNI = @dni2
+	--BAJA LOGICA DE TURNO Y AGREGO LOS CANCELADOS A CANCELACION_TURNO
+	UPDATE YOU_SHALL_NOT_CRASH.TURNO SET Cancelado=1 WHERE ID_PROFESIONAL=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p WHERE P.DNI=@dni2)
+	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO 
+	SELECT 'CANCELA_PROFESIONAL','PROFESIONAL DADO DE BAJA',convert(datetime,getdate(),120), t.ID_TURNO from YOU_SHALL_NOT_CRASH.TURNO t left join YOU_SHALL_NOT_CRASH.CANCELACION_TURNO ct on t.ID_TURNO=ct.ID_Turno join YOU_SHALL_NOT_CRASH.PROFESIONAL p on t.ID_PROFESIONAL=p.ID_PROFESIONAL where t.Cancelado=1 and ct.ID_Cancelacion is null and p.DNI=@dni2 and t.FECHA_LLEGADA is null
+	
+	UPDATE YOU_SHALL_NOT_CRASH.AGENDA SET Activa=0 WHERE Id_Profesional=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p WHERE P.DNI=@dni2)
+
+END
+
+
+GO
+
+
+create procedure YOU_SHALL_NOT_CRASH.modificar_profesional(@nombre varchar(255),@apellido varchar(255),@dni int,@direccion varchar(255),@matricula int,@fecha_nac nvarchar(255),@sexo varchar(9),@mail varchar(255), @telefono int,@activo bit,@resu int output)
+AS
+BEGIN
+
+		UPDATE YOU_SHALL_NOT_CRASH.PROFESIONAL SET NOMBRE=@nombre,APELLIDO=@apellido,DIRECCION=@direccion,TELEFONO=@telefono,MAIL=@mail,FECHA_NAC=CONVERT(datetime, @fecha_nac+' '+'00:00:00'),SEXO=@sexo,MATRICULA=@matricula,ACTIVO=@activo WHERE @dni=YOU_SHALL_NOT_CRASH.PROFESIONAL.DNI
+
+	SET @resu = 1;
+END
+
+
+-----------------SI SE QUISIERA ACTIVAR DE NUEVO ALL PROF, LOS TURNOS Q HABIAN SIDO CANCELADOS SEGUIRAN ESTANDO CANCELADOS
+
+
+go
+
+--------------EN MODIFICAR_PROF SOLO SE TRAEN LOS PROFESIONALES ACTIVOS(EN 1)
+create procedure YOU_SHALL_NOT_CRASH.modificar_prof_espec(@dni nvarchar(255),@especialidad nvarchar(255))
+AS
+BEGIN
+	DECLARE @dni2 numeric(18,0) = CONVERT(numeric(18,0),@dni)
+	DECLARE @prof_id numeric(18,0)
+	DECLARE @esp_id numeric(18,0)
+	
+	set @prof_id=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p where p.DNI=@dni2)
+	set @esp_id=(select e.CODIGO_ESPECIALIDAD from YOU_SHALL_NOT_CRASH.ESPECIALIDAD e where @especialidad=e.DESCRIPCION)
+	insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(CODIGO_ESPECIALIDAD, ID_PROFESIONAL)
+	values(@esp_id,@prof_id)
+END
+
+GO
+
+create procedure YOU_SHALL_NOT_CRASH.eliminar_prof_espec(@dni nvarchar(255))
+AS
+BEGIN
+
+	declare @id_p numeric(18,0)
+	set @id_p=(select distinct p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep on ep.ID_PROFESIONAL=p.ID_PROFESIONAL where p.DNI=@dni)
+	DELETE FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL WHERE ID_PROFESIONAL=@id_p
+END
 ---------------------------------------------------------------------
 -----------------------------TRIGGERS--------------------------------
 ---------------------------------------------------------------------
