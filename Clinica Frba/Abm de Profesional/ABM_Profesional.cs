@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Clinica_Frba.ABM_de_Profesional
+namespace Clinica_Frba.Abm_de_Profesional
 {
     public partial class ABM_Profesional : Form1
     {
@@ -18,6 +18,7 @@ namespace Clinica_Frba.ABM_de_Profesional
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //(new AltaProf()).ShowDialog();
             (new Alta_Profesional()).Show();
         }
 
@@ -29,6 +30,7 @@ namespace Clinica_Frba.ABM_de_Profesional
         private void button3_Click(object sender, EventArgs e)
         {
             (new Baja_Profesional()).Show();
+            
         }
 
         

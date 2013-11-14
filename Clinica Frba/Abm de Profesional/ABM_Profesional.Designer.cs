@@ -1,4 +1,4 @@
-﻿namespace Clinica_Frba.ABM_de_Profesional
+﻿namespace Clinica_Frba.Abm_de_Profesional
 {
     partial class ABM_Profesional
     {
