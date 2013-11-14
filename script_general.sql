@@ -411,17 +411,13 @@ from gd_esquema.Maestra
 where Medico_Dni is not null
 
 
---ESPECIALIDAD_PROFESIONAL-------------------------
-insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL
-select distinct e.CODIGO_ESPECIALIDAD,p.ID_PROFESIONAL
-from you_shall_not_crash.PROFESIONAL P join gd_esquema.Maestra M on p.DNI=m.Medico_Dni join you_shall_not_crash.ESPECIALIDAD E on M.Especialidad_Codigo=e.CODIGO_ESPECIALIDAD
-
 --TIPO_ESPECIALIDAD-------------------------
 insert into YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD
 select distinct Tipo_Especialidad_Codigo,Tipo_Especialidad_Descripcion
 from gd_esquema.Maestra
 where Tipo_Especialidad_Codigo is not null
 order by Tipo_Especialidad_Codigo
+
 
 --ESPECIALIDAD-------------------------
 insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD(CODIGO_ESPECIALIDAD,DESCRIPCION,CODIGO_TIPO_ESPECIALIDAD)
@@ -430,6 +426,10 @@ from gd_esquema.Maestra
 where Especialidad_Codigo is not null
 order by Especialidad_Codigo;
 
+--ESPECIALIDAD_PROFESIONAL-------------------------
+insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL
+select distinct e.CODIGO_ESPECIALIDAD,p.ID_PROFESIONAL
+from you_shall_not_crash.PROFESIONAL P join gd_esquema.Maestra M on p.DNI=m.Medico_Dni join you_shall_not_crash.ESPECIALIDAD E on M.Especialidad_Codigo=e.CODIGO_ESPECIALIDAD
 
 --SINTOMA------------------------
 insert into YOU_SHALL_NOT_CRASH.SINTOMA(DESCRIPCION)
@@ -877,7 +877,7 @@ END
 GO
 
 -----------POR  AHORA DEJO COMO USUARIO NOM.AP.FECHA-NAC
-ALTER PROCEDURE YOU_SHALL_NOT_CRASH.insertar_profesional(@nombre varchar(255),@apellido varchar(255),@dni int,@direccion varchar(255),@matricula int,@fecha_nac nvarchar(255),@sexo varchar(9),@mail varchar(255), @telefono int)
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.insertar_profesional(@nombre varchar(255),@apellido varchar(255),@dni int,@direccion varchar(255),@matricula int,@fecha_nac nvarchar(255),@sexo varchar(9),@mail varchar(255), @telefono int)
 AS
 BEGIN
 
@@ -903,7 +903,7 @@ go
 
 
 ----PARA LA BAJA LOGICA DE UN PROF, TAMB SE DAN DE BAJA EN FORMA LOGICA LOS TURNOS
-alter PROCEDURE YOU_SHALL_NOT_CRASH.Baja_Logica_Profesional(@dni nvarchar(9))
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Baja_Logica_Profesional(@dni nvarchar(9))
 AS
 BEGIN
 	declare @dni2 numeric(18,0)=convert(numeric(18,0),@dni)
@@ -914,7 +914,7 @@ BEGIN
 	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO 
 	SELECT 'CANCELA_PROFESIONAL','PROFESIONAL DADO DE BAJA',convert(datetime,getdate(),120), t.ID_TURNO from YOU_SHALL_NOT_CRASH.TURNO t left join YOU_SHALL_NOT_CRASH.CANCELACION_TURNO ct on t.ID_TURNO=ct.ID_Turno join YOU_SHALL_NOT_CRASH.PROFESIONAL p on t.ID_PROFESIONAL=p.ID_PROFESIONAL where t.Cancelado=1 and ct.ID_Cancelacion is null and p.DNI=@dni2 and t.FECHA_LLEGADA is null
 	
-	UPDATE YOU_SHALL_NOT_CRASH.AGENDA SET Activa=0 WHERE Id_Profesional=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p WHERE P.DNI=@dni2)
+	UPDATE YOU_SHALL_NOT_CRASH.PROFESIONAL SET Activo=0 WHERE Id_Profesional=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p WHERE P.DNI=@dni2)
 
 END
 
@@ -961,6 +961,36 @@ BEGIN
 	set @id_p=(select distinct p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep on ep.ID_PROFESIONAL=p.ID_PROFESIONAL where p.DNI=@dni)
 	DELETE FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL WHERE ID_PROFESIONAL=@id_p
 END
+
+GO 
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_turno_afiliado(@id_turno numeric(18,0))
+AS
+BEGIN 
+	UPDATE YOU_SHALL_NOT_CRASH.TURNO
+	SET Cancelado = 1
+	WHERE ID_TURNO = @id_turno
+END
+GO
+
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_dia_rango(@id_profesional int,@DiaHora_inicio dateTime,@DiaHora_Fin dateTime)
+AS
+BEGIN TRANSACTION
+	--Hago un update del campo Cancelado de los turnos que esten dentro del margen de horarios que se puso.
+	UPDATE YOU_SHALL_NOT_CRASH.TURNO SET Cancelado = 1 WHERE ID_PROFESIONAL = @id_profesional AND (FECHA between @DiaHora_inicio and @DiaHora_Fin)
+
+	--Hago un insert en la tabla de Cancelacion_Dia
+	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_DIA (ID_PROFESIONAL,DiaHora_inicio,DiaHora_Fin) VALUES (@id_profesional,@DiaHora_inicio,@DiaHora_Fin)
+	if ( @@ERROR != 0)
+	BEGIN 
+		rollback 
+	END
+	ELSE BEGIN 
+		commit
+		END
+GO
+
 ---------------------------------------------------------------------
 -----------------------------TRIGGERS--------------------------------
 ---------------------------------------------------------------------
@@ -976,3 +1006,4 @@ SET @NRO = (SELECT (ID_AFILIADO * 100) FROM YOU_SHALL_NOT_CRASH.AFILIADO WHERE D
 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado=(Nro_Afiliado + @NRO) WHERE DNI IN (SELECT DNI FROM inserted)
  
 END; 
+
