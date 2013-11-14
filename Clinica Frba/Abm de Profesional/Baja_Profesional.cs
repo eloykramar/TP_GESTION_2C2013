@@ -188,10 +188,6 @@ namespace Clinica_Frba.Abm_de_Profesional
                         }
                     }
 
-
-
-
-
                 }
                 catch (Exception ex)
                 {
@@ -225,7 +221,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                                 cmd.ExecuteNonQuery();
 
                                 dataGridView1.Rows.RemoveAt(dataGridView1.CurrentRow.Index);
-                                new Dialogo(prof + " inhabilitado \n", "Aceptar").ShowDialog();
+                                MessageBox.Show("Profesional inhabilitado. D.N.I.: "+prof, "Aceptar");
 
                             }
                         }

@@ -266,7 +266,7 @@ namespace Clinica_Frba.Abm_de_Profesional
 
                                 //int respuesta = Convert.ToInt32(cmd.Parameters["@resultado"].Value);
                                 //if (respuesta == 1) { (new Dialogo("Profesional dado de alta satisfactoriamente", "Aceptar")).ShowDialog();}
-                                MessageBox.Show("Profesional dado de alta satisfactoriamente", "Aceptar");
+                                MessageBox.Show("Profesional dado de alta satisfactoriamente.", "Aceptar");
                              }
 
                             using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.insertar_prof_espec", conexion))

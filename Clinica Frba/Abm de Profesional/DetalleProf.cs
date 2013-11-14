@@ -267,9 +267,6 @@ namespace Clinica_Frba.Abm_de_Profesional
 
 
                                 cmd.ExecuteNonQuery();
-
-                                //int respuesta = Convert.ToInt32(cmd.Parameters["@resultado"].Value);
-                                (new Dialogo(especialidad, "Aceptar")).ShowDialog();
                             }
 
                         }
