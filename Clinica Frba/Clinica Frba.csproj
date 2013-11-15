@@ -204,6 +204,18 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Listados Estadisticos\Listados_Estadisticos_Inicial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados Estadisticos\Listados_Estadisticos_Inicial.Designer.cs">
+      <DependentUpon>Listados_Estadisticos_Inicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listados Estadisticos\Listado_Particular.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados Estadisticos\Listado_Particular.Designer.cs">
+      <DependentUpon>Listado_Particular.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\Inicio_Aplicacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -294,12 +306,6 @@
     <Compile Include="Generar Receta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Listados Estadisticos\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Listados Estadisticos\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Abm de Afiliado\ABM_Afiliado.resx">
@@ -379,6 +385,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados Estadisticos\Listados_Estadisticos_Inicial.resx">
+      <DependentUpon>Listados_Estadisticos_Inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados Estadisticos\Listado_Particular.resx">
+      <DependentUpon>Listado_Particular.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Inicio_Aplicacion.resx">
       <DependentUpon>Inicio_Aplicacion.cs</DependentUpon>

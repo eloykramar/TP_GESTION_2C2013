@@ -35,27 +35,28 @@ namespace Clinica_Frba.Listados_Estadisticos
 
                 if (unListado == 1)
                 {
-                    label1.Text = "TOP 5 de Especialidades con mas cancelaciones";
+                    label1.Text = "TOP 5 de especialidades con mas cancelaciones";
                     cargarATablaParaDataGripView("USE GD2C2013 select * from YOU_SHALL_NOT_CRASH.Top5_Especialidades_Mas_Canceladas_En('" + unAño + "'," + mesInicial + "," + mesFinal + ")", ref tabla, conexion);                        
                 }
 
                 if (unListado == 2)
                 {
-                    label1.Text = "TOP 5 de Bonos farmacia vencidos";
-                   // cargarATablaParaDataGripView("USE GD2C2013 select * from YOU_SHALL_NOT_CRASH.Top5_Especialidades_Que_Mas_Recetaron_En('" + unAño + "'," + mesInicial + "," + mesFinal + ")", ref tabla, conexion);
+                    DateTime fechaActual = getFechaActual();                    
+                    label1.Text = "TOP 5 afiliados con bonos farmacia vencidos";
+                    cargarATablaParaDataGripView("USE GD2C2013 select * from YOU_SHALL_NOT_CRASH.Top5_Bonos_Farmacia_Vencidos_En('" + unAño + "'," + mesInicial + "," + mesFinal + ",'" +fechaActual+ "')", ref tabla, conexion);                        
                 }
 
 
                 if (unListado == 3)
                 {
-                    label1.Text = "TOP 5 de Especialidades con mas bonos farmacia recetados";
+                    label1.Text = "TOP 5 de especialidades con mas bonos farmacia recetados";
                     cargarATablaParaDataGripView("USE GD2C2013 select * from YOU_SHALL_NOT_CRASH.Top5_Especialidades_Que_Mas_Recetaron_En('" + unAño + "'," + mesInicial + "," + mesFinal + ")", ref tabla, conexion);
                 }
 
                 if (unListado == 4)
                 {
-                    label1.Text = "TOP 10 de Bonos no usados por quien los compro";
-                   // cargarATablaParaDataGripView("USE GD2C2013 select * from YOU_SHALL_NOT_CRASH.Top5_Especialidades_Que_Mas_Recetaron_En('" + unAño + "'," + mesInicial + "," + mesFinal + ")", ref tabla, conexion);
+                    label1.Text = "TOP 10 de afiliados que usaron bonos de otro";
+                    cargarATablaParaDataGripView("USE GD2C2013 select * from YOU_SHALL_NOT_CRASH.Top10_Afiliado_Que_Uso_Bonos_De_Otro_En('" + unAño + "'," + mesInicial + "," + mesFinal + ")", ref tabla, conexion);
                 }
 
                

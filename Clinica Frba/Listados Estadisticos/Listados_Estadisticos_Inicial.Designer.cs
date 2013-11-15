@@ -107,7 +107,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(332, 32);
             this.button2.TabIndex = 16;
-            this.button2.Text = "Bonos farmacia vencidos";
+            this.button2.Text = "Afiliados con bonos farmacia vencidos";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -139,7 +139,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(332, 32);
             this.button4.TabIndex = 18;
-            this.button4.Text = "Bonos no usados por quien los compro";
+            this.button4.Text = "Afiliados que usaron bonos de otro";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
