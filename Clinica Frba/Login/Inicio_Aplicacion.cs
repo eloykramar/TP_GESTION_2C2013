@@ -16,6 +16,7 @@ using Clinica_Frba.Registro_de_LLegada;
 using Clinica_Frba.Registro_Resultado_Atencion;
 using Clinica_Frba.Cancelar_Atencion;
 using Clinica_Frba.Abm_de_Profesional;
+using Clinica_Frba.Listados_Estadisticos;
 
 namespace Clinica_Frba.Login
 {
@@ -116,6 +117,10 @@ namespace Clinica_Frba.Login
                 (new Seleccion_Turno_Result( getIdPxUser(usuario),0)).ShowDialog();
             }
 
+            if (String.Equals(funcionalidad, "Listado estadistico"))
+            {
+                (new Listados_Estadisticos_Inicial()).ShowDialog();
+            }           
         }
     }
 }
