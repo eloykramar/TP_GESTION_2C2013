@@ -389,8 +389,8 @@ WHERE Bono_Consulta_Fecha_Impresion IS NOT NULL AND
 ;
 
 --BONO FARMACIA---------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado, ID_Plan)
-SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)	
+INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID_Afiliado, ID_Plan, Fecha_Vencimiento)
+SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (Bono_Farmacia_Fecha_Impresion + 60)	
 FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
 	  Bono_Farmacia_Numero IS NOT NULL;  
@@ -978,6 +978,39 @@ BEGIN TRANSACTION
 		END
 GO
 
+--FUNCIONES PARA LOS LISTADOS
+CREATE FUNCTION YOU_SHALL_NOT_CRASH.Top5_Especialidades_Mas_Canceladas_En (@anio int, @mesInicial int, @mesFinal int)
+RETURNS TABLE
+AS
+RETURN (select top 5 e.DESCRIPCION as Especialidad, COUNT(*) as Cancelaciones
+		from YOU_SHALL_NOT_CRASH.CANCELACION_TURNO c join 
+			YOU_SHALL_NOT_CRASH.TURNO t on (c.ID_Turno = t.ID_TURNO) join
+			YOU_SHALL_NOT_CRASH.PROFESIONAL p on (t.ID_PROFESIONAL = p.ID_PROFESIONAL) join
+			YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep on (p.ID_PROFESIONAL = ep.ID_PROFESIONAL) join
+			YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on (ep.CODIGO_ESPECIALIDAD = e.CODIGO_ESPECIALIDAD)
+		where (YEAR(c.Fecha) = @anio) and (MONTH(c.fecha) BETWEEN @mesInicial and @mesFinal)
+		group by e.DESCRIPCION
+		order by 2 desc
+);
+GO
+
+CREATE FUNCTION YOU_SHALL_NOT_CRASH.Top5_Especialidades_Que_Mas_Recetaron_En (@anio int, @mesInicial int, @mesFinal int)
+RETURNS TABLE
+AS
+RETURN (select top 5 e.DESCRIPCION as Especialidad, COUNT(*) as Bonos_Recetados
+		from YOU_SHALL_NOT_CRASH.BONO_FARMACIA b join
+			 YOU_SHALL_NOT_CRASH.RECETA r on (b.ID_Receta_Medica = r.ID_RECETA) join
+			 YOU_SHALL_NOT_CRASH.DIAGNOSTICO d on (r.ID_DIAGNOSTICO = d.ID_DIAGNOSTICO) join
+			 YOU_SHALL_NOT_CRASH.TURNO t on (d.ID_TURNO = t.ID_TURNO) join --para obtener la fecha en que receto		
+			 YOU_SHALL_NOT_CRASH.PROFESIONAL p on (d.ID_PROFESIONAL = p.ID_PROFESIONAL) join
+			 YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep on (p.ID_PROFESIONAL = ep.ID_PROFESIONAL) join
+			 YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on (ep.CODIGO_ESPECIALIDAD = e.CODIGO_ESPECIALIDAD)
+		where (YEAR(t.FECHA) = @anio) and (MONTH(t.FECHA) BETWEEN @mesInicial and @mesFinal)
+		group by e.DESCRIPCION
+		order by 2 desc
+);
+GO
+
 ---------------------------------------------------------------------
 -----------------------------TRIGGERS--------------------------------
 ---------------------------------------------------------------------
@@ -993,13 +1026,28 @@ SET @NRO = (SELECT (ID_AFILIADO * 100) FROM YOU_SHALL_NOT_CRASH.AFILIADO WHERE D
 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado=(Nro_Afiliado + @NRO) WHERE DNI IN (SELECT DNI FROM inserted)
  
 END; 
-
+GO
 -------------------------------------
 --falta usar esto para actualizar los bonos
+/*
 SELECT Bono_Consulta_Numero, --Max(a.ID_Afiliado) IDaFILIADO, Max(Turno_Fecha) FECHA, 
     (1+(SELECT COUNT(*) FROM YOU_SHALL_NOT_CRASH.TURNO T2 WHERE T2.ID_AFILIADO=Max(a.ID_Afiliado) AND Cancelado=0 and t2.FECHA<Max(Turno_Fecha))) e
  from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
 where Turno_Numero is not null AND M.Bono_Consulta_Numero IS NOT NULL
 group by Turno_Numero, M.Bono_Consulta_Numero
-ORDER BY Max(a.ID_Afiliado), 2--,4
+ORDER BY Max(a.ID_Afiliado), 2--,4*/
 ------------------------
+
+UPDATE
+    YOU_SHALL_NOT_CRASH.BONO_CONSULTA
+SET
+    YOU_SHALL_NOT_CRASH.BONO_CONSULTA.Numero_Consulta_Afiliado = numeros_consulta.numero_consulta
+FROM   
+	(SELECT Bono_Consulta_Numero, Max(a.ID_Afiliado) IDaFILIADO, Max(Turno_Fecha) FECHA, 
+    (1+(SELECT COUNT(*) FROM YOU_SHALL_NOT_CRASH.TURNO T2 WHERE T2.ID_AFILIADO=Max(a.ID_Afiliado) AND Cancelado=0 and t2.FECHA<Max(Turno_Fecha))) numero_consulta
+	from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
+	where Turno_Numero is not null AND M.Bono_Consulta_Numero IS NOT NULL
+	group by Turno_Numero, M.Bono_Consulta_Numero
+	)numeros_consulta
+	
+where YOU_SHALL_NOT_CRASH.BONO_CONSULTA.ID_Bono_Consulta = numeros_consulta.Bono_Consulta_Numero
