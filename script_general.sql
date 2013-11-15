@@ -446,23 +446,10 @@ SELECT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_
      ELSE NULL
      END as llegada,  M.Bono_Consulta_Numero,
  0
---suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes, solo los turnos pasados
+--suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes
 from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
-where Turno_Numero is not null and Turno_Fecha<getdate()
+where Turno_Numero is not null
 group by Turno_Numero, M.Bono_Consulta_Numero;
-
-insert into YOU_SHALL_NOT_CRASH.TURNO 
-SELECT DISTINCT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_Fecha) d,
- CASE
-    WHEN Max(Bono_Consulta_Numero) is not null
-     THEN dateadd(MINUTE, -15, Max(Turno_Fecha))
-     ELSE NULL
-     END as llegada,  NULL,
- 0
---suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes, solo los turnos pasados
-from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
-where Turno_Numero is not null and Turno_Fecha>getdate() and M.Bono_Consulta_Numero is null
-group by Turno_Numero;
 
 --DIAGNOSTICO---------------------------
 insert into YOU_SHALL_NOT_CRASH.DIAGNOSTICO
@@ -1007,3 +994,12 @@ UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado=(Nro_Afiliado + @NRO) WHERE
  
 END; 
 
+-------------------------------------
+--falta usar esto para actualizar los bonos
+SELECT Bono_Consulta_Numero, --Max(a.ID_Afiliado) IDaFILIADO, Max(Turno_Fecha) FECHA, 
+    (1+(SELECT COUNT(*) FROM YOU_SHALL_NOT_CRASH.TURNO T2 WHERE T2.ID_AFILIADO=Max(a.ID_Afiliado) AND Cancelado=0 and t2.FECHA<Max(Turno_Fecha))) e
+ from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
+where Turno_Numero is not null AND M.Bono_Consulta_Numero IS NOT NULL
+group by Turno_Numero, M.Bono_Consulta_Numero
+ORDER BY Max(a.ID_Afiliado), 2--,4
+------------------------

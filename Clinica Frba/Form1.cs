@@ -104,8 +104,8 @@ namespace Clinica_Frba
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
-                    return 0;
+                    if (String.Equals(ex.Message,"Referencia a objeto no establecida como instancia de un objeto.")) return 0;
+                    throw ex;
                 }
             }
 
@@ -125,8 +125,8 @@ namespace Clinica_Frba
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
-                    return 0;
+                    if (String.Equals(ex.Message, "Referencia a objeto no establecida como instancia de un objeto.")) return 0;
+                    throw ex;
                 }
             }
 
@@ -145,8 +145,8 @@ namespace Clinica_Frba
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
-                    return 0;
+                    if (String.Equals(ex.Message, "Referencia a objeto no establecida como instancia de un objeto.")) return 0;
+                    throw ex;
                 }
             }
 

@@ -46,6 +46,7 @@ namespace Clinica_Frba.Abm_de_Profesional
         public void arrancar(string textbox)
         {   
             InitializeComponent();
+            if (String.Equals(textbox,"")) return;
             textBox1.Text = textbox;
 
             using (SqlConnection conexion = this.obtenerConexion())
@@ -109,7 +110,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                 }
 
 
-                   SqlCommand cmd = new SqlCommand("select p.DNI,p.APELLIDO,p.NOMBRE,p.DIRECCION,p.FECHA_NAC,p.MAIL,p.MATRICULA,p.SEXO,p.TELEFONO,p.ACTIVO from YOU_SHALL_NOT_CRASH.PROFESIONAL p where p.DNI=CONVERT(NUMERIC(18,0),'" + textbox.ToString() + "')", conexion);
+                   SqlCommand cmd = new SqlCommand("select p.DNI,p.APELLIDO,p.NOMBRE,p.DIRECCION,p.FECHA_NAC,p.MAIL,p.MATRICULA,p.SEXO,p.TELEFONO,p.ACTIVO from YOU_SHALL_NOT_CRASH.PROFESIONAL p where p.DNI=" + textbox, conexion);
                     conexion.Open();
                     SqlDataReader leer=cmd.ExecuteReader();
 
