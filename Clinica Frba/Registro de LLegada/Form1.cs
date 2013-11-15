@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Clinica_Frba.NewFolder8
+namespace Clinica_Frba.NewFolder5
 {
     public partial class Form1 : Form
     {

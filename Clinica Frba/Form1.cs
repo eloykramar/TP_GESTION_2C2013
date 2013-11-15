@@ -30,7 +30,9 @@ namespace Clinica_Frba
             String linea;
 
             String ruta = Application.StartupPath + @"\CLINICAFRBA.txt";
-
+            //hack para q el designer de las pantallas no falle.
+            if (ruta.Contains("IDE")) return; 
+            //
             StreamReader archivo = new StreamReader(ruta, Encoding.ASCII);
 
             while ((linea = archivo.ReadLine()) != null)
@@ -91,7 +93,7 @@ namespace Clinica_Frba
         }
 
         public int getIdAfiliadoxNro(string nro)
-        {
+        {   if (String.Equals(nro, "")) return 0;
             int id = 0;
             using (SqlConnection conexion = this.obtenerConexion())
             {
@@ -113,6 +115,7 @@ namespace Clinica_Frba
 
         public int getNroxUser(string user)
         {
+            if (String.Equals(user, "")) return 0;
             int nro = 0;
             using (SqlConnection conexion = this.obtenerConexion())
             {
@@ -133,6 +136,7 @@ namespace Clinica_Frba
         }
         public int getIdPxUser(string user)
         {
+            if (String.Equals(user, "")) return 0;
             int id = 0;
             using (SqlConnection conexion = this.obtenerConexion())
             {

@@ -1,6 +1,6 @@
-﻿namespace Clinica_Frba.Registro_de_LLegada
+﻿namespace Clinica_Frba.Generar_Receta
 {
-    partial class BuscarProf
+    partial class BuscarProfesional
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "BuscarProf";
+            this.Text = "BuscarProfesional";
         }
 
         #endregion

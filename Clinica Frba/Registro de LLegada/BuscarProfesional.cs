@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.Pedir_Turno;
+using Clinica_Frba.Registro_de_LLegada;
 
-
-namespace Clinica_Frba.Registro_de_LLegada
+namespace Clinica_Frba.Generar_Receta
 {
-    public partial class BuscarProf : Pedir_Turnos
+    public partial class BuscarProfesional : Pedir_Turnos
     {
-        int IdAfiliado = 0;
-        public BuscarProf(int idA)
-            : base(idA)
+        public BuscarProfesional(int x)
+            : base(x)
         {
             InitializeComponent();
-            IdAfiliado = idA;
         }
         public override void turnos()
         {
@@ -30,17 +22,12 @@ namespace Clinica_Frba.Registro_de_LLegada
             int idA = getIdAfiliadoxNro(afi);
             if (idA != 0)
             {
-                (new Seleccion_Turno(idP, idA)).ShowDialog();
+                (new SeleccionarTurnoParaAtencion(idP, idA)).ShowDialog();
             }
             else
             {
                 MessageBox.Show("El nro de afiliado incorrecto", "Error");
             }
-
-        }
-
-        private void btnTurnos_Click(object sender, EventArgs e)
-        {
 
         }
 

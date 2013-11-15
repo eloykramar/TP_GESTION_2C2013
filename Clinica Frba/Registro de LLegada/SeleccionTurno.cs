@@ -12,6 +12,7 @@ namespace Clinica_Frba.Registro_de_LLegada
 {
     public partial class Seleccion_Turno : Form1
     {
+        int idTurno;
 
         public Seleccion_Turno()
         {
@@ -42,6 +43,7 @@ namespace Clinica_Frba.Registro_de_LLegada
                     dataGridView1.ReadOnly = true;
 
 
+
                 }
                 catch (Exception ex)
                 {
@@ -61,7 +63,19 @@ namespace Clinica_Frba.Registro_de_LLegada
         public virtual void mainTurnos()
         {
             //Registro llegada turno.
-            MessageBox.Show("registro la llegada");
+            if (dataGridView1.SelectedRows.Count != 0)
+            {
+                if (Convert.ToByte((dataGridView1.CurrentRow.Cells["CANCELADO"].Value)) == 0)   //Si el turno no esta cancelado trato de registrarlo
+                {
+                    idTurno = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_TURNO"].Value);
+                    new RegistrarHora(idTurno).ShowDialog();
+                }
+                else //Si esta cancelado muestro el mensaje
+                {
+                    MessageBox.Show("El turno que ingresó esta cancelado");
+                }
+            }
+            else MessageBox.Show("No hay filas seleccionadas");
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

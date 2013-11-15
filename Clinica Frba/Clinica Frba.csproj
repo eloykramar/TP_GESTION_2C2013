@@ -78,12 +78,6 @@
     <Compile Include="Abm de Profesional\ABM_Profesional.Designer.cs">
       <DependentUpon>ABM_Profesional.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm de Profesional\AltaProf.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm de Profesional\AltaProf.Designer.cs">
-      <DependentUpon>AltaProf.cs</DependentUpon>
-    </Compile>
     <Compile Include="Abm de Profesional\Alta_Profesional.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,6 +198,24 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generar Receta\BuscarProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Receta\BuscarProfesional.Designer.cs">
+      <DependentUpon>BuscarProfesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Receta\CompletarBono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Receta\CompletarBono.Designer.cs">
+      <DependentUpon>CompletarBono.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Receta\SeleccionarTurnoParaAtencion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Receta\SeleccionarTurnoParaAtencion.Designer.cs">
+      <DependentUpon>SeleccionarTurnoParaAtencion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Listados Estadisticos\Listados_Estadisticos_Inicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +276,24 @@
     <Compile Include="Registro de LLegada\BuscarProf.Designer.cs">
       <DependentUpon>BuscarProf.cs</DependentUpon>
     </Compile>
+    <Compile Include="Registro de LLegada\IngresarBonoConsulta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de LLegada\IngresarBonoConsulta.Designer.cs">
+      <DependentUpon>IngresarBonoConsulta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de LLegada\Receta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de LLegada\Receta.designer.cs">
+      <DependentUpon>Receta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de LLegada\RegistrarHora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de LLegada\RegistrarHora.Designer.cs">
+      <DependentUpon>RegistrarHora.cs</DependentUpon>
+    </Compile>
     <Compile Include="Registro de LLegada\SeleccionTurno.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -299,12 +329,6 @@
     </Compile>
     <Compile Include="Registro Resultado Atencion\SeleccionTurno_Res.Designer.cs">
       <DependentUpon>SeleccionTurno_Res.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Generar Receta\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Generar Receta\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -386,6 +410,12 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Generar Receta\CompletarBono.resx">
+      <DependentUpon>CompletarBono.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Receta\SeleccionarTurnoParaAtencion.resx">
+      <DependentUpon>SeleccionarTurnoParaAtencion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Listados Estadisticos\Listados_Estadisticos_Inicial.resx">
       <DependentUpon>Listados_Estadisticos_Inicial.cs</DependentUpon>
     </EmbeddedResource>
@@ -420,6 +450,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de LLegada\BuscarProf.resx">
       <DependentUpon>BuscarProf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de LLegada\IngresarBonoConsulta.resx">
+      <DependentUpon>IngresarBonoConsulta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de LLegada\Receta.resx">
+      <DependentUpon>Receta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de LLegada\RegistrarHora.resx">
+      <DependentUpon>RegistrarHora.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de LLegada\SeleccionTurno.resx">
       <DependentUpon>SeleccionTurno.cs</DependentUpon>

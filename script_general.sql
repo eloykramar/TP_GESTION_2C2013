@@ -977,6 +977,103 @@ BEGIN TRANSACTION
 		commit
 		END
 GO
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Ingresar_bono_y_llegada(@id_bono_ingresado int,@numero_de_consulta_a_ingresar int,@id_turno int, @fecha_llegada dateTime,@idafiliado int)
+AS
+BEGIN TRANSACTION
+	--Hago un update del turno registrando la hora de llegada
+	UPDATE YOU_SHALL_NOT_CRASH.TURNO SET FECHA_LLEGADA = @fecha_llegada, ID_Bono_Consulta = @id_bono_ingresado WHERE ID_TURNO = @id_turno
+	--Hago un update del bono consulta usado, agregando el numero de consulta que le corresponde
+	UPDATE YOU_SHALL_NOT_CRASH.BONO_CONSULTA SET Numero_Consulta_Afiliado = @numero_de_consulta_a_ingresar WHERE ID_Bono_Consulta = @id_bono_ingresado
+	--Hago un update de la cantidad de consultas realizadas en la tabla de afiliados
+	UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Cantidad_Consultas = Cantidad_Consultas + 1 WHERE ID_Afiliado = @idafiliado
+	if ( @@ERROR != 0)
+	BEGIN 
+		rollback 
+	END
+	ELSE BEGIN 
+		commit
+	END
+GO
+
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_receta
+AS
+BEGIN TRANSACTION
+	--Inserto un nuevo diagnostico
+	INSERT INTO YOU_SHALL_NOT_CRASH.RECETA(ID_DIAGNOSTICO) VALUES (NULL)
+	
+	if ( @@ERROR != 0)
+	BEGIN 
+		rollback 
+	END
+	ELSE BEGIN 
+		commit
+	END
+GO
+
+
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_diagnostico(@idturno int,@idprofesional int,@descripcion nvarchar(255))
+AS
+BEGIN TRANSACTION
+	--Inserto un nuevo diagnostico
+	INSERT INTO YOU_SHALL_NOT_CRASH.DIAGNOSTICO(ID_TURNO,ID_PROFESIONAL,DESCRIPCION) VALUES (@idturno,@idprofesional,@descripcion)
+	
+	if ( @@ERROR != 0)
+	BEGIN 
+		rollback 
+	END
+	ELSE BEGIN 
+		commit
+	END
+GO
+
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_item_diagnostico_y_receta(@id_diagnostico int,@idsintoma int,@id_receta int)
+AS
+BEGIN TRANSACTION
+	--Inserto una nueva receta medica con el id de diagnostico correspondiente
+	UPDATE YOU_SHALL_NOT_CRASH.RECETA SET ID_DIAGNOSTICO = @id_diagnostico WHERE ID_RECETA = @id_receta
+	
+	--Inserto un item diagnostico con el id de diagnostico y el id del sintoma
+	INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO (ID_DIAGNOSTICO,ID_SINTOMA) VALUES (@id_diagnostico,@idsintoma)
+	if ( @@ERROR != 0)
+	BEGIN 
+		rollback 
+	END
+	ELSE BEGIN 
+		commit
+	END
+GO
+
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_item_bono_farmacia(@id_bono_farmacia int,@id_medicamento int, @cantidad int)
+AS
+BEGIN TRANSACTION
+	INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA(ID_Bono_Farmacia,ID_Medicamento,Cantidad)
+	VALUES (@id_bono_farmacia,@id_medicamento,@cantidad)
+	if ( @@ERROR != 0)
+	BEGIN 
+		rollback 
+	END
+	ELSE BEGIN 
+		commit
+	END
+GO
+
+--
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Actualizacion_bono_farmacia(@id_receta int,@fecha_vencimiento dateTime,@dia_de_implementacion dateTime,@id_bono_farmacia int)
+AS
+BEGIN
+	UPDATE YOU_SHALL_NOT_CRASH.BONO_FARMACIA 
+	SET ID_Receta_Medica = @id_receta,
+	Fecha_Vencimiento = @fecha_vencimiento, 
+	Fecha_Prescripcion_Medica = @dia_de_implementacion 
+	WHERE ID_Bono_Farmacia = @id_bono_farmacia
+END
+GO
+
+
 
 --FUNCIONES PARA LOS LISTADOS
 CREATE FUNCTION YOU_SHALL_NOT_CRASH.Top5_Especialidades_Mas_Canceladas_En (@anio int, @mesInicial int, @mesFinal int)

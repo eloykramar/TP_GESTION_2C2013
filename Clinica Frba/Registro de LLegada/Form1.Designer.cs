@@ -1,6 +1,6 @@
-﻿namespace Clinica_Frba.Registro_de_LLegada
+﻿namespace Clinica_Frba.NewFolder5
 {
-    partial class BuscarProf
+    partial class Form1
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "BuscarProf";
+            this.Text = "Form1";
         }
 
         #endregion

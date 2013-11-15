@@ -301,6 +301,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                             }
                             catch (Exception ex)
                             {
+                                MessageBox.Show(ex.Message);
                                 MessageBox.Show("Especialidad Repetida", "Error");
                             }
                         
