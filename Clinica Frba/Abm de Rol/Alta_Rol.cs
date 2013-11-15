@@ -52,8 +52,14 @@ namespace Clinica_Frba.Abm_de_Rol
             }
             else
             {
-                listBox1.Items.Add(funcionalidad);
-                comboBox1.Text = "";
+                if (String.Equals(comboBox1.Text, ""))
+                {
+                    (new Dialogo("No selecciono ninguna funcionalidad", "Aceptar")).ShowDialog();
+                }else
+                {
+                    listBox1.Items.Add(funcionalidad);
+                    comboBox1.Text = "";
+                }
             }  
         }
 

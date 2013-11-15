@@ -33,7 +33,7 @@ namespace Clinica_Frba.Pedir_Turno
 
                     SqlCommand cmd = new SqlCommand(string.Format(
                              "SELECT t.ID_TURNO, (p.NOMBRE + ' ' + p.APELLIDO) as Nombre, t.FECHA as Fecha, (DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.FECHA>=GETDATE() and t.Cancelado=0 and t.ID_PROFESIONAL={0} order by t.FECHA", idProfesional.ToString()), conexion);
-
+                    
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd);
                     DataTable table = new DataTable();
                     table.Locale = System.Globalization.CultureInfo.InvariantCulture;
@@ -41,9 +41,9 @@ namespace Clinica_Frba.Pedir_Turno
                     dataGridView1.DataSource = table;
                     dataGridView1.Columns["ID_TURNO"].Visible = false;
                     dataGridView1.ReadOnly = true;
-
+                    
                     cmd.Dispose();
-
+                    
                     cmd = new SqlCommand(string.Format(
                         "SELECT distinct DATEPART ( WEEKDAY, t.FECHA ),(DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.Cancelado=0 and t.FECHA>=GETDATE() and t.FECHA is not null and p.ID_PROFESIONAL={0}", idProfesional), conexion);
 

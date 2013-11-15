@@ -44,8 +44,8 @@ namespace Clinica_Frba.Compra_de_Bono
                 try
                 {
                     
-                    int asd = getIdAfiliadoxNro(nroAfiliado.ToString());
-                    if ( asd == 0)                        
+                    int existeAfiliado = getIdAfiliadoxNro(nroAfiliado.ToString());
+                    if (existeAfiliado == 0)                        
                         throw new Exception("No existe un afiliado con el numero buscado");   
                     
                     conexion.Open();
