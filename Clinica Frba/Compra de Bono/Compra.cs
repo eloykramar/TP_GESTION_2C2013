@@ -33,17 +33,24 @@ namespace Clinica_Frba.Compra_de_Bono
         }
 
         private void button2_Click(object sender, EventArgs e)
-        {   
-            if (textBox1.Text.Equals("")) return;
+        {
+            if (String.Equals(textBox1.Text, "")) return;
             int nroAfiliado = Convert.ToInt32(textBox1.Text);
+            string usuarioBuscado = "";
+
 
             using (SqlConnection conexion = this.obtenerConexion())
             {
                 try
                 {
+                    
+                    int asd = getIdAfiliadoxNro(nroAfiliado.ToString());
+                    if ( asd == 0)                        
+                        throw new Exception("No existe un afiliado con el numero buscado");   
+                    
                     conexion.Open();
-                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE Nro_Afiliado = '" +nroAfiliado+"'", conexion);
-                    string usuarioBuscado = (string)buscarUsuario.ExecuteScalar();
+                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE Nro_Afiliado = '" +nroAfiliado+"'", conexion);                    
+                    usuarioBuscado = (string)buscarUsuario.ExecuteScalar();                            
 
                     traer_Info_Afiliado(usuarioBuscado);
                 }
@@ -98,7 +105,9 @@ namespace Clinica_Frba.Compra_de_Bono
 
         //finalizar compra
         private void button1_Click(object sender, EventArgs e)
-        {            
+        {
+            if (String.Equals(textBox1.Text, "")) return;
+            if (Convert.ToInt32(numericUpDown1.Value) == 0 && Convert.ToInt32(numericUpDown2.Value) == 0) return;
             int cantBonosConsulta = Convert.ToInt32(numericUpDown1.Value);
             int cantBonosFarmacia = Convert.ToInt32(numericUpDown2.Value);
             decimal monto = ((precioBonoConsulta * cantBonosConsulta) + (precioBonoFarmacia * cantBonosFarmacia));
@@ -156,7 +165,6 @@ namespace Clinica_Frba.Compra_de_Bono
                     textBox1.Text = "";
                 }
             }
-        }
-  
+        } 
     }
 }

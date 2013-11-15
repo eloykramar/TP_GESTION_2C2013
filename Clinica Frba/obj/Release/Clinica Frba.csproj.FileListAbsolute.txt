@@ -32,3 +32,36 @@ C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVNnuevo\tr
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVNnuevo\trunk\Clinica Frba\bin\Release\Clinica Frba.exe
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVNnuevo\trunk\Clinica Frba\bin\Release\Clinica Frba.pdb
 C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVNnuevo\trunk\Clinica Frba\obj\Release\Clinica Frba.pdb
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.ABM_de_Afiliado.ABM_Afiliado.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.ABM_de_Afiliado.Buscar_Afiliado.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.DetalleAfiliado.Alta.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.DetalleAfiliado.Modif.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.DetalleAfiliado.DetalleAfiliado.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Profesional.ABM_Profesional.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Profesional.Alta_Profesional.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Profesional.Baja_Profesional.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Profesional.Busqueda_Por_DNI.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Profesional.DetalleProf.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Profesional.Modificacion_Profesional.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Profesional.ModifProf.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.ABM_Rol.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.Alta_Rol.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.Baja_Rol.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.Modificar_Rol.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Abm_de_Rol.Modificar_Rol_Particular.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion.Buscar_Afi_Canc.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion.Buscar_Prof_Canc_Afi.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion.Buscar_Prof_Canc_Prof.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion.DiaCancelado.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion.Menu_Cancelar.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Cancelar_Atencion.Seleccion_Turno_Canc.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Compra_de_Bono.Compra.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Login.Inicio_Aplicacion.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Login.Pantalla_Seleccion_Rol.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Pedir_Turno.Pedir_Turnos.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Pedir_Turno.Turnos.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Registrar_Agenda.Registrar_Agenda.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Registrar_Agenda.Seleccionar_Profesional.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Registro_de_LLegada.BuscarProf.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Registro_de_LLegada.Seleccion_Turno.resources
+C:\Users\elo\Documents\Visual Studio 2008\Projects\TP_GESTION_2C2013_SVN\trunk\Clinica Frba\obj\Release\Clinica_Frba.Registro_Resultado_Atencion.Seleccion_Turno_Result.resources

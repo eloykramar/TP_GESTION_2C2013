@@ -78,6 +78,12 @@
     <Compile Include="Abm de Profesional\ABM_Profesional.Designer.cs">
       <DependentUpon>ABM_Profesional.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm de Profesional\AltaProf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\AltaProf.Designer.cs">
+      <DependentUpon>AltaProf.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm de Profesional\Alta_Profesional.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,11 +102,23 @@
     <Compile Include="Abm de Profesional\Busqueda_Por_DNI.Designer.cs">
       <DependentUpon>Busqueda_Por_DNI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm de Profesional\DetalleProf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\DetalleProf.Designer.cs">
+      <DependentUpon>DetalleProf.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm de Profesional\Modificacion_Profesional.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Abm de Profesional\Modificacion_Profesional.Designer.cs">
       <DependentUpon>Modificacion_Profesional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm de Profesional\ModifProf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm de Profesional\ModifProf.Designer.cs">
+      <DependentUpon>ModifProf.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm de Rol\ABM_Rol.cs">
       <SubType>Form</SubType>
@@ -310,6 +328,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm de Profesional\Busqueda_Por_DNI.resx">
       <DependentUpon>Busqueda_Por_DNI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\DetalleProf.resx">
+      <DependentUpon>DetalleProf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\Modificacion_Profesional.resx">
+      <DependentUpon>Modificacion_Profesional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm de Profesional\ModifProf.resx">
+      <DependentUpon>ModifProf.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm de Rol\ABM_Rol.resx">
       <DependentUpon>ABM_Rol.cs</DependentUpon>
