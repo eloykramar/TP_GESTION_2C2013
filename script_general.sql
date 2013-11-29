@@ -438,8 +438,65 @@ from gd_esquema.Maestra
 where Consulta_Sintomas is not null;
 
 --TURNO-----------------------------------------------------------
-insert into YOU_SHALL_NOT_CRASH.TURNO 
+go
+create view YOU_SHALL_NOT_CRASH.turnos_temp as (
 SELECT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_Fecha) d,
+ CASE
+    WHEN Max(Bono_Consulta_Numero) is not null
+     THEN dateadd(MINUTE, -15, Max(Turno_Fecha))
+     ELSE NULL
+     END as llegada,  M.Bono_Consulta_Numero,
+ 0 as f
+--suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes
+from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
+where Turno_Numero is not null
+group by Turno_Numero, M.Bono_Consulta_Numero
+);
+go
+
+insert into YOU_SHALL_NOT_CRASH.TURNO(NUMERO, ID_PROFESIONAL, ID_AFILIADO, FECHA, FECHA_LLEGADA, ID_Bono_Consulta, Cancelado) 
+(Select distinct turno_numero, Max(p.ID_PROFESIONAL) prof, Max(a.ID_Afiliado) af, Max(Turno_Fecha) d,
+(select MAX(llegada)
+			from YOU_SHALL_NOT_CRASH.turnos_temp t2
+			where Turno_Numero = t2.a
+			group by a),
+			(select max(Bono_Consulta_Numero)
+					from YOU_SHALL_NOT_CRASH.turnos_temp t2
+					where Turno_Numero = t2.a
+					group by a), 0
+from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
+where Turno_Numero is not null
+group by Turno_Numero);
+
+/*
+update YOU_SHALL_NOT_CRASH.TURNO 
+set Fecha_LLegada = (select top 1 FECHA_LLEGADA
+					from YOU_SHALL_NOT_CRASH.turnos_temp t2
+					where NUMERO = t2.a
+					order by FECHA_LLEGADA desc),
+id_bono_consulta = (select top 1 id_bono_consulta
+					from YOU_SHALL_NOT_CRASH.turnos_temp t2
+					where NUMERO = t2.a
+					order by ID_Bono_Consulta desc)
+				
+				
+
+
+     
+select distinct NUMERO, (select top 1 FECHA_LLEGADA
+				from YOU_SHALL_NOT_CRASH.TURNO t2
+				where t.NUMERO = t2.NUMERO
+				order by FECHA_LLEGADA desc)
+from YOU_SHALL_NOT_CRASH.TURNO t
+group by NUMERO, FECHA_LLEGADA
+     
+     
+
+
+
+
+ID_Bono_consulta, Cancelado)
+= (Select Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_Fecha) d,
  CASE
     WHEN Max(Bono_Consulta_Numero) is not null
      THEN dateadd(MINUTE, -15, Max(Turno_Fecha))
@@ -449,7 +506,9 @@ SELECT Turno_Numero a, Max(p.ID_PROFESIONAL) b, Max(a.ID_Afiliado) c, Max(Turno_
 --suponemos que a los que tienen bono consulta asignado fueron atendidos, por lo que llegaron 15 min antes
 from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
 where Turno_Numero is not null
-group by Turno_Numero, M.Bono_Consulta_Numero;
+group by Turno_Numero, M.Bono_Consulta_Numero);
+
+*/
 
 --DIAGNOSTICO---------------------------
 insert into YOU_SHALL_NOT_CRASH.DIAGNOSTICO
@@ -1175,3 +1234,4 @@ FROM
 	)numeros_consulta
 	
 where YOU_SHALL_NOT_CRASH.BONO_CONSULTA.ID_Bono_Consulta = numeros_consulta.Bono_Consulta_Numero
+
