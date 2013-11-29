@@ -108,96 +108,26 @@ namespace Clinica_Frba.Abm_de_Profesional
             {
                 try
                 {
-                    if (textBox2.Text != "")
-                    {
-                        conexion.Open();
-                        DataTable tabla = new DataTable();
-
-                        //TRAIGO A TODOS LOS PROFESIONALES, ACTIVOS O NO.. EN LA MODIFICAACION SE LOS VA A ACTIVAR NUEVAMENTE
-                        cargarATablaParaDataGripView("USE GD2C2013 select p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p WHERE p.DNI=" + textBox2.Text.ToString(), ref tabla, conexion);
-
-                        cargarTabla(ref tabla);
 
 
-                    }
-                    else
-                    {
-                        if (comboBox1.Text != "" && textBox1.Text != "" && comboBox2.Text != "")
-                        {
+                    string nom = " AND P.APELLIDO like '%" + textBox1.Text + "%'";
+                    string dni = " AND P.DNI=" + textBox2.Text;
+                    string esp = " AND e.descripcion='" + comboBox2.Text + "'";
+                    string tipo_esp = " AND te.descripcion='" + comboBox1.Text + "'";
 
-                            conexion.Open();
-                            DataTable tabla = new DataTable();
+                    string where = "where p.apellido is not null";
+                    if (!String.Equals(textBox1.Text, "")) where += nom;
+                    if (!String.Equals(textBox2.Text, "")) where += dni;
+                    if (!String.Equals(comboBox1.Text.ToString(), "")) where += tipo_esp;
+                    if (!String.Equals(comboBox2.Text.ToString(), "")) where += esp;
 
-
-                            cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL WHERE te.DESCRIPCION='" + comboBox1.Text.ToString() + "' and p.APELLIDO like '%" + textBox1.Text.ToString() + "%' and e.DESCRIPCION ='"+comboBox2.Text.ToString()+"'", ref tabla, conexion);
-
-                            cargarTabla(ref tabla);
-                        }
-                        else
-                        {
-                            if (comboBox2.Text != "")
-                            {
-                                conexion.Open();
-                                DataTable tabla = new DataTable();
+                    conexion.Open();
+                    DataTable tabla = new DataTable();
 
 
-                                cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL WHERE e.DESCRIPCION ='"+comboBox2.Text.ToString()+"'", ref tabla, conexion);
+                    cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO, e.descripcion ESPECIALIDAD,te.descripcion TIPO_ESPECIALIDAD FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL" + " " + where, ref tabla, conexion);
 
-                                cargarTabla(ref tabla);
-                            }
-                            else
-                            {
-                                if (textBox1.Text != "" && comboBox2.Text != "")
-                                {
-                                    conexion.Open();
-                                    DataTable tabla = new DataTable();
-
-
-                                    cargarATablaParaDataGripView("USE GD2C2013 select p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p WHERE p.APELLIDO like '%" + textBox1.Text.ToString() + "%' and e.DESCRIPCION='" + comboBox2.Text.ToString() + "'", ref tabla, conexion);
-
-                                    cargarTabla(ref tabla);
-                                }
-                                else
-                                {
-                                    if(textBox1.Text != "" && comboBox1.Text!= ""){
-                                    conexion.Open();
-                                    DataTable tabla = new DataTable();
-
-
-                                    cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL WHERE te.DESCRIPCION='" + comboBox1.Text.ToString() + "' and p.APELLIDO LIKE '%"+textBox1.Text.ToString()+"%'", ref tabla, conexion);
-
-                                    cargarTabla(ref tabla);
-                                    }else
-                                    {
-                                        if (comboBox1.Text != "")
-                                        {
-                                            conexion.Open();
-                                            DataTable tabla = new DataTable();
-
-
-                                            cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL WHERE te.DESCRIPCION='" + comboBox1.Text.ToString() + "'", ref tabla, conexion);
-
-                                            cargarTabla(ref tabla);
-                                        }
-                                        else
-                                        {
-                                            conexion.Open();
-                                            DataTable tabla = new DataTable();
-
-
-                                            cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL WHERE  p.APELLIDO LIKE '%" + textBox1.Text.ToString() + "%'", ref tabla, conexion);
-
-                                            cargarTabla(ref tabla);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-
-
+                    cargarTabla(ref tabla);
 
                 }
                 catch (Exception ex)
@@ -218,7 +148,7 @@ namespace Clinica_Frba.Abm_de_Profesional
 
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
-                    if (e.ColumnIndex == 4)
+                    if (e.ColumnIndex == 6)
                     {
 
                         ModifProf f = new ModifProf(dataGridView1[0, dataGridView1.CurrentCell.RowIndex].Value.ToString());
