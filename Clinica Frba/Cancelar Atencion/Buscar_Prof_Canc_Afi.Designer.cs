@@ -36,18 +36,19 @@
             this.btnTurnos.Location = new System.Drawing.Point(369, 36);
             this.btnTurnos.Size = new System.Drawing.Size(95, 30);
             this.btnTurnos.Text = "Cancelar Turno";
+            this.btnTurnos.Click += new System.EventHandler(this.btnTurnos_Click);
             // 
             // btnBuscar
             // 
             this.btnBuscar.Location = new System.Drawing.Point(369, 93);
             this.btnBuscar.Size = new System.Drawing.Size(95, 30);
             // 
-            // Buscar_Prof_Canc_Prof
+            // Buscar_Prof_Canc_Afi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(540, 425);
-            this.Name = "Buscar_Prof_Canc_Prof";
+            this.Name = "Buscar_Prof_Canc_Afi";
             this.Text = "Buscar_Prof_Canc";
             this.Busqueda.ResumeLayout(false);
             this.Busqueda.PerformLayout();

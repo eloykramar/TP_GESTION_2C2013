@@ -188,8 +188,7 @@ namespace Clinica_Frba.Pedir_Turno
         }
 
 
-
-        private void button3_Click(object sender, EventArgs e)
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             String dia_actual = Convert.ToString(dateTimePicker1.Value);
             String profesional = Convert.ToString(dataGridView1[0, 0].Value);
@@ -232,8 +231,13 @@ namespace Clinica_Frba.Pedir_Turno
                     conexion.Close();
                 }
             }//Fin using
-
         }
+
+        private void buttSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
 
 
 

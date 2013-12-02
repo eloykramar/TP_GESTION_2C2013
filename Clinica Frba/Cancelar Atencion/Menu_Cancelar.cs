@@ -64,7 +64,7 @@ namespace Clinica_Frba.Cancelar_Atencion
             else
             {
                 id = getIdPxUser(user);
-                MessageBox.Show("doy de baja un dia");
+                (new Buscar_Prof_Canc_Prof(id)).ShowDialog();
             }
         }
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Clinica_Frba.Registro_de_LLegada;
 using Clinica_Frba.Generar_receta;
+using System.Data.SqlClient;
 
 namespace Clinica_Frba.Generar_Receta
 {
@@ -22,6 +23,34 @@ namespace Clinica_Frba.Generar_Receta
             InitializeComponent();
             idProf = idP;
             idAfi = idA;
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+                try
+                {
+                    conexion.Open();
+                    string dia = "12/11/2013";//FALTA LEERLO DEL ARCHIVO DE CONFIG.
+                    //lleno el datagrid
+                    string busquedaDeAfiliado = "";
+                    if (idA > 0) busquedaDeAfiliado = " AND ID_AFILIADO=" + idA;
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA, CANCELADO FROM YOU_SHALL_NOT_CRASH.TURNO where ID_PROFESIONAL=" + idP + busquedaDeAfiliado + " AND FECHA>='" + dia + "'" + " AND CANCELADO = 0", conexion);
+
+                    SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
+                    DataTable table = new DataTable();
+                    table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+                    adapter2.Fill(table);
+                    dataGridView1.DataSource = table;
+                    dataGridView1.Columns["ID_TURNO"].Visible = false;
+                    dataGridView1.ReadOnly = true;
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex.Message);
+                    (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+                }
+            }
         }
 
         public override void mainTurnos()

@@ -38,7 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttSalir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,10 +82,11 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 11;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(410, 217);
+            this.button1.Location = new System.Drawing.Point(341, 219);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 12;
@@ -96,7 +97,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(326, 219);
+            this.comboBox1.Location = new System.Drawing.Point(235, 219);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(78, 21);
             this.comboBox1.TabIndex = 13;
@@ -113,7 +114,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(334, 199);
+            this.label4.Location = new System.Drawing.Point(241, 199);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 13);
             this.label4.TabIndex = 15;
@@ -129,22 +130,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
+            // buttSalir
             // 
-            this.button3.Location = new System.Drawing.Point(234, 211);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 43);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "Seleccionar fecha";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.buttSalir.Location = new System.Drawing.Point(428, 219);
+            this.buttSalir.Name = "buttSalir";
+            this.buttSalir.Size = new System.Drawing.Size(75, 23);
+            this.buttSalir.TabIndex = 17;
+            this.buttSalir.Text = "Salir";
+            this.buttSalir.UseVisualStyleBackColor = true;
+            this.buttSalir.Click += new System.EventHandler(this.buttSalir_Click);
             // 
             // Turnos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 262);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.buttSalir);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -175,6 +176,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttSalir;
     }
 }
