@@ -83,16 +83,22 @@ namespace Clinica_Frba.DetalleAfiliado
             if (String.Equals(txtApellido.Text, "")){
                 problemas+="\n El Apellido es un campo necesario.";
             }
-            if (cmbCivil.SelectedIndex==0){
+            if (cmbCivil.SelectedIndex<1){
                 problemas+="\n Elija un Estado Civil.";
             }
-            if (cmbPlan.SelectedIndex==0){
+            if (cmbPlan.SelectedIndex<1){
                 problemas+="\n Elija un Plan Medico.";
             }
-            if (String.Equals(txtUser.Text, "")){
-                problemas+="\n El Nombre de Usuario es un campo necesario.";
+            if (cmbSexo.SelectedIndex < 0)
+            {
+                problemas += "\n Elija un Sexo.";
             }
-            
+            if (String.Equals(txtUser.Text, ""))
+            {
+                problemas += "\n El Nombre de Usuario es un campo necesario.";
+            }
+
+                       
             if (String.Equals(problemas, "")){
                 this.guardar(); 
             }else{
@@ -164,5 +170,7 @@ namespace Clinica_Frba.DetalleAfiliado
                 MessageBox.Show(ex.Message);
             }
         }
+
+        
     }
 }

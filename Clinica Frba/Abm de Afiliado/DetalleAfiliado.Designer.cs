@@ -181,6 +181,7 @@
             this.txtUser.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtUser.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtUser.Location = new System.Drawing.Point(357, 246);
+            this.txtUser.MaxLength = 255;
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(127, 20);
             this.txtUser.TabIndex = 12;
@@ -208,6 +209,7 @@
             // 
             this.txtMail.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtMail.Location = new System.Drawing.Point(357, 101);
+            this.txtMail.MaxLength = 255;
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(127, 20);
             this.txtMail.TabIndex = 5;
@@ -365,6 +367,7 @@
             // 
             this.txtApellido.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtApellido.Location = new System.Drawing.Point(357, 29);
+            this.txtApellido.MaxLength = 255;
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(127, 20);
             this.txtApellido.TabIndex = 1;
@@ -392,6 +395,7 @@
             this.txtDir.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtDir.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtDir.Location = new System.Drawing.Point(106, 65);
+            this.txtDir.MaxLength = 255;
             this.txtDir.Name = "txtDir";
             this.txtDir.Size = new System.Drawing.Size(127, 20);
             this.txtDir.TabIndex = 2;
@@ -409,6 +413,7 @@
             // 
             this.txtNombre.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.txtNombre.Location = new System.Drawing.Point(106, 29);
+            this.txtNombre.MaxLength = 255;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(127, 20);
             this.txtNombre.TabIndex = 0;

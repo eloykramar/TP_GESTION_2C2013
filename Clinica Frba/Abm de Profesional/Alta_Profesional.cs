@@ -255,8 +255,8 @@ namespace Clinica_Frba.Abm_de_Profesional
                                 cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = maskedTextBox5.Text;
                                 cmd.Parameters.Add("@dni", SqlDbType.Int).Value = textBox3.Text;
                                 cmd.Parameters.Add("@direccion", SqlDbType.NVarChar).Value = textBox5.Text;
-                                cmd.Parameters.Add("@matricula", SqlDbType.NVarChar).Value = textBox9.Text;
-                                cmd.Parameters.Add("@fecha_nac", SqlDbType.NVarChar).Value = dateTimePicker1.Text;
+                                cmd.Parameters.Add("@matricula", SqlDbType.Int).Value = textBox9.Text;
+                                cmd.Parameters.Add("@fecha_nac", SqlDbType.DateTime).Value = dateTimePicker1.Value;
                                 if (checkBox1.Checked) { cmd.Parameters.Add("@sexo", SqlDbType.NVarChar).Value = checkBox1.Text; } else { cmd.Parameters.Add("@sexo", SqlDbType.NVarChar).Value = checkBox2.Text; }
                                 cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = textBox4.Text;
                                 cmd.Parameters.Add("@telefono", SqlDbType.Int).Value = textBox1.Text;

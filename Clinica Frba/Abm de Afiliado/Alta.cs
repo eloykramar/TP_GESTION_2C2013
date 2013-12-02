@@ -58,7 +58,7 @@ namespace Clinica_Frba.DetalleAfiliado
                             + cmbSexo.SelectedValue.ToString() + "', "
                             + numFACargo.Value.ToString() + ", "
                             + cmbPlan.SelectedValue.ToString() + ", '"
-                            + dtpNac.Value.ToShortDateString() + "', "
+                            + Convert.ToString(dtpNac.Value) + "', "
                             + digito + ")");
                             //hasta aca
 

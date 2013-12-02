@@ -31,30 +31,32 @@
             this.Busqueda.SuspendLayout();
             this.SuspendLayout();
             // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(369, 93);
+            this.btnBuscar.Size = new System.Drawing.Size(95, 30);
+            // 
             // btnTurnos
             // 
-            this.btnTurnos.Location = new System.Drawing.Point(369, 36);
+            this.btnTurnos.Location = new System.Drawing.Point(398, 16);
             this.btnTurnos.Size = new System.Drawing.Size(95, 30);
             this.btnTurnos.Text = "Cancelar Dia";
             // 
             // textBox2
             // 
             this.textBox2.Enabled = false;
+            this.textBox2.Visible = false;
             // 
             // label1
             // 
             this.label1.Enabled = false;
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Location = new System.Drawing.Point(369, 93);
-            this.btnBuscar.Size = new System.Drawing.Size(95, 30);
+            this.label1.Visible = false;
             // 
             // Buscar_Prof_Canc_Prof
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 425);
+            this.ClientSize = new System.Drawing.Size(540, 483);
             this.Name = "Buscar_Prof_Canc_Prof";
             this.Text = "Buscar_Prof_Canc";
             this.Busqueda.ResumeLayout(false);

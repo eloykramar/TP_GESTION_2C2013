@@ -59,22 +59,30 @@ Fecha_Baja DateTime,
 PRIMARY KEY (ID_Afiliado) );
 
 
-create table YOU_SHALL_NOT_CRASH.DIAGNOSTICO( 
-ID_DIAGNOSTICO NUMERIC IDENTITY,
+create table YOU_SHALL_NOT_CRASH.CONSULTA( 
+ID_CONSULTA NUMERIC IDENTITY,
 ID_TURNO NUMERIC,
-ID_PROFESIONAL NUMERIC,
-DESCRIPCION nvarchar(255)
+ID_PROFESIONAL NUMERIC
 
-PRIMARY KEY (ID_DIAGNOSTICO))
+PRIMARY KEY (ID_CONSULTA))
 
 
-create table YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO(
+create table YOU_SHALL_NOT_CRASH.SINTOMA_CONSULTA(
 ID_ITEM NUMERIC IDENTITY,
-ID_DIAGNOSTICO NUMERIC,
+ID_CONSULTA NUMERIC,
 ID_SINTOMA NUMERIC,
 
 PRIMARY KEY (ID_ITEM),
-FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES  you_shall_not_crash.DIAGNOSTICO(ID_DIAGNOSTICO)
+FOREIGN KEY (ID_CONSULTA) REFERENCES  you_shall_not_crash.CONSULTA(ID_CONSULTA)
+)
+
+create table YOU_SHALL_NOT_CRASH.ENFERMEDAD_CONSULTA(
+ID_ITEM NUMERIC IDENTITY,
+ID_CONSULTA NUMERIC,
+ID_ENFERMEDAD NUMERIC,
+
+PRIMARY KEY (ID_ITEM),
+FOREIGN KEY (ID_CONSULTA) REFERENCES  you_shall_not_crash.CONSULTA(ID_CONSULTA)
 )
 
 
@@ -125,10 +133,10 @@ FOREIGN KEY (ID_PROFESIONAL) REFERENCES  you_shall_not_crash.PROFESIONAL(ID_PROF
 
 create table YOU_SHALL_NOT_CRASH.RECETA(
 ID_RECETA NUMERIC IDENTITY,
-ID_DIAGNOSTICO NUMERIC,
+ID_CONSULTA NUMERIC,
 
 PRIMARY KEY (ID_RECETA),
-FOREIGN KEY (ID_DIAGNOSTICO) REFERENCES you_shall_not_crash.DIAGNOSTICO(ID_DIAGNOSTICO)
+FOREIGN KEY (ID_CONSULTA) REFERENCES you_shall_not_crash.CONSULTA(ID_CONSULTA)
 )
 
 
@@ -137,6 +145,13 @@ ID_SINTOMA NUMERIC IDENTITY(1,1),
 DESCRIPCION VARCHAR (255),
 
 PRIMARY KEY (ID_SINTOMA)
+)
+
+create table YOU_SHALL_NOT_CRASH.ENFERMEDAD(
+ID_ENFERMEDAD NUMERIC IDENTITY(1,1),
+DESCRIPCION VARCHAR (255),
+
+PRIMARY KEY (ID_ENFERMEDAD)
 )
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.PLAN_MEDICO (
@@ -252,11 +267,14 @@ ALTER TABLE YOU_SHALL_NOT_CRASH.AFILIADO
 ADD FOREIGN KEY (ID_Plan)
 REFERENCES YOU_SHALL_NOT_CRASH.PLAN_MEDICO(ID_Plan);
 
-ALTER TABLE YOU_SHALL_NOT_CRASH.DIAGNOSTICO
+ALTER TABLE YOU_SHALL_NOT_CRASH.CONSULTA
 ADD FOREIGN KEY (ID_TURNO) REFERENCES you_shall_not_crash.TURNO(ID_TURNO);
 
-ALTER TABLE YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO
+ALTER TABLE YOU_SHALL_NOT_CRASH.SINTOMA_CONSULTA
 ADD FOREIGN KEY (ID_SINTOMA) REFERENCES you_shall_not_crash.SINTOMA(ID_SINTOMA);
+
+ALTER TABLE YOU_SHALL_NOT_CRASH.ENFERMEDAD_CONSULTA
+ADD FOREIGN KEY (ID_ENFERMEDAD) REFERENCES you_shall_not_crash.ENFERMEDAD(ID_ENFERMEDAD);
 
 
 
@@ -437,6 +455,12 @@ select distinct Consulta_Sintomas
 from gd_esquema.Maestra
 where Consulta_Sintomas is not null;
 
+--ENFERMEDAD------------------------
+insert into YOU_SHALL_NOT_CRASH.ENFERMEDAD(DESCRIPCION)
+select distinct Consulta_Enfermedades
+from gd_esquema.Maestra
+where Consulta_Enfermedades is not null;
+
 --TURNO-----------------------------------------------------------
 go
 create view YOU_SHALL_NOT_CRASH.turnos_temp as (
@@ -469,24 +493,31 @@ where Turno_Numero is not null
 group by Turno_Numero);
 
 
---DIAGNOSTICO---------------------------
-insert into YOU_SHALL_NOT_CRASH.DIAGNOSTICO
-select distinct t.id_turno, t.ID_PROFESIONAL,m.Consulta_Enfermedades
+--CONSULTA---------------------------
+insert into YOU_SHALL_NOT_CRASH.CONSULTA
+select distinct t.id_turno, t.ID_PROFESIONAL
 from gd_esquema.Maestra m join you_shall_not_crash.TURNO t on m.Turno_Numero=t.NUMERO
-where Consulta_Enfermedades is not null and FECHA_LLEGADA is not null;
+where FECHA_LLEGADA is not null;
 
 
---ITEM_DIAGNOSTICO-----------------------------------------
-insert into YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO
-select distinct d.ID_DIAGNOSTICO,s.ID_SINTOMA
-from you_shall_not_crash.TURNO t join you_shall_not_crash.DIAGNOSTICO d on t.ID_TURNO=d.ID_TURNO join gd_esquema.Maestra m on t.NUMERO=m.Turno_Numero join you_shall_not_crash.SINTOMA s on s.DESCRIPCION=m.Consulta_Sintomas
+--SINTOMA_CONSULTA-----------------------------------------
+insert into YOU_SHALL_NOT_CRASH.SINTOMA_CONSULTA
+select distinct d.ID_CONSULTA,s.ID_SINTOMA
+from you_shall_not_crash.TURNO t join you_shall_not_crash.CONSULTA d on t.ID_TURNO=d.ID_TURNO join gd_esquema.Maestra m on t.NUMERO=m.Turno_Numero join you_shall_not_crash.SINTOMA s on s.DESCRIPCION=m.Consulta_Sintomas
+where Consulta_Sintomas is not null and FECHA_LLEGADA is not null
+order by 1
+
+--ENFERMEDAD_CONSULTA-----------------------------------------
+insert into YOU_SHALL_NOT_CRASH.ENFERMEDAD_CONSULTA
+select distinct d.ID_CONSULTA,e.ID_ENFERMEDAD
+from you_shall_not_crash.TURNO t join you_shall_not_crash.CONSULTA d on t.ID_TURNO=d.ID_TURNO join gd_esquema.Maestra m on t.NUMERO=m.Turno_Numero join you_shall_not_crash.ENFERMEDAD e on e.DESCRIPCION=m.Consulta_Enfermedades
 where Consulta_Enfermedades is not null and FECHA_LLEGADA is not null
+order by 1
 
-
---RECETA----------------------------
+--RECETA----------------------------FALTA
 insert into YOU_SHALL_NOT_CRASH.RECETA
-select d.ID_DIAGNOSTICO
-from you_shall_not_crash.DIAGNOSTICO d
+select c.ID_CONSULTA
+from you_shall_not_crash.CONSULTA c
 
 
 --MEDICAMENTO-----------------------------------------------------
@@ -1025,8 +1056,8 @@ GO
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_receta
 AS
 BEGIN TRANSACTION
-	--Inserto un nuevo diagnostico
-	INSERT INTO YOU_SHALL_NOT_CRASH.RECETA(ID_DIAGNOSTICO) VALUES (NULL)
+	--Inserto una nueva consulta
+	INSERT INTO YOU_SHALL_NOT_CRASH.RECETA(ID_CONSULTA) VALUES (NULL)
 	
 	if ( @@ERROR != 0)
 	BEGIN 
