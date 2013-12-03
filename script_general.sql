@@ -591,10 +591,12 @@ ID_Item int identity(1,1),
 ID_Agenda int,
 Fecha date,
 Hora_Inicio time,
-Hora_Fin time
+Hora_Fin time,
+ID_TURNO numeric
 
 PRIMARY KEY (Id_Item),
-FOREIGN KEY (ID_Agenda) REFERENCES YOU_SHALL_NOT_CRASH.AGENDA (Id_Agenda));
+FOREIGN KEY (ID_Agenda) REFERENCES YOU_SHALL_NOT_CRASH.AGENDA (Id_Agenda),
+FOREIGN KEY (ID_Turno) REFERENCES YOU_SHALL_NOT_CRASH.Turno (Id_Turno));
 
 
 
@@ -617,12 +619,13 @@ order by 1,2
 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA 
 SELECT (a.ID_Agenda), cast (CONVERT(datetime, DATEDIFF(d, 0, Turno_Fecha), 102) as date), 
 cast((turno_fecha) as time), 
-cast(DATEADD(minute,30,TURNO_FECHA) as time)
+cast(DATEADD(minute,30,TURNO_FECHA) as time), t.ID_TURNO
 FROM  gd_esquema.Maestra 
 	join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Maestra.Medico_Dni=p.DNI 
 	join YOU_SHALL_NOT_CRASH.AGENDA a on p.ID_PROFESIONAL = a.Id_Profesional
-WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7 
-GROUP BY p.Id_Profesional, a.Id_Agenda, Turno_Fecha
+	join YOU_SHALL_NOT_CRASH.TURNO t on Turno_Numero = t.NUMERO
+WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7  and t.Cancelado = 0
+GROUP BY p.Id_Profesional, a.Id_Agenda, Turno_Fecha,t.ID_TURNO
 order by 1,2,3
 
 
