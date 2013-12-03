@@ -165,8 +165,19 @@ namespace Clinica_Frba.Registrar_Agenda
                         if (dia.Equals("Sabado "))
                             numeroDia = 6;
 
-                        SqlCommand insertarItemsAgenda = new SqlCommand("USE GD2C2013 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA VALUES (" + idAgenda + ", " + numeroDia + ", " + Convert.ToDecimal(horaDesde + minutosDesde) + ", " + Convert.ToDecimal(horaHasta + minutosHasta) + ")", conexion);
-                        insertarItemsAgenda.ExecuteNonQuery();
+                        using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Insertar_Item_Agenda", conexion))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@idAgenda", SqlDbType.Int).Value = idAgenda;
+                            cmd.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = dateTimePicker1.Value.ToShortDateString();
+                            cmd.Parameters.Add("@fechaFin", SqlDbType.DateTime).Value = dateTimePicker2.Value.ToShortDateString();
+                            cmd.Parameters.Add("@horaInicio", SqlDbType.Time).Value = horaDesde + ":" + minutosDesde;
+                            cmd.Parameters.Add("@horaFin", SqlDbType.Time).Value = horaHasta + ":" + minutosHasta;
+                            cmd.Parameters.Add("@numeroDia", SqlDbType.Int).Value = numeroDia;
+
+                            //SqlCommand insertarItemsAgenda = new SqlCommand("USE GD2C2013 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA VALUES (" + idAgenda + ", " + numeroDia + ", " + Convert.ToDecimal(horaDesde + minutosDesde) + ", " + Convert.ToDecimal(horaHasta + minutosHasta) + ")", conexion);
+                            cmd.ExecuteNonQuery();
+                        }
                     }
                     new Dialogo("Agenda insertada para el profesional: " + apellido + ", " + nombre + ";Para el rango: " + dateTimePicker1.Value.ToShortDateString() + ", " + dateTimePicker2.Value.ToShortDateString(), "Aceptar").Show();
                 }

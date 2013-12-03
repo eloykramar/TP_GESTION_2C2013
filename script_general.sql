@@ -589,12 +589,13 @@ FOREIGN KEY (Id_Profesional) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_Prof
 CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_AGENDA (
 ID_Item int identity(1,1),
 ID_Agenda int,
-Dia int,
-Hora_Inicio int,
-Hora_Fin int,
+Fecha date,
+Hora_Inicio time,
+Hora_Fin time
 
 PRIMARY KEY (Id_Item),
 FOREIGN KEY (ID_Agenda) REFERENCES YOU_SHALL_NOT_CRASH.AGENDA (Id_Agenda));
+
 
 
 INSERT INTO YOU_SHALL_NOT_CRASH.AGENDA
@@ -603,7 +604,7 @@ FROM  gd_esquema.Maestra join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Ma
 WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL
 GROUP BY p.Id_Profesional
 order by 1
-
+/*
 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA 
 SELECT a.ID_Agenda, datepart(dw,TURNO_FECHA), 800, 1800 --mAX(dateNAME(dw,TURNO_FECHA)),MAX(TURNO_FECHA), Max(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', ''))), Min(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', '')))
 FROM  gd_esquema.Maestra 
@@ -612,6 +613,18 @@ FROM  gd_esquema.Maestra
 WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7 
 GROUP BY p.Id_Profesional, datepart(dw,TURNO_FECHA), a.Id_Agenda
 order by 1,2
+*/
+INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA 
+SELECT (a.ID_Agenda), cast (CONVERT(datetime, DATEDIFF(d, 0, Turno_Fecha), 102) as date), 
+cast((turno_fecha) as time), 
+cast(DATEADD(minute,30,TURNO_FECHA) as time)
+FROM  gd_esquema.Maestra 
+	join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Maestra.Medico_Dni=p.DNI 
+	join YOU_SHALL_NOT_CRASH.AGENDA a on p.ID_PROFESIONAL = a.Id_Profesional
+WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7 
+GROUP BY p.Id_Profesional, a.Id_Agenda, Turno_Fecha
+order by 1,2,3
+
 
 
 --CARGA INICIAL DE CANTIDAD DE CONSULTAS
@@ -1190,6 +1203,29 @@ RETURN (select top 5 a.Nombre + ' ' + a.Apellido as Afiliado, COUNT(*) as Cantid
 		group by a.ID_Afiliado, a.Nombre, a.Apellido
 		order by 2 desc
 );
+GO
+
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_Item_Agenda(@idAgenda int, @fechaInicio datetime, @fechaFin datetime, @horaInicio time, @horaFin time, @numeroDia int)
+AS
+BEGIN
+declare @fechaAAgregar date = dateAdd(Day,ABS(7-((datepart(dw,@fechaInicio)) - @numeroDia)), @fechaInicio)
+declare @horaAAgregar time = @horaInicio
+
+WHILE @fechaAAgregar <= @fechaFin
+BEGIN
+set @horaAAgregar = @horaInicio
+
+	WHILE @horaAAgregar < @horaFin
+	BEGIN
+		INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA (ID_Agenda,Fecha,Hora_Inicio,Hora_Fin) values
+		(@idAgenda, @fechaAAgregar, cast(@horaAAgregar as time), cast(DATEADD(minute,30,@horaAAgregar) as time))
+		set @horaAAgregar = DATEADD(minute,30,@horaAAgregar)
+	END	
+
+SET @fechaAAgregar = DATEADD(Day,7,@fechaAAgregar)
+END
+
+END
 GO
 
 ---------------------------------------------------------------------

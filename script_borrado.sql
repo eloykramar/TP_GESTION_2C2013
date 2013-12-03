@@ -28,6 +28,7 @@ DROP FUNCTION YOU_SHALL_NOT_CRASH.Top5_Especialidades_Mas_Canceladas_En
 DROP FUNCTION YOU_SHALL_NOT_CRASH.Top5_Especialidades_Que_Mas_Recetaron_En
 DROP FUNCTION YOU_SHALL_NOT_CRASH.Top10_Afiliado_Que_Uso_Bonos_De_Otro_En
 DROP FUNCTION YOU_SHALL_NOT_CRASH.Top5_Bonos_Farmacia_Vencidos_En
+DROP PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_Item_Agenda
 
 --
 
