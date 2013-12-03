@@ -111,36 +111,40 @@ namespace Clinica_Frba.Compra_de_Bono
             int cantBonosConsulta = Convert.ToInt32(numericUpDown1.Value);
             int cantBonosFarmacia = Convert.ToInt32(numericUpDown2.Value);
             decimal monto = ((precioBonoConsulta * cantBonosConsulta) + (precioBonoFarmacia * cantBonosFarmacia));
+            int idCompra;
 
             try
             {                  
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
-                    using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Comprar_Bonos", conexion))
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Registrar_Compra", conexion))
                     {
-                        conexion.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idAfiliado", SqlDbType.Int).Value = id_Afiliado;
+                        cmd.Parameters.Add("@cantBonosConsulta", SqlDbType.Int).Value = cantBonosConsulta;
+                        cmd.Parameters.Add("@cantBonosFarmacia", SqlDbType.Int).Value = cantBonosFarmacia;
+                        cmd.Parameters.Add("@monto", SqlDbType.Decimal).Value = monto;
+                        cmd.Parameters.Add("@idCompra", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                        cmd.ExecuteNonQuery();
+                        idCompra = Convert.ToInt32(cmd.Parameters["@idCompra"].Value);
+                    }
+                    
+                    using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Comprar_Bonos", conexion))
+                    {                        
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@fechaActual", SqlDbType.DateTime).Value = getFechaActual();
                         cmd.Parameters.Add("@idAfiliado", SqlDbType.Int).Value = id_Afiliado;
                         cmd.Parameters.Add("@idPlan", SqlDbType.Int).Value = id_Plan;
                         cmd.Parameters.Add("@cantBonosConsulta", SqlDbType.Int).Value = cantBonosConsulta;
                         cmd.Parameters.Add("@cantBonosFarmacia", SqlDbType.Int).Value = cantBonosFarmacia;
+                        cmd.Parameters.Add("@idCompra", SqlDbType.Int).Value = idCompra;
 
                         cmd.ExecuteNonQuery();                        
-                    }
-                    
-                    using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Registrar_Compra", conexion))
-                    {                       
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@idAfiliado", SqlDbType.Int).Value = id_Afiliado;                        
-                        cmd.Parameters.Add("@cantBonosConsulta", SqlDbType.Int).Value = cantBonosConsulta;
-                        cmd.Parameters.Add("@cantBonosFarmacia", SqlDbType.Int).Value = cantBonosFarmacia;
-                        cmd.Parameters.Add("@monto", SqlDbType.Decimal).Value = monto;
-
-                        cmd.ExecuteNonQuery();        
-                    }
+                    }                
                      
-                    new Dialogo("Compra finalizada exitosamente ;Cantidad bonos consulta: " + cantBonosConsulta + ", precio unitario: " + precioBonoConsulta + ";Cantidad bonos farmacia: " + cantBonosFarmacia + ", precio unitario: " + precioBonoFarmacia + ";Monto total: " + monto, "Aceptar").Show();                    
+                    new Dialogo("Compra finalizada exitosamente ;Cantidad bonos consulta: " + cantBonosConsulta + ", precio unitario: " + precioBonoConsulta + ";Cantidad bonos farmacia: " + cantBonosFarmacia + ", precio unitario: " + precioBonoFarmacia + ";Monto total: " + monto+ ";idCompra: " +idCompra, "Aceptar").Show();                    
                 }
             }
             catch (Exception ex)

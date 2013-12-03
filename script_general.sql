@@ -172,7 +172,8 @@ ID_Plan int
 
 PRIMARY KEY(ID_Bono_Consulta),
 FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
-FOREIGN KEY (ID_Plan) REFERENCES YOU_SHALL_NOT_CRASH.Plan_Medico(ID_Plan))
+FOREIGN KEY (ID_Plan) REFERENCES YOU_SHALL_NOT_CRASH.Plan_Medico(ID_Plan)
+);
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.BONO_FARMACIA (
 ID_Bono_Farmacia numeric(18,0) ,
@@ -181,12 +182,13 @@ ID_Afiliado int ,
 ID_Plan int,
 ID_Receta_Medica NUMERIC ,
 Fecha_Prescripcion_Medica datetime,
-Fecha_Vencimiento datetime,
+Fecha_Vencimiento datetime
 
 PRIMARY KEY(ID_Bono_Farmacia),
 FOREIGN KEY (ID_Plan) REFERENCES YOU_SHALL_NOT_CRASH.Plan_Medico(ID_Plan),
 FOREIGN KEY (ID_Afiliado) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
-FOREIGN KEY (ID_Receta_Medica) REFERENCES YOU_SHALL_NOT_CRASH.RECETA(ID_Receta) )
+FOREIGN KEY (ID_Receta_Medica) REFERENCES YOU_SHALL_NOT_CRASH.RECETA(ID_Receta)
+);
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.MEDICAMENTO (
 ID_Medicamento int identity(1,1),
@@ -254,7 +256,18 @@ Id_compra int identity(1,1),
 Id_Afiliado int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
 Cant_Bonos_Consulta int,
 Cant_Bonos_Farmacia int,
-Monto numeric(18,2))
+Monto numeric(18,2)
+PRIMARY KEY (ID_COMPRA))
+
+CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_COMPRA_BONO (
+id_Item int identity(1,1),
+id_compra int,
+id_bono int,
+tipo_bono char(1),
+precio_unitario numeric(18,2)
+
+PRIMARY KEY (id_item),
+FOREIGN KEY (ID_compra) REFERENCES YOU_SHALL_NOT_CRASH.compra_bono (id_compra))
 
  
 --AGREGAMOS LAS FOREING KEYS FALTANTES:
@@ -277,8 +290,13 @@ ALTER TABLE YOU_SHALL_NOT_CRASH.ENFERMEDAD_CONSULTA
 ADD FOREIGN KEY (ID_ENFERMEDAD) REFERENCES you_shall_not_crash.ENFERMEDAD(ID_ENFERMEDAD);
 
 
+/*BORRAR DSP
+ALTER TABLE YOU_SHALL_NOT_CRASH.BONO_CONSULTA
+ADD FOREIGN KEY (ID_COMPRA) REFERENCES YOU_SHALL_NOT_CRASH.COMPRA_BONO(Id_compra)
 
-
+ALTER TABLE YOU_SHALL_NOT_CRASH.BONO_FARMACIA
+ADD FOREIGN KEY (ID_COMPRA) REFERENCES YOU_SHALL_NOT_CRASH.COMPRA_BONO(Id_compra)
+*/
 ---------------------------------------------------------------------------------------------------------------
 
 --COMPLETADO TABLAS
@@ -648,13 +666,33 @@ PRIMARY KEY (ID_CANCELACION_DIA),
 FOREIGN KEY (ID_PROFESIONAL) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_PROFESIONAL));
 
 --COMPRA DE BONOS
-insert into YOU_SHALL_NOT_CRASH.COMPRA_BONO (Id_Afiliado, Cant_Bonos_Consulta, Cant_Bonos_Farmacia, Monto)
-(select c.ID_Afiliado, 1, 0, p.Precio_bono_consulta 
+GO
+create view YOU_SHALL_NOT_CRASH.compras_temp as (
+
+SELECT ROW_NUMBER() OVER( ORDER BY afi ) AS id, afi, cant_cons, cant_farm, Precio_bono, id_bono
+FROM(
+select c.ID_Afiliado as afi, 1 as cant_cons, 0 as cant_farm, p.Precio_bono_consulta as precio_bono, c.ID_Bono_Consulta as id_bono
 from YOU_SHALL_NOT_CRASH.BONO_CONSULTA c join YOU_SHALL_NOT_CRASH.PLAN_MEDICO p on (c.ID_Plan = p.ID_Plan)
 union all
-select f.ID_Afiliado, 0, 1, p.Precio_bono_farmacia 
+select f.ID_Afiliado, 0 as cant_cons, 1 as cant_farm, p.Precio_bono_farmacia, f.ID_Bono_Farmacia as id_bono
 from YOU_SHALL_NOT_CRASH.BONO_FARMACIA f join YOU_SHALL_NOT_CRASH.PLAN_MEDICO p on (f.ID_Plan = p.ID_Plan)
-);
+
+) as id);
+GO
+
+insert into YOU_SHALL_NOT_CRASH.COMPRA_BONO 
+select afi, cant_cons, cant_farm, Precio_bono 
+from YOU_SHALL_NOT_CRASH.compras_temp order by id
+;
+
+insert into YOU_SHALL_NOT_CRASH.ITEM_COMPRA_BONO
+select ID, id_bono, case when cant_cons > 0 then 'c' else 'f' end, precio_bono 
+from YOU_SHALL_NOT_CRASH.compras_temp 
+order by cant_cons,id
+
+--update YOU_SHALL_NOT_CRASH.BONO_CONSULTA  
+--set ID_COMPRA = (select id from YOU_SHALL_NOT_CRASH.compras_temp where id_bono = id_bono_consulta and cant_cons > 0)
+
 
 ---------------------------------------------------------------------
 ----------------------FUNCIONES Y SPS--------------------------------
@@ -810,7 +848,7 @@ set @precioFarmacia = (select Precio_Bono_Farmacia
 END
 GO
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Comprar_Bonos(@fechaActual datetime, @idAfiliado int, @idPlan int, @cantBonosConsulta int, @cantBonosFarmacia int)
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Comprar_Bonos(@fechaActual datetime, @idAfiliado int, @idPlan int, @cantBonosConsulta int, @cantBonosFarmacia int, @idCompra int)
 AS
 BEGIN
 declare @IdConsulta int = ((select max(ID_Bono_consulta) from YOU_SHALL_NOT_CRASH.BONO_CONSULTA) + 1)
@@ -820,6 +858,12 @@ declare @IdFarmacia int = ((select max(ID_Bono_Farmacia) from YOU_SHALL_NOT_CRAS
 	BEGIN		
 		INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado, ID_Plan) 
 		values (@IdConsulta, @fechaActual, @idAfiliado, @idPlan)
+		
+		INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_COMPRA_BONO 
+		SELECT @idCompra, @IdConsulta, 'c', Precio_bono_consulta
+		from YOU_SHALL_NOT_CRASH.PLAN_MEDICO
+		where ID_Plan = @idPlan
+		
 		SET @cantBonosConsulta = (@cantBonosConsulta - 1)
 		SET @IdConsulta = (@IdConsulta + 1)
 	END
@@ -828,6 +872,12 @@ declare @IdFarmacia int = ((select max(ID_Bono_Farmacia) from YOU_SHALL_NOT_CRAS
 	BEGIN
 		INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(ID_Bono_Farmacia, Fecha_Emision, ID_Afiliado, ID_Plan, Fecha_Vencimiento) 
 		values (@IdFarmacia, @fechaActual, @idAfiliado, @idPlan, @fechaActual+60)
+		
+		INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_COMPRA_BONO 
+		SELECT @idCompra, @IdFarmacia, 'f', Precio_bono_farmacia
+		from YOU_SHALL_NOT_CRASH.PLAN_MEDICO
+		where ID_Plan = @idPlan
+		
 		SET @cantBonosFarmacia = (@cantBonosFarmacia - 1)
 		SET @IdFarmacia = (@IdFarmacia + 1)
 	END
@@ -835,10 +885,11 @@ declare @IdFarmacia int = ((select max(ID_Bono_Farmacia) from YOU_SHALL_NOT_CRAS
 END
 GO
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Registrar_Compra (@idAfiliado int, @cantBonosConsulta int, @cantBonosFarmacia int, @monto numeric(18,2))
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Registrar_Compra (@idAfiliado int, @cantBonosConsulta int, @cantBonosFarmacia int, @monto numeric(18,2), @idCompra int output)
 AS
 BEGIN
 INSERT INTO YOU_SHALL_NOT_CRASH.COMPRA_BONO values (@idAfiliado,@cantBonosConsulta,@cantBonosFarmacia,@monto)
+set @idCompra = SCOPE_IDENTITY()
 END
 GO
 
