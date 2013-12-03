@@ -15,17 +15,14 @@ namespace Clinica_Frba.Pedir_Turno
         int idAfiliado;
         int idProfesional;
 
-
         public Turnos(int idP, int idA)
         {
             InitializeComponent();
             idAfiliado = idA;
-            idProfesional = idP;
-            List<String> Lista_dias = new List<String>();
+            idProfesional = idP;           
 
             try
             {
-
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
                     conexion.Open();
@@ -39,24 +36,17 @@ namespace Clinica_Frba.Pedir_Turno
 
                     comboBox2.DisplayMember = "Fecha";
                     comboBox2.DataSource = tablaDeNombres;
-
-
-                }//FIN USING
+                }
             }
             catch (Exception ex)
             {
                 Console.Write(ex.Message);
                 (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
-
             }
-
-
-        }//FIN TURNOS
+        }
 
         private void button1_Click(object sender, EventArgs e)
-        {
-          
-
+        {       
             DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
             String horario = (Convert.ToDateTime(comboBox1.Text)).ToShortTimeString();
 
@@ -105,8 +95,8 @@ namespace Clinica_Frba.Pedir_Turno
                 comboBox1.DisplayMember = "hora_inicio";
                 comboBox1.DataSource = tablaDeNombres;
             }
-
-        }//FIN CLASE TURNOS
+        }
+        //FIN CLASE TURNOS
 
         public class Turno_por_profesional
         {
@@ -122,7 +112,6 @@ namespace Clinica_Frba.Pedir_Turno
                 this.fecha = pFecha;
                 this.dia = pDia;
             }
-
         }
     }
 }
