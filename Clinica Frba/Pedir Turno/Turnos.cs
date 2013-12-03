@@ -27,39 +27,18 @@ namespace Clinica_Frba.Pedir_Turno
             {
 
                 using (SqlConnection conexion = this.obtenerConexion())
-                {   //la declaracion de abajo solo está para q no pinche. hay q redefinir la busqueda para q lo haga con estos ids en vez de la busqueda con like.
-                    //string pProfesional = "";
+                {
                     conexion.Open();
 
-                    SqlCommand cmd = new SqlCommand(string.Format(
-                             "SELECT t.ID_TURNO, (p.NOMBRE + ' ' + p.APELLIDO) as Nombre, t.FECHA as Fecha, (DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.FECHA>=GETDATE() and t.Cancelado=0 and t.ID_PROFESIONAL={0} order by t.FECHA", idProfesional.ToString()), conexion);
-                    
-                    SqlDataAdapter adapter2 = new SqlDataAdapter(cmd);
-                    DataTable table = new DataTable();
-                    table.Locale = System.Globalization.CultureInfo.InvariantCulture;
-                    adapter2.Fill(table);
-                    dataGridView1.DataSource = table;
-                    dataGridView1.Columns["ID_TURNO"].Visible = false;
-                    dataGridView1.ReadOnly = true;
-                    
-                    cmd.Dispose();
-                    
-                    cmd = new SqlCommand(string.Format(
-                        "SELECT distinct DATEPART ( WEEKDAY, t.FECHA ),(DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.Cancelado=0 and t.FECHA>=GETDATE() and t.FECHA is not null and p.ID_PROFESIONAL={0}", idProfesional), conexion);
+                    SqlCommand cmd = new SqlCommand("select distinct(ia.fecha) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.ID_TURNO is NULL order by 1", conexion);
 
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable tablaDeNombres = new DataTable();
 
-                    while (reader.Read())
-                    {
-                        String dia = reader.GetString(1);
-                        Lista_dias.Add(dia);
-                    }
+                    adapter.Fill(tablaDeNombres);
 
-                    cmd.Dispose();
-                    reader.Close();
-                    conexion.Close();
-
-                    comboBox4.DataSource = Lista_dias;
+                    comboBox2.DisplayMember = "Fecha";
+                    comboBox2.DataSource = tablaDeNombres;
 
 
                 }//FIN USING
@@ -74,163 +53,34 @@ namespace Clinica_Frba.Pedir_Turno
 
         }//FIN TURNOS
 
-
-
-
-
-        public void button2_Click(object sender, EventArgs e)
-        {
-            List<Turno_por_profesional> lista_filtrados = new List<Turno_por_profesional>();
-            //String profesional = (Convert.ToString(dataGridView1[0,0].Value));
-            string dia = Convert.ToString(comboBox4.SelectedItem);
-
-            using (SqlConnection conexion = this.obtenerConexion())
-            {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand(string.Format(
-                                 "SELECT t.ID_TURNO, (p.NOMBRE + ' ' + p.APELLIDO) as Nombre, t.FECHA as Fecha, (DATENAME ( weekday, t.FECHA )) as Dia FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL where t.FECHA>=GETDATE() and t.Cancelado=0 and t.ID_PROFESIONAL={0} and (DATENAME ( weekday, t.FECHA )) like '%{1}%' order by t.FECHA", idProfesional.ToString(), dia), conexion);
-
-                SqlDataAdapter adapter2 = new SqlDataAdapter(cmd);
-                DataTable table = new DataTable();
-                table.Locale = System.Globalization.CultureInfo.InvariantCulture;
-                adapter2.Fill(table);
-                dataGridView1.DataSource = table;
-                dataGridView1.Columns["ID_TURNO"].Visible = false;
-                dataGridView1.ReadOnly = true;
-
-                
-            }
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
+          
 
-            DateTime dia_reservacion = (dateTimePicker1.Value);
-            //String profesional = Convert.ToString(dataGridView1[0,0].Value);
+            DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
+            String horario = (Convert.ToDateTime(comboBox1.Text)).ToShortTimeString();
 
-            String fecha_reservacion = dia_reservacion.ToString("d");
-            Int64 hh_mm = Convert.ToInt64(comboBox1.SelectedItem);
-            Int64 hh = hh_mm / 100;
-            Int64 mm = hh_mm - hh * 100;
-            String hora;
+            String[] horarioSpliteado = horario.Split(':');
+            double hora = Convert.ToDouble(horarioSpliteado[0]);
+            double minutos = Convert.ToDouble(horarioSpliteado[1]);
 
-            if (mm != 0)
-            {
-                hora = Convert.ToString(hh) + ':' + Convert.ToString(mm);
-            }
-            else
-            {
-                hora = Convert.ToString(hh) + ':' + '0' + Convert.ToString(mm);
-            }
-            if (hh < 10)
-            {
-                fecha_reservacion = fecha_reservacion + ' ' + '0' + hora + ':' + "00.000";
-            }
-            else
-            {
-                fecha_reservacion = fecha_reservacion + ' ' + hora + ':' + "00.000";
-            }
-            Convert.ToDateTime(fecha_reservacion);
-
+            DateTime fecha_completa = dia_reservacion.AddHours(Convert.ToDouble(hora)).AddMinutes(Convert.ToDouble(minutos));
+            MessageBox.Show("dia: " + dia_reservacion.ToString() + ", hora: "+horario + " fecha completa: " +fecha_completa.ToString());
 
             using (SqlConnection conexion = this.obtenerConexion())
             {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand(string.Format(
-                    "SELECT t.Fecha FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.TURNO t on p.ID_PROFESIONAL = t.ID_PROFESIONAL and t.FECHA>=GETDATE() and t.Cancelado!= 1 and t.FECHA is not null and t.ID_PROFESIONAL={0} AND t.FECHA = '{1}'", idProfesional.ToString(), fecha_reservacion), conexion);
-                SqlDataReader reader = cmd.ExecuteReader();
+                conexion.Open();    
 
-
-
-                if (reader.Read())
-                {
-                    MessageBox.Show("El turno ya esta ocupado");
-                    cmd.Dispose();
-                    reader.Close();
-                    conexion.Close();
-                }
-                else
-                {
-                    cmd.Dispose();
-                    reader.Close();
-
-                    cmd = new SqlCommand(string.Format(
-                        "SELECT ID_CANCELACION_DIA FROM YOU_SHALL_NOT_CRASH.CANCELACION_DIA WHERE ID_PROFESIONAL = {0} AND ('{1}' BETWEEN DiaHora_inicio and DiaHora_Fin)", idProfesional, fecha_reservacion), conexion);
-                    reader = cmd.ExecuteReader();
-
-
-                    if (reader.Read())
-                    {
-                        MessageBox.Show("Profesional no disponible en ese horario");
-                        cmd.Dispose();
-                        reader.Close();
-                        conexion.Close();
-                    }
-                    else
-                    {
-                        cmd.Dispose();
-                        reader.Close();
-                        cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Insertar_turno", conexion);
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = fecha_reservacion;
-                        cmd.Parameters.Add("@profesional", SqlDbType.Int).Value = idProfesional;
-                        cmd.Parameters.Add("@afiliado", SqlDbType.Int).Value = idAfiliado;
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Su turno ha sido ingresado correctamente");
-                        conexion.Close();
-                        cmd.Dispose();
-                    }
-                }
-
-            }
-
-        }
-
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            String dia_actual = Convert.ToString(dateTimePicker1.Value);
-            String profesional = Convert.ToString(dataGridView1[0, 0].Value);
-
-            using (SqlConnection conexion = this.obtenerConexion())
-            {
-                conexion.Open();
-
-                SqlCommand cmd = new SqlCommand(string.Format(
-                    "SELECT t.Hora_Inicio,t.Hora_Fin FROM YOU_SHALL_NOT_CRASH.PROFESIONAL p, YOU_SHALL_NOT_CRASH.ITEM_AGENDA t,YOU_SHALL_NOT_CRASH.AGENDA a where p.ID_PROFESIONAL = a.ID_PROFESIONAL and a.ID_AGENDA=t.id_agenda and p.ID_PROFESIONAL={0} AND DATEPART(weekday,'{1}') = Dia", idProfesional, dia_actual), conexion);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-
-                reader.Read();
-
-                if (reader.HasRows)
-                {
-                    Int64 hora_inicio = Convert.ToInt64(reader.GetInt32(0));
-                    Int64 hora_fin = Convert.ToInt64(reader.GetInt32(1));
-                    Int64 hora = hora_inicio;
-                    Int64 hora_anterior = hora_inicio;
-                    List<Int64> lista_hora = new List<Int64>();
-
-                    while (hora < hora_fin)
-                    {
-                        lista_hora.Add(hora);
-                        if (((hora - hora_anterior) == 0) || ((hora - hora_anterior) == 70))
-                        {
-                            hora_anterior = hora;
-                            hora = hora + 30;
-                        }
-                        else
-                        {
-                            hora_anterior = hora;
-                            hora = hora + 70;
-                        }
-
-                    }
-                    comboBox1.DataSource = lista_hora;
-                    conexion.Close();
-                }
-            }//Fin using
+                SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Insertar_turno", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@fechaCompleta", SqlDbType.DateTime).Value = fecha_completa;
+                cmd.Parameters.Add("@profesional", SqlDbType.Int).Value = idProfesional;
+                cmd.Parameters.Add("@afiliado", SqlDbType.Int).Value = idAfiliado;
+                cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = dia_reservacion;
+                cmd.Parameters.Add("@horaInicio", SqlDbType.Time).Value = horario;
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Su turno ha sido ingresado correctamente");
+            }            
         }
 
         private void buttSalir_Click(object sender, EventArgs e)
@@ -238,25 +88,41 @@ namespace Clinica_Frba.Pedir_Turno
             this.Close();
         }
 
-
-
-
-    }//FIN CLASE TURNOS
-
-    public class Turno_por_profesional
-    {
-        public String profesional { get; set; }
-        public String fecha { get; set; }
-        public String dia { get; set; }
-
-        public void turno_por_profesional() { }
-
-        public void turno_por_profesional(String pProfesional, String pFecha, String pDia)
+        private void button2_Click_1(object sender, EventArgs e)
         {
-            this.profesional = pProfesional;
-            this.fecha = pFecha;
-            this.dia = pDia;
-        }
+            DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
 
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+                conexion.Open();                
+                SqlCommand cmd = new SqlCommand("select distinct(ia.hora_inicio) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.ID_TURNO is NULL and ia.fecha = '" + dia_reservacion + "' order by 1", conexion);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable tablaDeNombres = new DataTable();
+
+                adapter.Fill(tablaDeNombres);
+
+                comboBox1.DisplayMember = "hora_inicio";
+                comboBox1.DataSource = tablaDeNombres;
+            }
+
+        }//FIN CLASE TURNOS
+
+        public class Turno_por_profesional
+        {
+            public String profesional { get; set; }
+            public String fecha { get; set; }
+            public String dia { get; set; }
+
+            public void turno_por_profesional() { }
+
+            public void turno_por_profesional(String pProfesional, String pFecha, String pDia)
+            {
+                this.profesional = pProfesional;
+                this.fecha = pFecha;
+                this.dia = pDia;
+            }
+
+        }
     }
 }

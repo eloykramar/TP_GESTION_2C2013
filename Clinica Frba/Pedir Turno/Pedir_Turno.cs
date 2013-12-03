@@ -40,7 +40,7 @@ namespace Clinica_Frba.Pedir_Turno
 
                     //lleno el datagrid
 
-                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select DISTINCT p.ID_Profesional, (p.Nombre+' '+p.Apellido) Nombre, p.DNI from YOU_SHALL_NOT_CRASH.PROFESIONAL p  where ACTIVO = 1", conexion);
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select DISTINCT P.ID_Profesional, (Nombre+' '+Apellido) Nombre, DNI, E.Descripcion as Especialidad from (YOU_SHALL_NOT_CRASH.PROFESIONAL P JOIN YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL EP ON EP.ID_PROFESIONAL=P.ID_PROFESIONAL) join YOU_SHALL_NOT_CRASH.ESPECIALIDAD E ON E.CODIGO_ESPECIALIDAD=EP.CODIGO_ESPECIALIDAD where ACTIVO = 1", conexion);
 
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                     DataTable table = new DataTable();
@@ -60,10 +60,6 @@ namespace Clinica_Frba.Pedir_Turno
                 conexion.Close();
             }
         }
-        private void Pedir_Turno_Load(object sender, EventArgs e)
-        {
-
-        }
 
         public virtual void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -82,7 +78,7 @@ namespace Clinica_Frba.Pedir_Turno
 
                     //lleno el datagrid
 
-                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select DISTINCT P.ID_Profesional, (Nombre+' '+Apellido) Nombre, DNI from (YOU_SHALL_NOT_CRASH.PROFESIONAL P JOIN YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL EP ON EP.ID_PROFESIONAL=P.ID_PROFESIONAL) join YOU_SHALL_NOT_CRASH.ESPECIALIDAD E ON E.CODIGO_ESPECIALIDAD=EP.CODIGO_ESPECIALIDAD " + where, conexion);
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select DISTINCT P.ID_Profesional, (Nombre+' '+Apellido) Nombre, DNI, E.Descripcion as Especialidad from (YOU_SHALL_NOT_CRASH.PROFESIONAL P JOIN YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL EP ON EP.ID_PROFESIONAL=P.ID_PROFESIONAL) join YOU_SHALL_NOT_CRASH.ESPECIALIDAD E ON E.CODIGO_ESPECIALIDAD=EP.CODIGO_ESPECIALIDAD " + where, conexion);
 
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                     DataTable table = new DataTable();
@@ -118,16 +114,10 @@ namespace Clinica_Frba.Pedir_Turno
             if (!textBox2.ReadOnly) textBox2.Text = "";
             textBox3.Text = "";
             dataGridView1.DataSource = "";
-        }
-
-        private void btnTurnos_Click(object sender, EventArgs e)
-        {
-            
-            this.turnos();
-        }
+        }    
 
         public virtual void turnos()
-        {   // abro ventana para reservar
+        {   // abro ventana para reservar                       
             int c = dataGridView1.SelectedRows.Count;
             if (c < 1) return;
             int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
@@ -155,6 +145,21 @@ namespace Clinica_Frba.Pedir_Turno
                 conexion.Close();
             }
             return idAf;   
-        }   //Fin buscarIdAfiliado
+        }
+
+        private void btnTurnos_Click(object sender, EventArgs e)
+        {
+            this.turnos();
+        }
+
+        private void btnTurnos_Click_1(object sender, EventArgs e)
+        {
+            this.turnos();
+        }
+
+
+        
+
+//Fin buscarIdAfiliado
     }
 }

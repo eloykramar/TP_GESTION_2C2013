@@ -55,14 +55,14 @@
             this.Busqueda.Controls.Add(this.btnClean);
             this.Busqueda.Location = new System.Drawing.Point(12, 8);
             this.Busqueda.Name = "Busqueda";
-            this.Busqueda.Size = new System.Drawing.Size(515, 155);
+            this.Busqueda.Size = new System.Drawing.Size(515, 116);
             this.Busqueda.TabIndex = 7;
             this.Busqueda.TabStop = false;
             this.Busqueda.Text = "Busqueda";
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(107, 65);
+            this.textBox3.Location = new System.Drawing.Point(107, 57);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(127, 20);
             this.textBox3.TabIndex = 11;
@@ -70,7 +70,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 68);
+            this.label3.Location = new System.Drawing.Point(20, 60);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 7;
@@ -94,21 +94,21 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(425, 101);
+            this.btnBuscar.Location = new System.Drawing.Point(347, 22);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(84, 30);
+            this.btnBuscar.Size = new System.Drawing.Size(114, 28);
             this.btnBuscar.TabIndex = 1;
-            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.Text = "Buscar profesional";
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnClean
             // 
-            this.btnClean.Location = new System.Drawing.Point(6, 101);
+            this.btnClean.Location = new System.Drawing.Point(347, 60);
             this.btnClean.Name = "btnClean";
-            this.btnClean.Size = new System.Drawing.Size(84, 30);
+            this.btnClean.Size = new System.Drawing.Size(114, 28);
             this.btnClean.TabIndex = 0;
-            this.btnClean.Text = "Limpiar";
+            this.btnClean.Text = "Limpiar búsqueda";
             this.btnClean.UseVisualStyleBackColor = true;
             this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
             // 
@@ -117,11 +117,11 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 202);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 148);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(515, 212);
+            this.dataGridView1.Size = new System.Drawing.Size(515, 228);
             this.dataGridView1.TabIndex = 6;
             // 
             // groupBox1
@@ -129,26 +129,26 @@
             this.groupBox1.Controls.Add(this.btnTurnos);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(16, 420);
+            this.groupBox1.Location = new System.Drawing.Point(12, 396);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(510, 49);
+            this.groupBox1.Size = new System.Drawing.Size(514, 49);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
             // 
             // btnTurnos
             // 
-            this.btnTurnos.Location = new System.Drawing.Point(411, 10);
+            this.btnTurnos.Location = new System.Drawing.Point(411, 13);
             this.btnTurnos.Name = "btnTurnos";
             this.btnTurnos.Size = new System.Drawing.Size(84, 30);
             this.btnTurnos.TabIndex = 13;
             this.btnTurnos.Text = "Turnos";
             this.btnTurnos.UseVisualStyleBackColor = true;
+            this.btnTurnos.Click += new System.EventHandler(this.btnTurnos_Click_1);
             // 
             // textBox2
             // 
             this.textBox2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBox2.Location = new System.Drawing.Point(103, 16);
+            this.textBox2.Location = new System.Drawing.Point(103, 18);
             this.textBox2.MaxLength = 18;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(127, 20);
@@ -157,7 +157,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 19);
+            this.label1.Location = new System.Drawing.Point(16, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 11;
@@ -168,13 +168,12 @@
             this.AcceptButton = this.btnBuscar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 470);
+            this.ClientSize = new System.Drawing.Size(541, 463);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Busqueda);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Pedir_Turnos";
             this.Text = "Pedir_Turno";
-            this.Load += new System.EventHandler(this.Pedir_Turno_Load);
             this.Busqueda.ResumeLayout(false);
             this.Busqueda.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

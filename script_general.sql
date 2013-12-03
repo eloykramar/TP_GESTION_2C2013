@@ -933,22 +933,30 @@ END
 END
 GO
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_turno (@fecha dateTime, @profesional varchar(255), @afiliado int)
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_turno (@fechaCompleta dateTime, @profesional numeric, @afiliado int, @fecha dateTime, @horaInicio time)
 AS
 BEGIN 
-	declare @Numero numeric(18,0) = (SELECT MAX(NUMERO) FROM YOU_SHALL_NOT_CRASH.TURNO) +1
+	declare @numeroTurno numeric(18,0) = (SELECT MAX(NUMERO) FROM YOU_SHALL_NOT_CRASH.TURNO) +1
 	
 	BEGIN TRANSACTION
 	INSERT INTO YOU_SHALL_NOT_CRASH.TURNO (NUMERO, ID_PROFESIONAL, ID_AFILIADO, FECHA, Cancelado)
-	values (@Numero,@profesional,@afiliado,@fecha,0)
+	values (@numeroTurno,@profesional,@afiliado,@fechaCompleta,0)
+	
+	declare @idAgenda int = (select Id_Agenda from YOU_SHALL_NOT_CRASH.AGENDA 
+							where Id_Profesional = @profesional and @fechaCompleta BETWEEN Fecha_Inicio and Fecha_Fin)
+	declare @idTurno numeric = (select id_turno from YOU_SHALL_NOT_CRASH.TURNO
+								where NUMERO = @numeroTurno)
+	
+	UPDATE YOU_SHALL_NOT_CRASH.ITEM_AGENDA SET ID_TURNO = (@idTurno)
+	where ID_Agenda = @idAgenda and Fecha = @fecha and Hora_Inicio = @horaInicio
+		
 	if ( @@ERROR != 0)
 	BEGIN 
 	rollback 
 	END
 	ELSE BEGIN 
 	commit
-	END
-			
+	END			
 END
 GO
 
