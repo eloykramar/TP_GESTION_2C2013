@@ -1069,7 +1069,7 @@ BEGIN TRANSACTION
 GO
 
 
-
+/*
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_diagnostico(@idturno int,@idprofesional int,@descripcion nvarchar(255))
 AS
 BEGIN TRANSACTION
@@ -1102,7 +1102,7 @@ BEGIN TRANSACTION
 		commit
 	END
 GO
-
+*/
 
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_item_bono_farmacia(@id_bono_farmacia int,@id_medicamento int, @cantidad int)
 AS
@@ -1167,9 +1167,9 @@ AS
 RETURN (select top 5 e.DESCRIPCION as Especialidad, COUNT(*) as Bonos_Recetados
 		from YOU_SHALL_NOT_CRASH.BONO_FARMACIA b join
 			 YOU_SHALL_NOT_CRASH.RECETA r on (b.ID_Receta_Medica = r.ID_RECETA) join
-			 YOU_SHALL_NOT_CRASH.DIAGNOSTICO d on (r.ID_DIAGNOSTICO = d.ID_DIAGNOSTICO) join
-			 YOU_SHALL_NOT_CRASH.TURNO t on (d.ID_TURNO = t.ID_TURNO) join --para obtener la fecha en que receto		
-			 YOU_SHALL_NOT_CRASH.PROFESIONAL p on (d.ID_PROFESIONAL = p.ID_PROFESIONAL) join
+			 YOU_SHALL_NOT_CRASH.CONSULTA c on (r.ID_CONSULTA = c.ID_CONSULTA) join
+			 YOU_SHALL_NOT_CRASH.TURNO t on (c.ID_TURNO = t.ID_TURNO) join --para obtener la fecha en que receto		
+			 YOU_SHALL_NOT_CRASH.PROFESIONAL p on (c.ID_PROFESIONAL = p.ID_PROFESIONAL) join
 			 YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep on (p.ID_PROFESIONAL = ep.ID_PROFESIONAL) join
 			 YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on (ep.CODIGO_ESPECIALIDAD = e.CODIGO_ESPECIALIDAD)
 		where (YEAR(t.FECHA) = @anio) and (MONTH(t.FECHA) BETWEEN @mesInicial and @mesFinal)
