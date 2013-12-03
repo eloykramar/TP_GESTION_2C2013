@@ -1262,7 +1262,16 @@ GO
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_Item_Agenda(@idAgenda int, @fechaInicio datetime, @fechaFin datetime, @horaInicio time, @horaFin time, @numeroDia int)
 AS
 BEGIN
-declare @fechaAAgregar date = dateAdd(Day,ABS(7-((datepart(dw,@fechaInicio)) - @numeroDia)), @fechaInicio)
+declare @fechaAAgregar date
+if (datepart(dw,@fechaInicio) < @numeroDia)
+begin
+	set @fechaAAgregar = dateAdd(Day,ABS((datepart(dw,@fechaInicio)) - @numeroDia), @fechaInicio)
+end
+else
+begin
+	set @fechaAAgregar  = dateAdd(Day,ABS(7-ABS((datepart(dw,@fechaInicio)) - @numeroDia)), @fechaInicio)
+end
+
 declare @horaAAgregar time = @horaInicio
 
 WHILE @fechaAAgregar <= @fechaFin
