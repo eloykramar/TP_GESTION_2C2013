@@ -123,7 +123,7 @@ namespace Clinica_Frba.Pedir_Turno
             catch (Exception ex)
             {
                 Console.Write(ex.Message);
-                (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+                MessageBox.Show("ERROR - " + ex.Message, "Aceptar");
             }
         }
 
@@ -150,6 +150,49 @@ namespace Clinica_Frba.Pedir_Turno
                 comboBox1.DisplayMember = "hora_inicio";
                 comboBox1.DataSource = tablaDeNombres;
             }
+        }
+
+        //cancelar dia
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
+                using (SqlConnection conexion = this.obtenerConexion())
+                {
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand(string.Format(
+                            "SELECT ID_CANCELACION_DIA FROM YOU_SHALL_NOT_CRASH.CANCELACION_DIA WHERE ID_PROFESIONAL = {0} AND DiaHora_inicio = '{1}' AND DiaHora_Fin = '{2}'", idProfesional, dia_reservacion, dia_reservacion.AddDays(1)), conexion);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (!reader.Read())
+                    {
+                        cmd.Dispose();
+                        reader.Close();
+
+                        cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Cancelar_dia_rango", conexion);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_profesional", SqlDbType.Int).Value = idProfesional;
+                        cmd.Parameters.Add("@DiaHora_inicio", SqlDbType.DateTime).Value = dia_reservacion;
+                        cmd.Parameters.Add("@DiaHora_Fin", SqlDbType.DateTime).Value = dia_reservacion.AddDays(1);
+                        cmd.ExecuteNonQuery();
+
+                        cmd.Dispose();
+                        new Dialogo("Se ha cancelado el dia: " + dia_reservacion + ");Para el profesional: " + nombreCompletoP, "Aceptar").ShowDialog();
+                    }
+                    else
+                    {
+                        reader.Close();
+                        MessageBox.Show("Este rango ya ha sido cancelado previamente");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+            }
+
         }
 
         private void validar()

@@ -1083,11 +1083,17 @@ END
 
 GO 
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_turno_afiliado(@id_turno numeric(18,0))
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_turno_afiliado(@id_turno numeric(18,0), @fecha dateTime, @motivo nvarchar(255))
 AS
 BEGIN 
 	UPDATE YOU_SHALL_NOT_CRASH.TURNO
 	SET Cancelado = 1
+	WHERE ID_TURNO = @id_turno
+	
+	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO values ('CANCELA_PACIENTE', @motivo, @fecha, @id_turno)
+	
+	UPDATE YOU_SHALL_NOT_CRASH.ITEM_AGENDA
+	SET ID_TURNO = NULL
 	WHERE ID_TURNO = @id_turno
 END
 GO
@@ -1098,7 +1104,14 @@ AS
 BEGIN TRANSACTION
 	--Hago un update del campo Cancelado de los turnos que esten dentro del margen de horarios que se puso.
 	UPDATE YOU_SHALL_NOT_CRASH.TURNO SET Cancelado = 1 WHERE ID_PROFESIONAL = @id_profesional AND (FECHA between @DiaHora_inicio and @DiaHora_Fin)
-
+	
+	declare @idAgenda int = (select Id_Agenda from YOU_SHALL_NOT_CRASH.AGENDA 
+							where Id_Profesional = @id_profesional and @DiaHora_inicio BETWEEN Fecha_Inicio-1 and Fecha_Fin+1)
+	
+	UPDATE YOU_SHALL_NOT_CRASH.ITEM_AGENDA
+	SET ID_TURNO = NULL
+	WHERE ID_Agenda = @idAgenda and Fecha BETWEEN @DiaHora_inicio and @DiaHora_Fin
+	
 	--Hago un insert en la tabla de Cancelacion_Dia
 	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_DIA (ID_PROFESIONAL,DiaHora_inicio,DiaHora_Fin) VALUES (@id_profesional,@DiaHora_inicio,@DiaHora_Fin)
 	if ( @@ERROR != 0)
