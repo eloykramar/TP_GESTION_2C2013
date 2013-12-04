@@ -996,7 +996,7 @@ END
 GO
 
 -----------POR  AHORA DEJO COMO USUARIO NOM.AP.FECHA-NAC
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.insertar_profesional(@nombre varchar(255),@apellido varchar(255),@dni int,@direccion varchar(255),@matricula int,@fecha_nac nvarchar(255),@sexo varchar(9),@mail varchar(255), @telefono int)
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.insertar_profesional(@nombre varchar(255),@apellido varchar(255),@dni int,@direccion varchar(255),@matricula int,@fecha_nac dateTime,@sexo varchar(9),@mail varchar(255), @telefono int)
 AS
 BEGIN
 

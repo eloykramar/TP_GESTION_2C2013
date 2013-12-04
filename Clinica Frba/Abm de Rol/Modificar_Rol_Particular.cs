@@ -194,7 +194,7 @@ namespace Clinica_Frba.Abm_de_Rol
 
                     if (cantidadDeFilas != 0)
                     {
-                        (new Dialogo("El rol " + nombreRol + " ya posee la funcionalidad " + nombreFunc, "Aceptar")).ShowDialog();
+                        (new Dialogo("El rol " + nombreRol + " ya posee la funcionalidad " + nombreFuncParaAgregar, "Aceptar")).ShowDialog();
                     }
                     else
                     {

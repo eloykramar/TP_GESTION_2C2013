@@ -248,7 +248,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                         {
                             using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.insertar_profesional", conexion))
                             {
-                                conexion.Open();
+                                conexion.Open();                                
 
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = maskedTextBox4.Text;
@@ -270,8 +270,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                              }
 
                             using (SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.insertar_prof_espec", conexion))
-                            {
-                                conexion.Open();
+                            {                                
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 foreach (var UnItem in listBox1.Items)
                                 {
@@ -285,7 +284,7 @@ namespace Clinica_Frba.Abm_de_Profesional
 
                                     //int respuesta = Convert.ToInt32(cmd.Parameters["@resultado"].Value);
                                     //(new Dialogo("Todo okkkk " + UnItem+ respuesta, "Aceptar")).ShowDialog();
-                                    
+                                    ///MATriCULA SOLO NUMEROS!!
                                 }
                              }
                            }
@@ -304,6 +303,23 @@ namespace Clinica_Frba.Abm_de_Profesional
                 (new Dialogo("Complete los campos obligatorios", "Aceptar")).ShowDialog();
             }
 
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.Equals(textBox9.Text, ""))
+            {
+                string Str = textBox9.Text.Trim();
+                long Num;
+
+                bool isNum = long.TryParse(Str, out Num);
+
+                if (!isNum)
+                {
+                    MessageBox.Show("Solo se aceptan numeros enteros", "Error");
+                    textBox9.Text = "";
+                }
+            }
         }
 
 
