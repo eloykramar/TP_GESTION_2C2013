@@ -1083,18 +1083,29 @@ END
 
 GO 
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_turno_afiliado(@id_turno numeric(18,0), @fecha dateTime, @motivo nvarchar(255))
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_turno_afiliado(@id_turno numeric(18,0), @fecha dateTime, @motivo nvarchar(255), @retorno int output)
 AS
 BEGIN 
-	UPDATE YOU_SHALL_NOT_CRASH.TURNO
-	SET Cancelado = 1
-	WHERE ID_TURNO = @id_turno
+	declare @diaTurno date = (select FECHA from YOU_SHALL_NOT_CRASH.TURNO where ID_TURNO = @id_turno)	
+	SET @retorno = 0
+	declare @diaActual date = @fecha
 	
-	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO values ('CANCELA_PACIENTE', @motivo, @fecha, @id_turno)
-	
-	UPDATE YOU_SHALL_NOT_CRASH.ITEM_AGENDA
-	SET ID_TURNO = NULL
-	WHERE ID_TURNO = @id_turno
+	IF (@diaTurno = @diaActual)
+	BEGIN	
+		SET @retorno = 1	--no se cancela por no tener un dia de anticipacion
+	END
+	ELSE
+	BEGIN	
+		UPDATE YOU_SHALL_NOT_CRASH.TURNO
+		SET Cancelado = 1
+		WHERE ID_TURNO = @id_turno
+		
+		INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO values ('CANCELA_PACIENTE', @motivo, @fecha, @id_turno)
+		
+		UPDATE YOU_SHALL_NOT_CRASH.ITEM_AGENDA
+		SET ID_TURNO = NULL
+		WHERE ID_TURNO = @id_turno
+	END
 END
 GO
 
@@ -1108,9 +1119,15 @@ BEGIN TRANSACTION
 	declare @idAgenda int = (select Id_Agenda from YOU_SHALL_NOT_CRASH.AGENDA 
 							where Id_Profesional = @id_profesional and @DiaHora_inicio BETWEEN Fecha_Inicio-1 and Fecha_Fin+1)
 	
+	
+	--pongo null en los time slot agenda
+	declare @horaInicio time = @DiaHora_inicio
+	declare @horaFin time = @DiaHora_fin
+	declare @fechaSinHora date = @DiaHora_inicio
+	
 	UPDATE YOU_SHALL_NOT_CRASH.ITEM_AGENDA
 	SET ID_TURNO = NULL
-	WHERE ID_Agenda = @idAgenda and Fecha BETWEEN @DiaHora_inicio and @DiaHora_Fin
+	WHERE ID_Agenda = @idAgenda and Fecha = @fechaSinHora and Hora_Inicio BETWEEN @horaInicio AND @horaFin
 	
 	--Hago un insert en la tabla de Cancelacion_Dia
 	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_DIA (ID_PROFESIONAL,DiaHora_inicio,DiaHora_Fin) VALUES (@id_profesional,@DiaHora_inicio,@DiaHora_Fin)
