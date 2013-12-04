@@ -22,7 +22,8 @@ namespace Clinica_Frba.Cancelar_Atencion
         {
             //abro ventana para dar baja
             idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
-            (new Turnos(idP)).ShowDialog();
+            String nombreCompletoP = dataGridView1.CurrentRow.Cells["Nombre"].Value.ToString();
+            (new Turnos(idP, nombreCompletoP)).ShowDialog();
         }
     }
 }

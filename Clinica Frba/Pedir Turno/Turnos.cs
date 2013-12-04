@@ -16,9 +16,10 @@ namespace Clinica_Frba.Pedir_Turno
         int idProfesional;
         String nombreCompletoP;
 
-        public Turnos(int idP)
+        public Turnos(int idP, String unNombreCompletoP)
         {
-            InitializeComponent();            
+            InitializeComponent();
+            nombreCompletoP = unNombreCompletoP;
             idProfesional = idP;
             label1.Left = 70;
             comboBox2.Left = 220;
@@ -119,6 +120,7 @@ namespace Clinica_Frba.Pedir_Turno
 
                     new Dialogo("Turno otorgado;Fecha: " + fecha_completa + ";Profesional: " + nombreCompletoP + ";Afiliado: " + nombreCompletoA, "Aceptar").ShowDialog();
                 }
+                buscarHorarios();
             }
             catch (Exception ex)
             {
@@ -135,11 +137,46 @@ namespace Clinica_Frba.Pedir_Turno
         //buscar horarios
         private void button2_Click_1(object sender, EventArgs e)
         {
+            buscarHorarios();
+        }
+
+        //cancelar dia
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
+                using (SqlConnection conexion = this.obtenerConexion())
+                {
+                    conexion.Open();   
+
+                    SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Cancelar_dia_rango", conexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@id_profesional", SqlDbType.Int).Value = idProfesional;
+                    cmd.Parameters.Add("@DiaHora_inicio", SqlDbType.DateTime).Value = dia_reservacion;
+                    cmd.Parameters.Add("@DiaHora_Fin", SqlDbType.DateTime).Value = dia_reservacion.AddDays(1);
+                    cmd.ExecuteNonQuery();
+
+                    cmd.Dispose();
+                    new Dialogo("Se ha cancelado el dia: " + dia_reservacion + ";Para el profesional: " + nombreCompletoP, "Aceptar").ShowDialog();
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+            }
+
+        }
+
+        private void buscarHorarios()
+        {
             DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
 
             using (SqlConnection conexion = this.obtenerConexion())
             {
-                conexion.Open();                
+                conexion.Open();
                 SqlCommand cmd = new SqlCommand("select distinct(ia.hora_inicio) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.ID_TURNO is NULL and ia.fecha = '" + dia_reservacion + "' order by 1", conexion);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -151,49 +188,7 @@ namespace Clinica_Frba.Pedir_Turno
                 comboBox1.DataSource = tablaDeNombres;
             }
         }
-
-        //cancelar dia
-        private void button3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
-                using (SqlConnection conexion = this.obtenerConexion())
-                {
-                    conexion.Open();
-                    SqlCommand cmd = new SqlCommand(string.Format(
-                            "SELECT ID_CANCELACION_DIA FROM YOU_SHALL_NOT_CRASH.CANCELACION_DIA WHERE ID_PROFESIONAL = {0} AND DiaHora_inicio = '{1}' AND DiaHora_Fin = '{2}'", idProfesional, dia_reservacion, dia_reservacion.AddDays(1)), conexion);
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (!reader.Read())
-                    {
-                        cmd.Dispose();
-                        reader.Close();
-
-                        cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Cancelar_dia_rango", conexion);
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@id_profesional", SqlDbType.Int).Value = idProfesional;
-                        cmd.Parameters.Add("@DiaHora_inicio", SqlDbType.DateTime).Value = dia_reservacion;
-                        cmd.Parameters.Add("@DiaHora_Fin", SqlDbType.DateTime).Value = dia_reservacion.AddDays(1);
-                        cmd.ExecuteNonQuery();
-
-                        cmd.Dispose();
-                        new Dialogo("Se ha cancelado el dia: " + dia_reservacion + ");Para el profesional: " + nombreCompletoP, "Aceptar").ShowDialog();
-                    }
-                    else
-                    {
-                        reader.Close();
-                        MessageBox.Show("Este rango ya ha sido cancelado previamente");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Write(ex.Message);
-                (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
-            }
-
-        }
+        
 
         private void validar()
         {

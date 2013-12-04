@@ -43,6 +43,9 @@ namespace Clinica_Frba.Cancelar_Atencion
                     cmd.Dispose();
                     reader.Close();
 
+                    if (String.Equals(textBox1.Text,""))
+                        throw new Exception("Debe especificar un motivo de la cancelacion");
+
                     if (cancelado == 0)
                     {
                         cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Cancelar_turno_afiliado", conexion);
