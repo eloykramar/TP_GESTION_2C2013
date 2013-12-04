@@ -13,7 +13,7 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
 {
     public partial class Seleccion_Turno_Result : Seleccion_Turno
     {
-        public Seleccion_Turno_Result(int idP, int idA)
+        public Seleccion_Turno_Result(long idP, int idA)
             : base(idP, idA)
         {
             InitializeComponent();
@@ -21,8 +21,15 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
 
         public override void mainTurnos()
         {
-            //Cancelo turno.
-            MessageBox.Show("registro resultado");
+            //cargo resultado de consulta.
+            if (dataGridView1.SelectedRows.Count != 0)
+            {
+                int idTurno = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_TURNO"].Value);
+                new Registro_Consulta(idTurno).ShowDialog();
+                Close();
+
+            }
+            else MessageBox.Show("No hay filas seleccionadas");
         }
 
     }

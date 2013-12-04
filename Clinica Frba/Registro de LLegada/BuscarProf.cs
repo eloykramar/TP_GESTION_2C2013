@@ -31,16 +31,12 @@ namespace Clinica_Frba.Registro_de_LLegada
             if (idA != 0)
             {
                 (new Seleccion_Turno(idP, idA)).ShowDialog();
+                Close();
             }
             else
             {
                 MessageBox.Show("El nro de afiliado incorrecto", "Error");
             }
-
-        }
-
-        private void btnTurnos_Click(object sender, EventArgs e)
-        {
 
         }
 

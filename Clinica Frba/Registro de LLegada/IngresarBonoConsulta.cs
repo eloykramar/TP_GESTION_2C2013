@@ -27,7 +27,6 @@ namespace Clinica_Frba.Registro_de_LLegada
         private void buttAceptar_Click(object sender, EventArgs e)
         {
             int id_bono_ingresado = Convert.ToInt32(textBono.Text);
-            int id_ultima_consulta_bono;
             int numero_de_consulta_a_ingresar = 0;
 
             using (SqlConnection conexion = this.obtenerConexion())
@@ -35,54 +34,27 @@ namespace Clinica_Frba.Registro_de_LLegada
                 conexion.Open();
 
                 //verifico si el bono corresponde a ese afiliado
-                SqlCommand cmd = new SqlCommand(string.Format(
-                    "SELECT ID_AFILIADO FROM YOU_SHALL_NOT_CRASH.BONO_CONSULTA WHERE ID_Bono_Consulta = {0}", id_bono_ingresado), conexion);
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlCommand cmd = new SqlCommand(string.Format("SELECT ID_AFILIADO FROM YOU_SHALL_NOT_CRASH.BONO_CONSULTA WHERE ID_Bono_Consulta = {0}", id_bono_ingresado), conexion);
+                int idAfiBono = ExecuteScalarOrZero(cmd);
+                int nroAfiBono = getNroxIdAfiliado(idAfiBono.ToString());
+                cmd.Dispose();
 
-                if (reader.Read())
+                if (idAfiBono>0)
                 {
-
-                    if (Convert.ToInt32(reader.GetSqlInt32(0).Value) == idAfiliado)  //Si el idAfiliado del bono es = al id del afiliado ingresado, ese bono pertenece al afiliado, entonces sigo
+                    if (getRaizAfi(nroAfiBono.ToString()) == getRaizAfi(idAfiliado.ToString()))  //Si el bono corresponde al grupo familiar, entonces sigo
                     {
-
-                        cmd.Dispose();
-                        reader.Close();
-
                         cmd = new SqlCommand(string.Format(
                             "SELECT Numero_Consulta_Afiliado FROM YOU_SHALL_NOT_CRASH.BONO_CONSULTA WHERE ID_Bono_Consulta ={0}", id_bono_ingresado), conexion);
-                        reader = cmd.ExecuteReader();
-
-                        if (reader.Read())
-                        {
-                            if (reader.IsDBNull(0))   //Si es null quiere decir que nunca se uso en una consulta
+                        int nroConsultaBono = ExecuteScalarOrZero(cmd);
+                        cmd.Dispose();
+                        if (nroConsultaBono==0)   //Si es 0 quiere decir que nunca se uso en una consulta
                             {
-                                cmd.Dispose();
-                                reader.Close();
-
                                 //Obtengo el ultimo numero de consulta del afiliado segun los bonos usados 
-
                                 cmd = new SqlCommand(string.Format(
                                     "select MAX(b.Numero_Consulta_Afiliado) from YOU_SHALL_NOT_CRASH.AFILIADO a join YOU_SHALL_NOT_CRASH.BONO_CONSULTA b on a.ID_Afiliado = b.ID_Afiliado WHERE a.ID_Afiliado={0} group by a.ID_Afiliado", idAfiliado), conexion);
-                                reader = cmd.ExecuteReader();
-
-                                if (reader.Read())
-                                {
-                                    if (reader.IsDBNull(0))//Si el maximo numero de consulta es null,es porque nunca se atendio
-                                    {
-                                        id_ultima_consulta_bono = 0;
-                                    }
-                                    else 
-                                    {
-                                        id_ultima_consulta_bono = Convert.ToInt32(reader.GetSqlInt32(0).Value);
-                                    }        
-                                    
-                                    numero_de_consulta_a_ingresar = id_ultima_consulta_bono + 1;
-                                }
-
+                                numero_de_consulta_a_ingresar = ExecuteScalarOrZero(cmd) + 1;
                                 cmd.Dispose();
-                                reader.Close();
-
-
+                                
                                 //Registro la llegada en turno + registro el numero de consulta asociada al bono_consulta
                                 cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Ingresar_bono_y_llegada", conexion);
                                 cmd.CommandType = CommandType.StoredProcedure;
@@ -94,15 +66,14 @@ namespace Clinica_Frba.Registro_de_LLegada
                                 cmd.ExecuteNonQuery();
 
                                 MessageBox.Show("Registro ingresado correctamente");
+                                Close();
                             }
                             else MessageBox.Show("El bono ya ha sido utilizado");
-                        }
                     }
                     else MessageBox.Show("El numero de bono no corresponde al numero de afiliado ingresado");
-                }//Fin primer reader
+            }
+
                 else MessageBox.Show("Numero de bono incorrecto");
-                cmd.Dispose();
-                reader.Close();
                 conexion.Close();
             }//Fin using
 

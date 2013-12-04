@@ -69,6 +69,7 @@ namespace Clinica_Frba.Registro_de_LLegada
                         {
                             
                             new IngresarBonoConsulta(idAfiliado, fecha_llegada, id_turno).ShowDialog();
+                            Close();
 
                         }
                         else

@@ -20,7 +20,7 @@ namespace Clinica_Frba.Registro_de_LLegada
 
         }
 
-        public Seleccion_Turno(int idP, int idA)
+        public Seleccion_Turno(long idP, int idA)
         {
             InitializeComponent();
             using (SqlConnection conexion = this.obtenerConexion())
@@ -28,11 +28,11 @@ namespace Clinica_Frba.Registro_de_LLegada
                 try
                 {
                     conexion.Open();
-                    string dia="12/11/2013";//FALTA LEERLO DEL ARCHIVO DE CONFIG.
+                    string dia = Convert.ToString(fechaActual);
                     //lleno el datagrid
                     string busquedaDeAfiliado = "";
                     if (idA > 0) busquedaDeAfiliado = " AND ID_AFILIADO=" + idA;
-                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA, CANCELADO FROM YOU_SHALL_NOT_CRASH.TURNO where ID_PROFESIONAL=" + idP + busquedaDeAfiliado + " AND FECHA>='" + dia + "'" + " AND CANCELADO = 0", conexion);
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA FROM YOU_SHALL_NOT_CRASH.TURNO where ID_PROFESIONAL=" + idP + busquedaDeAfiliado + " AND FECHA>='" + dia + "'" + " AND CANCELADO = 0", conexion);
 
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                     DataTable table = new DataTable();
@@ -65,15 +65,10 @@ namespace Clinica_Frba.Registro_de_LLegada
             //Registro llegada turno.
             if (dataGridView1.SelectedRows.Count != 0)
             {
-                if (Convert.ToByte((dataGridView1.CurrentRow.Cells["CANCELADO"].Value)) == 0)   //Si el turno no esta cancelado trato de registrarlo
-                {
-                    idTurno = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_TURNO"].Value);
-                    new RegistrarHora(idTurno).ShowDialog();
-                }
-                else //Si esta cancelado muestro el mensaje
-                {
-                    MessageBox.Show("El turno que ingresó esta cancelado");
-                }
+                idTurno = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_TURNO"].Value);
+                new RegistrarHora(idTurno).ShowDialog();
+                Close();
+                
             }
             else MessageBox.Show("No hay filas seleccionadas");
         }

@@ -389,8 +389,13 @@ namespace Clinica_Frba.Generar_Receta
                 }
                 else { MessageBox.Show("No se ha ingresado un bono de farmacia"); }
             }//FIN USING
-            
+
         }//FIN BOTON ACEPTAR
+
+        private void buttSalir_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
 
     }
 }

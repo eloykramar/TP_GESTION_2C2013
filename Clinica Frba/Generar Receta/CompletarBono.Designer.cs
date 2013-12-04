@@ -158,6 +158,7 @@
             this.buttSalir.TabIndex = 10;
             this.buttSalir.Text = "Salir";
             this.buttSalir.UseVisualStyleBackColor = true;
+            this.buttSalir.Click += new System.EventHandler(this.buttSalir_Click);
             // 
             // buttQuitar
             // 
