@@ -12,6 +12,7 @@ namespace Clinica_Frba.Cancelar_Atencion
 {
     public partial class Buscar_Prof_Canc_Prof : Pedir_Turnos
     {
+        int idP;
         public Buscar_Prof_Canc_Prof(int x)
             : base(x)
         {
@@ -20,10 +21,8 @@ namespace Clinica_Frba.Cancelar_Atencion
         public override void turnos()
         {
             //abro ventana para dar baja
-            int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
-            new DiaCancelado(idP).ShowDialog();
+            idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
+            (new Turnos(idP)).ShowDialog();
         }
-
-
     }
 }

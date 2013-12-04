@@ -943,7 +943,7 @@ BEGIN
 	values (@numeroTurno,@profesional,@afiliado,@fechaCompleta,0)
 	
 	declare @idAgenda int = (select Id_Agenda from YOU_SHALL_NOT_CRASH.AGENDA 
-							where Id_Profesional = @profesional and @fechaCompleta BETWEEN Fecha_Inicio and Fecha_Fin)
+							where Id_Profesional = @profesional and @fechaCompleta BETWEEN Fecha_Inicio-1 and Fecha_Fin+1)
 	declare @idTurno numeric = (select id_turno from YOU_SHALL_NOT_CRASH.TURNO
 								where NUMERO = @numeroTurno)
 	
@@ -1271,7 +1271,7 @@ CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_Item_Agenda(@idAgenda int, @fechaI
 AS
 BEGIN
 declare @fechaAAgregar date
-if (datepart(dw,@fechaInicio) < @numeroDia)
+if (datepart(dw,@fechaInicio) <= @numeroDia)
 begin
 	set @fechaAAgregar = dateAdd(Day,ABS((datepart(dw,@fechaInicio)) - @numeroDia), @fechaInicio)
 end

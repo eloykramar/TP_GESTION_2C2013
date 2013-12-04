@@ -121,11 +121,12 @@ namespace Clinica_Frba.Pedir_Turno
             int c = dataGridView1.SelectedRows.Count;
             if (c < 1) return;
             int idP = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID_Profesional"].Value.ToString());
+            String nombreCompletoP = dataGridView1.CurrentRow.Cells["Nombre"].Value.ToString();
             string afi = textBox2.Text;
             int idA = getIdAfiliadoxNro(afi);
             if (idA != 0)
             {
-                (new Turnos(idP, idA)).ShowDialog();
+                (new Turnos(idP, idA, nombreCompletoP)).ShowDialog();
             }else
             {
                 MessageBox.Show("El nro de afiliado incorrecto", "Error");
