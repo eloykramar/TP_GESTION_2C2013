@@ -15,19 +15,24 @@ namespace Clinica_Frba.Pedir_Turno
         int idAfiliado;
         int idProfesional;
         String nombreCompletoP;
-
+        
+        //PARA CANCELACION DE DIA PROFESIONAL
         public Turnos(int idP, String unNombreCompletoP)
         {
             InitializeComponent();
             nombreCompletoP = unNombreCompletoP;
             idProfesional = idP;
-            label1.Left = 70;
-            comboBox2.Left = 220;
-            label1.Text = "Fechas en la agenda:";
+            label1.Left = 40;
+            comboBox2.Left = 230;
+            label1.Text = "Fechas en la agenda con turnos:";
             label2.Visible = false;
             comboBox1.Visible = false;
             button2.Visible = false;
             button1.Visible = false;
+            label3.Visible = true;
+            label4.Visible = true;
+            dateTimePicker1.Visible = true;
+            dateTimePicker2.Visible = true;
             DateTime fechaActual = getFechaActual();
 
             try
@@ -36,7 +41,7 @@ namespace Clinica_Frba.Pedir_Turno
                 {
                     conexion.Open();
 
-                    SqlCommand cmd = new SqlCommand("select distinct(ia.fecha) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.fecha >= '" + fechaActual.AddDays(1) + "' order by 1", conexion);
+                    SqlCommand cmd = new SqlCommand("select distinct(ia.fecha) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.fecha >= '" + fechaActual.AddDays(1) + "' and ID_Turno is not NULL order by 1", conexion);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable tablaDeNombres = new DataTable();
@@ -54,6 +59,7 @@ namespace Clinica_Frba.Pedir_Turno
             }
         }
 
+        //PARA OTORGAR TURNOS
         public Turnos(int idP, int idA, String unNombreCompletoP)
         {
             InitializeComponent();
@@ -145,7 +151,15 @@ namespace Clinica_Frba.Pedir_Turno
         {
             try
             {
-                DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
+                //DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
+                int horaInicio = dateTimePicker1.Value.Hour;
+                int minutosInicio = dateTimePicker1.Value.Minute;
+                int horaFin = dateTimePicker2.Value.Hour;
+                int minutosFin = dateTimePicker2.Value.Minute;
+
+                DateTime diaHora_inicio = Convert.ToDateTime(comboBox2.Text).AddHours(horaInicio).AddMinutes(minutosInicio);
+                DateTime diaHora_Fin = Convert.ToDateTime(comboBox2.Text).AddHours(horaFin).AddMinutes(minutosFin);
+
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
                     conexion.Open();   
@@ -153,12 +167,12 @@ namespace Clinica_Frba.Pedir_Turno
                     SqlCommand cmd = new SqlCommand("YOU_SHALL_NOT_CRASH.Cancelar_dia_rango", conexion);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@id_profesional", SqlDbType.Int).Value = idProfesional;
-                    cmd.Parameters.Add("@DiaHora_inicio", SqlDbType.DateTime).Value = dia_reservacion;
-                    cmd.Parameters.Add("@DiaHora_Fin", SqlDbType.DateTime).Value = dia_reservacion.AddDays(1);
+                    cmd.Parameters.Add("@DiaHora_inicio", SqlDbType.DateTime).Value = diaHora_inicio.AddMinutes(-1);
+                    cmd.Parameters.Add("@DiaHora_Fin", SqlDbType.DateTime).Value = diaHora_Fin.AddMinutes(+1);
                     cmd.ExecuteNonQuery();
 
                     cmd.Dispose();
-                    new Dialogo("Se ha cancelado el dia: " + dia_reservacion + ";Para el profesional: " + nombreCompletoP, "Aceptar").ShowDialog();
+                    new Dialogo("Se ha cancelado el rango: " + diaHora_inicio + ", " + diaHora_Fin + ";Para el profesional: " + nombreCompletoP, "Aceptar").ShowDialog();
                     
                 }
             }

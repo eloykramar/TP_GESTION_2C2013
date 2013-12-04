@@ -53,7 +53,15 @@ namespace Clinica_Frba.Cancelar_Atencion
                         cmd.Parameters.Add("@id_turno", SqlDbType.Int).Value = id_turno;
                         cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = fechaActual;
                         cmd.Parameters.Add("@motivo", SqlDbType.NVarChar).Value = textBox1.Text;
+                        cmd.Parameters.Add("@retorno", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                         cmd.ExecuteNonQuery();
+
+                        int retorno = Convert.ToInt32((cmd.Parameters["@retorno"].Value));
+                        if (retorno == 1)
+                            throw new Exception("No se puede cancelar un turno el mismo dia del mismo;Se necesita un dia de anticipacion");
+                       
+                        
                         MessageBox.Show("Su turno ha sido cancelado satisfactoriamente");
                     }
                     else
