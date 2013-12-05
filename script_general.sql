@@ -586,7 +586,7 @@ UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Cantidad_Consultas=(SELECT COUNT(DISTINC
 															
 
 --Tabla para registrar dias cancelados por un profesional
-
+/*
 CREATE TABLE YOU_SHALL_NOT_CRASH.CANCELACION_DIA (
 ID_CANCELACION_DIA int identity(1,1),
 ID_PROFESIONAL numeric(18,0),
@@ -595,7 +595,7 @@ DiaHora_Fin DATETIME,
 
 PRIMARY KEY (ID_CANCELACION_DIA),
 FOREIGN KEY (ID_PROFESIONAL) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_PROFESIONAL));
-
+*/
 --COMPRA DE BONOS
 GO
 create view YOU_SHALL_NOT_CRASH.compras_temp as (
@@ -1021,7 +1021,7 @@ END
 GO
 
 
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_dia_rango(@id_profesional int,@DiaHora_inicio dateTime,@DiaHora_Fin dateTime)
+CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_dia_rango(@id_profesional int,@DiaHora_inicio dateTime,@DiaHora_Fin dateTime, @fechaActual dateTime, @motivo nvarchar(255))
 AS
 BEGIN TRANSACTION
 	--Hago un update del campo Cancelado de los turnos que esten dentro del margen de horarios que se puso.
@@ -1041,7 +1041,25 @@ BEGIN TRANSACTION
 	WHERE ID_Agenda = @idAgenda and Fecha = @fechaSinHora and Hora_Inicio BETWEEN @horaInicio AND @horaFin
 	
 	--Hago un insert en la tabla de Cancelacion_Dia
-	INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_DIA (ID_PROFESIONAL,DiaHora_inicio,DiaHora_Fin) VALUES (@id_profesional,@DiaHora_inicio,@DiaHora_Fin)
+	--INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_DIA (ID_PROFESIONAL,DiaHora_inicio,DiaHora_Fin) VALUES (@id_profesional,@DiaHora_inicio,@DiaHora_Fin)
+	
+	--cursor para insertar las cancelaciones muy feo usar cancelacion_dia
+	declare @idTurno numeric
+	declare turnosParaAnular cursor
+	for select id_turno from YOU_SHALL_NOT_CRASH.TURNO 
+		where ID_PROFESIONAL = @id_profesional and FECHA BETWEEN @DiaHora_inicio AND @DiaHora_Fin
+		
+	open turnosParaAnular
+	fetch turnosParaAnular into @idTurno 
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO VALUES ('CANCELA_PROFESIONAL', @motivo, @fechaActual, @idTurno)
+		fetch turnosParaAnular into @idTurno
+	END
+	CLOSE turnosParaAnular
+	DEALLOCATE turnosParaAnular
+	
+	
 	if ( @@ERROR != 0)
 	BEGIN 
 		rollback 

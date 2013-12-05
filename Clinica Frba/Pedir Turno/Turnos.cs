@@ -33,6 +33,8 @@ namespace Clinica_Frba.Pedir_Turno
             label4.Visible = true;
             dateTimePicker1.Visible = true;
             dateTimePicker2.Visible = true;
+            label5.Visible = true;
+            textBox1.Visible = true;
             DateTime fechaActual = getFechaActual();
 
             try
@@ -151,8 +153,7 @@ namespace Clinica_Frba.Pedir_Turno
         private void button3_Click(object sender, EventArgs e)
         {
             try
-            {
-                //DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
+            {                
                 if (dateTimePicker1.Value >= dateTimePicker2.Value)
                     throw new Exception("La hora desde debe ser menor a la hora hasta");
 
@@ -174,6 +175,8 @@ namespace Clinica_Frba.Pedir_Turno
                     cmd.Parameters.Add("@id_profesional", SqlDbType.Int).Value = idProfesional;
                     cmd.Parameters.Add("@DiaHora_inicio", SqlDbType.DateTime).Value = diaHora_inicio.AddMinutes(-1);
                     cmd.Parameters.Add("@DiaHora_Fin", SqlDbType.DateTime).Value = diaHora_Fin.AddMinutes(+1);
+                    cmd.Parameters.Add("@fechaActual", SqlDbType.DateTime).Value = getFechaActual();
+                    cmd.Parameters.Add("@motivo", SqlDbType.NVarChar).Value = textBox1.Text;
                     cmd.ExecuteNonQuery();
 
                     cmd.Dispose();
