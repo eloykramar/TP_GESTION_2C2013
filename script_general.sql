@@ -4,7 +4,6 @@ GO
 CREATE SCHEMA YOU_SHALL_NOT_CRASH 
 GO
 
-
 --CREACION TABLAS VACIAS
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.FUNCIONALIDAD (
@@ -12,19 +11,16 @@ ID_Funcionalidad int IDENTITY(1,1),
 Descripcion varchar(255), 
 PRIMARY KEY(ID_Funcionalidad) );
 
-
 CREATE TABLE YOU_SHALL_NOT_CRASH.ROL (
 ID_Rol int IDENTITY(1,1),
 Descripcion varchar(255),
 Activo bit DEFAULT (1),
 PRIMARY KEY(ID_Rol) );
 
-
 CREATE TABLE YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD (
 ID_Rol int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.ROL(ID_Rol), 
 ID_Funcionalidad int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.FUNCIONALIDAD(ID_Funcionalidad), 
 PRIMARY KEY (ID_Rol, ID_Funcionalidad) );
-
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.USUARIO (
 Username varchar(255),
@@ -33,12 +29,10 @@ DNI_Usuario numeric(18,0) UNIQUE, -- antes aca estaba ID_USUARIO, pero creo que 
 Intentos_Fallidos int, 
 PRIMARY KEY (Username) );
 
-
 CREATE TABLE YOU_SHALL_NOT_CRASH.ROL_USUARIO (
 ID_Rol int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.ROL(ID_Rol), 
 DNI_Usuario numeric(18,0) FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.USUARIO(DNI_Usuario), 
 PRIMARY KEY (ID_Rol, DNI_Usuario) );
-
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.AFILIADO (
 ID_Afiliado int IDENTITY(1,1),
@@ -58,14 +52,12 @@ ID_Plan int,
 Fecha_Baja DateTime,
 PRIMARY KEY (ID_Afiliado) );
 
-
 create table YOU_SHALL_NOT_CRASH.CONSULTA( 
 ID_CONSULTA NUMERIC IDENTITY,
 ID_TURNO NUMERIC,
 ID_PROFESIONAL NUMERIC
 
 PRIMARY KEY (ID_CONSULTA))
-
 
 create table YOU_SHALL_NOT_CRASH.SINTOMA_CONSULTA(
 ID_ITEM NUMERIC IDENTITY,
@@ -85,14 +77,12 @@ PRIMARY KEY (ID_ITEM),
 FOREIGN KEY (ID_CONSULTA) REFERENCES  you_shall_not_crash.CONSULTA(ID_CONSULTA)
 )
 
-
 create table YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD(
 CODIGO_TIPO_ESPECIALIDAD int,
 DESCRIPCION VARCHAR(255),
 
 PRIMARY KEY (CODIGO_TIPO_ESPECIALIDAD)
 )
-
 
 create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD(
 CODIGO_ESPECIALIDAD NUMERIC(18,0),
@@ -101,7 +91,6 @@ CODIGO_TIPO_ESPECIALIDAD int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.TIPO_ESP
 
 PRIMARY KEY (CODIGO_ESPECIALIDAD),
 )
-
 
 create table YOU_SHALL_NOT_CRASH.PROFESIONAL(
 ID_PROFESIONAL NUMERIC IDENTITY,
@@ -121,7 +110,6 @@ PRIMARY KEY (ID_PROFESIONAL),
 FOREIGN KEY (DNI) REFERENCES you_shall_not_crash.USUARIO(DNI_USUARIO)
 )
 
-
 create table YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(
 CODIGO_ESPECIALIDAD NUMERIC,
 ID_PROFESIONAL NUMERIC,
@@ -130,7 +118,6 @@ FOREIGN KEY (CODIGO_ESPECIALIDAD) REFERENCES  you_shall_not_crash.ESPECIALIDAD(C
 FOREIGN KEY (ID_PROFESIONAL) REFERENCES  you_shall_not_crash.PROFESIONAL(ID_PROFESIONAL)
 )
 
-
 create table YOU_SHALL_NOT_CRASH.RECETA(
 ID_RECETA NUMERIC IDENTITY,
 ID_CONSULTA NUMERIC,
@@ -138,7 +125,6 @@ ID_CONSULTA NUMERIC,
 PRIMARY KEY (ID_RECETA),
 FOREIGN KEY (ID_CONSULTA) REFERENCES you_shall_not_crash.CONSULTA(ID_CONSULTA)
 )
-
 
 create table YOU_SHALL_NOT_CRASH.SINTOMA(
 ID_SINTOMA NUMERIC IDENTITY(1,1),
@@ -196,7 +182,6 @@ Descripcion varchar(255),
 
 PRIMARY KEY(ID_Medicamento) );
 
-
 CREATE TABLE YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (
 ID_Item int identity (1,1),
 ID_Bono_Farmacia numeric(18,0),
@@ -206,7 +191,6 @@ Cantidad int,
 PRIMARY KEY(ID_Item),
 FOREIGN KEY (ID_Bono_Farmacia) REFERENCES YOU_SHALL_NOT_CRASH.BONO_FARMACIA(ID_Bono_Farmacia),
 FOREIGN KEY (ID_Medicamento) REFERENCES YOU_SHALL_NOT_CRASH.MEDICAMENTO(ID_Medicamento) )
-
 
 create table YOU_SHALL_NOT_CRASH.TURNO(
 ID_TURNO NUMERIC IDENTITY,
@@ -223,7 +207,6 @@ FOREIGN KEY (ID_PROFESIONAL) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL(ID_PROFE
 FOREIGN KEY (ID_AFILIADO) REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_AFILIADO),
 FOREIGN KEY (ID_Bono_Consulta) REFERENCES YOU_SHALL_NOT_CRASH.BONO_CONSULTA(ID_Bono_Consulta)
 )
-
 
 CREATE TABLE YOU_SHALL_NOT_CRASH.ESTADO_CIVIL (
 ID_Estado_Civil int identity(1,1),
@@ -242,15 +225,6 @@ ID_Turno numeric
 PRIMARY KEY (ID_Cancelacion),
 FOREIGN KEY (ID_Turno) REFERENCES YOU_SHALL_NOT_CRASH.TURNO (ID_TURNO))
 
-/*
-CREATE TABLE YOU_SHALL_NOT_CRASH.AGENDA (
-Id_Agenda int identity(1,1),	
-Id_Profesional numeric,
-Dia int,
-Hora_Inicio int,
-Hora_Fin int,
-
-*/
 CREATE TABLE YOU_SHALL_NOT_CRASH.COMPRA_BONO (
 Id_compra int identity(1,1),
 Id_Afiliado int FOREIGN KEY REFERENCES YOU_SHALL_NOT_CRASH.AFILIADO(ID_Afiliado),
@@ -290,13 +264,6 @@ ALTER TABLE YOU_SHALL_NOT_CRASH.ENFERMEDAD_CONSULTA
 ADD FOREIGN KEY (ID_ENFERMEDAD) REFERENCES you_shall_not_crash.ENFERMEDAD(ID_ENFERMEDAD);
 
 
-/*BORRAR DSP
-ALTER TABLE YOU_SHALL_NOT_CRASH.BONO_CONSULTA
-ADD FOREIGN KEY (ID_COMPRA) REFERENCES YOU_SHALL_NOT_CRASH.COMPRA_BONO(Id_compra)
-
-ALTER TABLE YOU_SHALL_NOT_CRASH.BONO_FARMACIA
-ADD FOREIGN KEY (ID_COMPRA) REFERENCES YOU_SHALL_NOT_CRASH.COMPRA_BONO(Id_compra)
-*/
 ---------------------------------------------------------------------------------------------------------------
 
 --COMPLETADO TABLAS
@@ -415,7 +382,6 @@ INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre,DNI, ID_Plan, Nro_Afiliado, Sex
 --Al numero de afiliado para la migracion le asignamos el mismo valor del ID, ya que consideramos que ninguno tiene familiares asignados
 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado = ((ID_Afiliado*100) +1);
 
-
 --BONO CONSULTA---------------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado, ID_Plan)
 SELECT DISTINCT (Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
@@ -429,8 +395,7 @@ INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID
 SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (Bono_Farmacia_Fecha_Impresion + 60)	
 FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
-	  Bono_Farmacia_Numero IS NOT NULL;  
-
+	  Bono_Farmacia_Numero IS NOT NULL;
 
 --ITEM BONO FARMACIA---------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (ID_Bono_Farmacia, ID_Medicamento, Cantidad)
@@ -446,14 +411,12 @@ select distinct Medico_Nombre,Medico_Apellido,Medico_Dni,Medico_Direccion,Medico
 from gd_esquema.Maestra
 where Medico_Dni is not null
 
-
 --TIPO_ESPECIALIDAD-------------------------
 insert into YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD
 select distinct Tipo_Especialidad_Codigo,Tipo_Especialidad_Descripcion
 from gd_esquema.Maestra
 where Tipo_Especialidad_Codigo is not null
 order by Tipo_Especialidad_Codigo
-
 
 --ESPECIALIDAD-------------------------
 insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD(CODIGO_ESPECIALIDAD,DESCRIPCION,CODIGO_TIPO_ESPECIALIDAD)
@@ -510,13 +473,11 @@ from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni
 where Turno_Numero is not null
 group by Turno_Numero);
 
-
 --CONSULTA---------------------------
 insert into YOU_SHALL_NOT_CRASH.CONSULTA
 select distinct t.id_turno, t.ID_PROFESIONAL
 from gd_esquema.Maestra m join you_shall_not_crash.TURNO t on m.Turno_Numero=t.NUMERO
 where FECHA_LLEGADA is not null;
-
 
 --SINTOMA_CONSULTA-----------------------------------------
 insert into YOU_SHALL_NOT_CRASH.SINTOMA_CONSULTA
@@ -537,7 +498,6 @@ insert into YOU_SHALL_NOT_CRASH.RECETA
 select c.ID_CONSULTA
 from you_shall_not_crash.CONSULTA c
 
-
 --MEDICAMENTO-----------------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.MEDICAMENTO (Descripcion)
 SELECT DISTINCT Bono_Farmacia_Medicamento 
@@ -545,8 +505,7 @@ FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Medicamento IS NOT NULL
 ;
 
---TURNO
-
+--TURNO------------------------------------------------------------
 
 INSERT INTO YOU_SHALL_NOT_CRASH.CANCELACION_TURNO
 SELECT 
@@ -567,13 +526,11 @@ WHERE (FECHA_LLEGADA IS NULL AND FECHA<GETDATE()) OR (datepart(dw,FECHA)=7 AND F
 ---------------------------------------------------------------------------------------
 
 
-
 -- Se consideran "cancelados" los turnos anteriores a la fecha actual a los que no se haya presentado el paciente.
 -- Se considera que al no tener detallado los motivos el tipo de cancelacion se asume "por el paciente" y "sin motivo" en
 -- el detalle.
 -- Por nueva restriccion de dominio se cancelan todos los turnos agendados para días Domingos con tipo de cancelacion
 -- "por el profesional" con motivo "cambio de agenda del profesional".
-
  
 --Ahora actualizo el booleano de los turnos que fueron cancelados
 UPDATE YOU_SHALL_NOT_CRASH.TURNO SET Cancelado=1 WHERE ID_TURNO IN (SELECT ID_TURNO FROM YOU_SHALL_NOT_CRASH.CANCELACION_TURNO)
@@ -581,25 +538,11 @@ UPDATE YOU_SHALL_NOT_CRASH.TURNO SET Cancelado=1 WHERE ID_TURNO IN (SELECT ID_TU
 
 --AGENDA-----
 
---ESTRATEGIA:
---DADO QUE EN LA TABLA MAESTRA TODOS LOS HORARIOS DE ATENTION DE TODOS LOS MEDICOS SON DE 8 A 18HS Y DE DOMINGOS A JUEVES.
---TENIENDO QUE RESTRINGIR LA ATENCION SOLO DE LUNES A SABADOS, CANCELAMOS TODOS LOS TURNOS FUTUROS DE LOS DOMINGOS.
---Y DEJAMOS COMO AGENDA, LOS HORARIOS QUE MANTENÍAN LOS PROFESIONALES HASTA EL MOMENTO EXCEPTUANDO ESTE ULTIMO DIA.
---POR ENDE, PARA TODOS LOS MEDICOS EL HORARIO DE ATENCION SERÁ DE LUNES A JUEVES DE 8 A 18HS PUDIENDO SER AJUSTADO DESDE EL ABM CORRESPONDIENTE. 
-/*
-INSERT INTO YOU_SHALL_NOT_CRASH.AGENDA
-SELECT p.Id_Profesional, datepart(dw,TURNO_FECHA), 1800, 800 --mAX(dateNAME(dw,TURNO_FECHA)),MAX(TURNO_FECHA), Max(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', ''))), Min(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', '')))
-FROM  gd_esquema.Maestra join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Maestra.Medico_Dni=p.DNI
-WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7 
-GROUP BY p.Id_Profesional, datepart(dw,TURNO_FECHA)
-*/
-
 CREATE TABLE YOU_SHALL_NOT_CRASH.AGENDA (
 Id_Agenda int identity(1,1),	
 Id_Profesional numeric,
 Fecha_Inicio datetime,
 Fecha_Fin datetime,
-
 
 PRIMARY KEY (Id_Agenda),
 FOREIGN KEY (Id_Profesional) REFERENCES YOU_SHALL_NOT_CRASH.PROFESIONAL (ID_Profesional));
@@ -616,24 +559,13 @@ PRIMARY KEY (Id_Item),
 FOREIGN KEY (ID_Agenda) REFERENCES YOU_SHALL_NOT_CRASH.AGENDA (Id_Agenda),
 FOREIGN KEY (ID_Turno) REFERENCES YOU_SHALL_NOT_CRASH.Turno (Id_Turno));
 
-
-
 INSERT INTO YOU_SHALL_NOT_CRASH.AGENDA
 SELECT p.Id_Profesional, MIN(Convert(char(10),turno_fecha, 103)), MAX(Convert(char(10),turno_fecha, 103))
 FROM  gd_esquema.Maestra join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Maestra.Medico_Dni=p.DNI
 WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL
 GROUP BY p.Id_Profesional
 order by 1
-/*
-INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA 
-SELECT a.ID_Agenda, datepart(dw,TURNO_FECHA), 800, 1800 --mAX(dateNAME(dw,TURNO_FECHA)),MAX(TURNO_FECHA), Max(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', ''))), Min(CONVERT(INT,REPLACE(CONVERT(VARCHAR(5),TURNO_FECHA,108), ':', '')))
-FROM  gd_esquema.Maestra 
-	join YOU_SHALL_NOT_CRASH.PROFESIONAL p on gd_esquema.Maestra.Medico_Dni=p.DNI 
-	join YOU_SHALL_NOT_CRASH.AGENDA a on p.ID_PROFESIONAL = a.Id_Profesional
-WHERE TURNO_FECHA IS NOT NULL AND Medico_Dni IS NOT NULL AND datepart(dw,TURNO_FECHA)!=7 
-GROUP BY p.Id_Profesional, datepart(dw,TURNO_FECHA), a.Id_Agenda
-order by 1,2
-*/
+
 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_AGENDA 
 SELECT (a.ID_Agenda), cast (CONVERT(datetime, DATEDIFF(d, 0, Turno_Fecha), 102) as date), 
 cast((turno_fecha) as time), 
@@ -647,12 +579,11 @@ GROUP BY p.Id_Profesional, a.Id_Agenda, Turno_Fecha,t.ID_TURNO
 order by 1,2,3
 
 
-
 --CARGA INICIAL DE CANTIDAD DE CONSULTAS
-UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Cantidad_Consultas=(SELECT COUNT(DISTINCT T.ID_Bono_Consulta) FROM YOU_SHALL_NOT_CRASH.TURNO T WHERE T.ID_AFILIADO=AFILIADO.ID_AFILIADO)
-
-
-
+UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Cantidad_Consultas=(SELECT COUNT(DISTINCT T.ID_Bono_Consulta) 
+															FROM YOU_SHALL_NOT_CRASH.TURNO T
+															WHERE T.ID_AFILIADO=AFILIADO.ID_AFILIADO)
+															
 
 --Tabla para registrar dias cancelados por un profesional
 
@@ -690,15 +621,12 @@ select ID, id_bono, case when cant_cons > 0 then 'c' else 'f' end, precio_bono
 from YOU_SHALL_NOT_CRASH.compras_temp 
 order by cant_cons,id
 
---update YOU_SHALL_NOT_CRASH.BONO_CONSULTA  
---set ID_COMPRA = (select id from YOU_SHALL_NOT_CRASH.compras_temp where id_bono = id_bono_consulta and cant_cons > 0)
-
 
 ---------------------------------------------------------------------
 ----------------------FUNCIONES Y SPS--------------------------------
 ---------------------------------------------------------------------
 GO
--- creo funcion util!
+
 CREATE FUNCTION YOU_SHALL_NOT_CRASH.Split(@String varchar(150), @Delimiter char(1))
 RETURNS @Results table (word varchar(50))
 AS
@@ -975,10 +903,7 @@ BEGIN
 		SET @resultado = 0
 	END
 END
-
 go
-
-
 
 create procedure YOU_SHALL_NOT_CRASH.insertar_prof_espec(@dni nvarchar(255),@especialidad nvarchar(255))
 AS
@@ -992,7 +917,6 @@ BEGIN
 	--insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(CODIGO_ESPECIALIDAD, ID_PROFESIONAL)
 	--values(@esp_id,@prof_id)
 END
-
 GO
 
 -----------POR  AHORA DEJO COMO USUARIO NOM.AP.FECHA-NAC
@@ -1014,10 +938,6 @@ BEGIN
 	INSERT INTO YOU_SHALL_NOT_CRASH.PROFESIONAL(NOMBRE,APELLIDO,DNI,DIRECCION,TELEFONO,MAIL,FECHA_NAC,SEXO,MATRICULA,ACTIVO)
 	VALUES(@nombre,@apellido, (SELECT DNI_Usuario FROM YOU_SHALL_NOT_CRASH.USUARIO  WHERE DNI_Usuario=@dni_profesional),@direccion,convert(numeric(18,0),@telefono),@mail,CONVERT(datetime, @fecha_nac+' '+'00:00:00'),@sexo,@matricula,1)
 END
-
-select *
-from YOU_SHALL_NOT_CRASH.PROFESIONAL p
-where p.DNI=9999999
 go
 
 
@@ -1036,8 +956,6 @@ BEGIN
 	UPDATE YOU_SHALL_NOT_CRASH.PROFESIONAL SET Activo=0 WHERE Id_Profesional=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p WHERE P.DNI=@dni2)
 
 END
-
-
 GO
 
 
@@ -1048,15 +966,10 @@ BEGIN
 		UPDATE YOU_SHALL_NOT_CRASH.PROFESIONAL SET NOMBRE=@nombre,APELLIDO=@apellido,DIRECCION=@direccion,TELEFONO=@telefono,MAIL=@mail,FECHA_NAC=CONVERT(datetime, @fecha_nac+' '+'00:00:00'),SEXO=@sexo,MATRICULA=@matricula,ACTIVO=@activo WHERE @dni=YOU_SHALL_NOT_CRASH.PROFESIONAL.DNI
 
 	SET @resu = 1;
-END
-
-
------------------SI SE QUISIERA ACTIVAR DE NUEVO ALL PROF, LOS TURNOS Q HABIAN SIDO CANCELADOS SEGUIRAN ESTANDO CANCELADOS
-
-
+END--SI SE QUISIERA ACTIVAR DE NUEVO ALL PROF, LOS TURNOS Q HABIAN SIDO CANCELADOS SEGUIRAN ESTANDO CANCELADOS
 go
 
---------------EN MODIFICAR_PROF SOLO SE TRAEN LOS PROFESIONALES ACTIVOS(EN 1)
+--EN MODIFICAR_PROF SOLO SE TRAEN LOS PROFESIONALES ACTIVOS(EN 1)
 create procedure YOU_SHALL_NOT_CRASH.modificar_prof_espec(@dni nvarchar(255),@especialidad nvarchar(255))
 AS
 BEGIN
@@ -1069,7 +982,6 @@ BEGIN
 	insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(CODIGO_ESPECIALIDAD, ID_PROFESIONAL)
 	values(@esp_id,@prof_id)
 END
-
 GO
 
 create procedure YOU_SHALL_NOT_CRASH.eliminar_prof_espec(@dni nvarchar(255))
@@ -1080,7 +992,6 @@ BEGIN
 	set @id_p=(select distinct p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p join YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep on ep.ID_PROFESIONAL=p.ID_PROFESIONAL where p.DNI=@dni)
 	DELETE FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL WHERE ID_PROFESIONAL=@id_p
 END
-
 GO 
 
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Cancelar_turno_afiliado(@id_turno numeric(18,0), @fecha dateTime, @motivo nvarchar(255), @retorno int output)
@@ -1139,6 +1050,8 @@ BEGIN TRANSACTION
 		commit
 		END
 GO
+
+
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Ingresar_bono_y_llegada(@id_bono_ingresado int,@numero_de_consulta_a_ingresar int,@id_turno int, @fecha_llegada dateTime,@idafiliado int)
 AS
 BEGIN TRANSACTION
@@ -1174,41 +1087,6 @@ BEGIN TRANSACTION
 GO
 
 
-/*
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_diagnostico(@idturno int,@idprofesional int,@descripcion nvarchar(255))
-AS
-BEGIN TRANSACTION
-	--Inserto un nuevo diagnostico
-	INSERT INTO YOU_SHALL_NOT_CRASH.DIAGNOSTICO(ID_TURNO,ID_PROFESIONAL,DESCRIPCION) VALUES (@idturno,@idprofesional,@descripcion)
-	
-	if ( @@ERROR != 0)
-	BEGIN 
-		rollback 
-	END
-	ELSE BEGIN 
-		commit
-	END
-GO
-
-
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_item_diagnostico_y_receta(@id_diagnostico int,@idsintoma int,@id_receta int)
-AS
-BEGIN TRANSACTION
-	--Inserto una nueva receta medica con el id de diagnostico correspondiente
-	UPDATE YOU_SHALL_NOT_CRASH.RECETA SET ID_DIAGNOSTICO = @id_diagnostico WHERE ID_RECETA = @id_receta
-	
-	--Inserto un item diagnostico con el id de diagnostico y el id del sintoma
-	INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_DIAGNOSTICO (ID_DIAGNOSTICO,ID_SINTOMA) VALUES (@id_diagnostico,@idsintoma)
-	if ( @@ERROR != 0)
-	BEGIN 
-		rollback 
-	END
-	ELSE BEGIN 
-		commit
-	END
-GO
-*/
-
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_item_bono_farmacia(@id_bono_farmacia int,@id_medicamento int, @cantidad int)
 AS
 BEGIN TRANSACTION
@@ -1223,7 +1101,7 @@ BEGIN TRANSACTION
 	END
 GO
 
---
+
 CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Actualizacion_bono_farmacia(@id_receta int,@fecha_vencimiento dateTime,@dia_de_implementacion dateTime,@id_bono_farmacia int)
 AS
 BEGIN
@@ -1234,8 +1112,6 @@ BEGIN
 	WHERE ID_Bono_Farmacia = @id_bono_farmacia
 END
 GO
-
-
 
 --FUNCIONES PARA LOS LISTADOS
 CREATE FUNCTION YOU_SHALL_NOT_CRASH.Top5_Especialidades_Mas_Canceladas_En (@anio int, @mesInicial int, @mesFinal int)
@@ -1347,17 +1223,8 @@ INSERT INTO YOU_SHALL_NOT_CRASH.ROL_USUARIO SELECT 3, DNI FROM inserted
  
 END; 
 GO
--------------------------------------
---falta usar esto para actualizar los bonos
-/*
-SELECT Bono_Consulta_Numero, --Max(a.ID_Afiliado) IDaFILIADO, Max(Turno_Fecha) FECHA, 
-    (1+(SELECT COUNT(*) FROM YOU_SHALL_NOT_CRASH.TURNO T2 WHERE T2.ID_AFILIADO=Max(a.ID_Afiliado) AND Cancelado=0 and t2.FECHA<Max(Turno_Fecha))) e
- from gd_esquema.Maestra M join you_shall_not_crash.PROFESIONAL P on m.Medico_Dni=p.DNI join you_shall_not_crash.AFILIADO A on A.DNI=m.Paciente_Dni
-where Turno_Numero is not null AND M.Bono_Consulta_Numero IS NOT NULL
-group by Turno_Numero, M.Bono_Consulta_Numero
-ORDER BY Max(a.ID_Afiliado), 2--,4*/
-------------------------
 
+--ACTUALIZA EL NUMERO DE CONSULTA DE LOS AFILIADOS
 UPDATE
     YOU_SHALL_NOT_CRASH.BONO_CONSULTA
 SET
