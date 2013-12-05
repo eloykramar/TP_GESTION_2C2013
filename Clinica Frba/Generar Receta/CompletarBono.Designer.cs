@@ -227,6 +227,13 @@
             // comboBoxCant3
             // 
             this.comboBoxCant3.FormattingEnabled = true;
+            this.comboBoxCant3.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
             this.comboBoxCant3.Location = new System.Drawing.Point(294, 124);
             this.comboBoxCant3.Name = "comboBoxCant3";
             this.comboBoxCant3.Size = new System.Drawing.Size(57, 21);
@@ -235,6 +242,13 @@
             // comboBoxCant4
             // 
             this.comboBoxCant4.FormattingEnabled = true;
+            this.comboBoxCant4.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
             this.comboBoxCant4.Location = new System.Drawing.Point(294, 159);
             this.comboBoxCant4.Name = "comboBoxCant4";
             this.comboBoxCant4.Size = new System.Drawing.Size(57, 21);
@@ -243,6 +257,13 @@
             // comboBoxCant5
             // 
             this.comboBoxCant5.FormattingEnabled = true;
+            this.comboBoxCant5.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
             this.comboBoxCant5.Location = new System.Drawing.Point(294, 197);
             this.comboBoxCant5.Name = "comboBoxCant5";
             this.comboBoxCant5.Size = new System.Drawing.Size(57, 21);
