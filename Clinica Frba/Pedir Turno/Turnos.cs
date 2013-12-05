@@ -99,6 +99,7 @@ namespace Clinica_Frba.Pedir_Turno
             try
             {
                 validar();
+                validarFecha();
                 DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
                 String horario = (Convert.ToDateTime(comboBox1.Text)).ToShortTimeString();
 
@@ -152,6 +153,10 @@ namespace Clinica_Frba.Pedir_Turno
             try
             {
                 //DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
+                if (dateTimePicker1.Value <= dateTimePicker2.Value)
+                    throw new Exception("La hora desde debe ser mayor a la hora hasta");
+
+                validarFecha();
                 int horaInicio = dateTimePicker1.Value.Hour;
                 int minutosInicio = dateTimePicker1.Value.Minute;
                 int horaFin = dateTimePicker2.Value.Hour;
@@ -201,13 +206,18 @@ namespace Clinica_Frba.Pedir_Turno
                 comboBox1.DisplayMember = "hora_inicio";
                 comboBox1.DataSource = tablaDeNombres;
             }
-        }
-        
+        }        
 
         private void validar()
         {
             if (String.Equals(comboBox1.Text, ""))
                 throw new Exception("Horario de turno no seleccionado");
+        }
+
+        private void validarFecha()
+        {
+            if (String.Equals(comboBox2.Text, ""))
+                throw new Exception("Fecha no seleccionada");
         }
         //FIN CLASE TURNOS
 
