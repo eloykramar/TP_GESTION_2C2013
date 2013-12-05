@@ -153,8 +153,8 @@ namespace Clinica_Frba.Pedir_Turno
             try
             {
                 //DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
-                if (dateTimePicker1.Value <= dateTimePicker2.Value)
-                    throw new Exception("La hora desde debe ser mayor a la hora hasta");
+                if (dateTimePicker1.Value >= dateTimePicker2.Value)
+                    throw new Exception("La hora desde debe ser menor a la hora hasta");
 
                 validarFecha();
                 int horaInicio = dateTimePicker1.Value.Hour;
