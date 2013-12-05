@@ -18,6 +18,7 @@ namespace Clinica_Frba.Registro_de_LLegada
         {
             InitializeComponent();
             id_turno = idTurno;
+            dateTimePickerFecha.Value = this.fechaActual;
 
         }
 
