@@ -385,6 +385,9 @@ INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre,DNI, ID_Plan, Nro_Afiliado, Sex
 --Al numero de afiliado para la migracion le asignamos el mismo valor del ID, ya que consideramos que ninguno tiene familiares asignados
 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado = ((ID_Afiliado*100) +1);
 
+--creamos un profesional para el admin
+INSERT INTO YOU_SHALL_NOT_CRASH.PROFESIONAL (Nombre, APELLIDO, DNI, DIRECCION, TELEFONO, MAIL, FECHA_NAC, SEXO, ACTIVO) values ('admin', 'ADMIN',0,'casa admin', '45454545', '', '1991/09/07', 'M', 1)
+
 --BONO CONSULTA---------------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.BONO_CONSULTA (ID_Bono_Consulta, Fecha_Emision, ID_Afiliado, ID_Plan)
 SELECT DISTINCT (Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni)
@@ -1236,3 +1239,27 @@ FROM
 	
 where YOU_SHALL_NOT_CRASH.BONO_CONSULTA.ID_Bono_Consulta = numeros_consulta.Bono_Consulta_Numero
 
+GO
+--actualizo los id de receta en los bonos que fueron usados.
+DECLARE bonos CURSOR
+FOR
+select distinct r.ID_RECETA, m.Bono_Farmacia_Numero, m.Turno_Fecha from gd_esquema.Maestra m join you_shall_not_crash.TURNO t on m.Turno_Numero=t.NUMERO join 
+YOU_SHALL_NOT_CRASH.CONSULTA c on (t.ID_TURNO = c.ID_TURNO) join YOU_SHALL_NOT_CRASH.RECETA r on (c.ID_CONSULTA = r.ID_CONSULTA) 
+where FECHA_LLEGADA is not null and Bono_Farmacia_Numero is not null 
+
+DECLARE @rec INT
+DECLARE @bon INT
+DECLARE @dia DATETIME
+OPEN bonos 
+
+FETCH bonos INTO @rec, @bon, @dia
+
+WHILE @@FETCH_STATUS=0
+ BEGIN
+ UPDATE YOU_SHALL_NOT_CRASH.BONO_FARMACIA SET ID_Receta_Medica=@rec, Fecha_Prescripcion_Medica=@dia WHERE ID_Bono_Farmacia=@bon
+ FETCH bonos INTO @rec, @bon, @dia
+ END
+ 
+CLOSE bonos
+DEALLOCATE bonos
+------------------------------------------------------------
