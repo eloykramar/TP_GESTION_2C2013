@@ -46,12 +46,6 @@
             this.buttFiltrar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBoxCant2 = new System.Windows.Forms.TextBox();
-            this.textBoxCant3 = new System.Windows.Forms.TextBox();
-            this.textBoxCant4 = new System.Windows.Forms.TextBox();
-            this.textBoxCant5 = new System.Windows.Forms.TextBox();
-            this.textBoxCant1 = new System.Windows.Forms.TextBox();
-            this.comboBoxCant1 = new System.Windows.Forms.ComboBox();
             this.comboBoxCant2 = new System.Windows.Forms.ComboBox();
             this.comboBoxCant3 = new System.Windows.Forms.ComboBox();
             this.comboBoxCant4 = new System.Windows.Forms.ComboBox();
@@ -65,6 +59,7 @@
             this.buttQuitar4 = new System.Windows.Forms.Button();
             this.buttQuitar5 = new System.Windows.Forms.Button();
             this.buttAceptar = new System.Windows.Forms.Button();
+            this.comboBoxCant1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -160,7 +155,7 @@
             // 
             // buttQuitar
             // 
-            this.buttQuitar.Location = new System.Drawing.Point(487, 55);
+            this.buttQuitar.Location = new System.Drawing.Point(420, 56);
             this.buttQuitar.Name = "buttQuitar";
             this.buttQuitar.Size = new System.Drawing.Size(57, 23);
             this.buttQuitar.TabIndex = 11;
@@ -170,7 +165,7 @@
             // 
             // buttAgregar
             // 
-            this.buttAgregar.Location = new System.Drawing.Point(424, 55);
+            this.buttAgregar.Location = new System.Drawing.Point(357, 56);
             this.buttAgregar.Name = "buttAgregar";
             this.buttAgregar.Size = new System.Drawing.Size(57, 23);
             this.buttAgregar.TabIndex = 12;
@@ -207,9 +202,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(550, 55);
+            this.dataGridView1.Location = new System.Drawing.Point(483, 55);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(300, 209);
+            this.dataGridView1.Size = new System.Drawing.Size(367, 209);
             this.dataGridView1.TabIndex = 16;
             // 
             // label7
@@ -220,49 +215,6 @@
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 17;
             this.label7.Text = "Cantidad";
-            // 
-            // textBoxCant2
-            // 
-            this.textBoxCant2.Location = new System.Drawing.Point(357, 88);
-            this.textBoxCant2.Name = "textBoxCant2";
-            this.textBoxCant2.Size = new System.Drawing.Size(61, 20);
-            this.textBoxCant2.TabIndex = 19;
-            // 
-            // textBoxCant3
-            // 
-            this.textBoxCant3.Location = new System.Drawing.Point(357, 124);
-            this.textBoxCant3.Name = "textBoxCant3";
-            this.textBoxCant3.Size = new System.Drawing.Size(61, 20);
-            this.textBoxCant3.TabIndex = 20;
-            // 
-            // textBoxCant4
-            // 
-            this.textBoxCant4.Location = new System.Drawing.Point(357, 159);
-            this.textBoxCant4.Name = "textBoxCant4";
-            this.textBoxCant4.Size = new System.Drawing.Size(61, 20);
-            this.textBoxCant4.TabIndex = 21;
-            // 
-            // textBoxCant5
-            // 
-            this.textBoxCant5.Location = new System.Drawing.Point(357, 198);
-            this.textBoxCant5.Name = "textBoxCant5";
-            this.textBoxCant5.Size = new System.Drawing.Size(61, 20);
-            this.textBoxCant5.TabIndex = 22;
-            // 
-            // textBoxCant1
-            // 
-            this.textBoxCant1.Location = new System.Drawing.Point(357, 56);
-            this.textBoxCant1.Name = "textBoxCant1";
-            this.textBoxCant1.Size = new System.Drawing.Size(61, 20);
-            this.textBoxCant1.TabIndex = 23;
-            // 
-            // comboBoxCant1
-            // 
-            this.comboBoxCant1.FormattingEnabled = true;
-            this.comboBoxCant1.Location = new System.Drawing.Point(294, 55);
-            this.comboBoxCant1.Name = "comboBoxCant1";
-            this.comboBoxCant1.Size = new System.Drawing.Size(57, 21);
-            this.comboBoxCant1.TabIndex = 24;
             // 
             // comboBoxCant2
             // 
@@ -298,7 +250,7 @@
             // 
             // buttAgregar2
             // 
-            this.buttAgregar2.Location = new System.Drawing.Point(424, 88);
+            this.buttAgregar2.Location = new System.Drawing.Point(357, 89);
             this.buttAgregar2.Name = "buttAgregar2";
             this.buttAgregar2.Size = new System.Drawing.Size(57, 23);
             this.buttAgregar2.TabIndex = 29;
@@ -308,7 +260,7 @@
             // 
             // buttAgregar3
             // 
-            this.buttAgregar3.Location = new System.Drawing.Point(424, 122);
+            this.buttAgregar3.Location = new System.Drawing.Point(357, 123);
             this.buttAgregar3.Name = "buttAgregar3";
             this.buttAgregar3.Size = new System.Drawing.Size(57, 23);
             this.buttAgregar3.TabIndex = 30;
@@ -318,7 +270,7 @@
             // 
             // buttAgregar4
             // 
-            this.buttAgregar4.Location = new System.Drawing.Point(424, 157);
+            this.buttAgregar4.Location = new System.Drawing.Point(357, 158);
             this.buttAgregar4.Name = "buttAgregar4";
             this.buttAgregar4.Size = new System.Drawing.Size(57, 23);
             this.buttAgregar4.TabIndex = 31;
@@ -328,7 +280,7 @@
             // 
             // buttAgregar5
             // 
-            this.buttAgregar5.Location = new System.Drawing.Point(424, 194);
+            this.buttAgregar5.Location = new System.Drawing.Point(357, 195);
             this.buttAgregar5.Name = "buttAgregar5";
             this.buttAgregar5.Size = new System.Drawing.Size(57, 23);
             this.buttAgregar5.TabIndex = 32;
@@ -338,7 +290,7 @@
             // 
             // buttQuitar2
             // 
-            this.buttQuitar2.Location = new System.Drawing.Point(487, 86);
+            this.buttQuitar2.Location = new System.Drawing.Point(420, 87);
             this.buttQuitar2.Name = "buttQuitar2";
             this.buttQuitar2.Size = new System.Drawing.Size(57, 23);
             this.buttQuitar2.TabIndex = 33;
@@ -348,7 +300,7 @@
             // 
             // buttQuitar3
             // 
-            this.buttQuitar3.Location = new System.Drawing.Point(487, 121);
+            this.buttQuitar3.Location = new System.Drawing.Point(420, 122);
             this.buttQuitar3.Name = "buttQuitar3";
             this.buttQuitar3.Size = new System.Drawing.Size(57, 23);
             this.buttQuitar3.TabIndex = 34;
@@ -358,7 +310,7 @@
             // 
             // buttQuitar4
             // 
-            this.buttQuitar4.Location = new System.Drawing.Point(487, 156);
+            this.buttQuitar4.Location = new System.Drawing.Point(420, 157);
             this.buttQuitar4.Name = "buttQuitar4";
             this.buttQuitar4.Size = new System.Drawing.Size(57, 23);
             this.buttQuitar4.TabIndex = 35;
@@ -368,7 +320,7 @@
             // 
             // buttQuitar5
             // 
-            this.buttQuitar5.Location = new System.Drawing.Point(487, 194);
+            this.buttQuitar5.Location = new System.Drawing.Point(420, 195);
             this.buttQuitar5.Name = "buttQuitar5";
             this.buttQuitar5.Size = new System.Drawing.Size(57, 23);
             this.buttQuitar5.TabIndex = 36;
@@ -378,13 +330,21 @@
             // 
             // buttAceptar
             // 
-            this.buttAceptar.Location = new System.Drawing.Point(424, 241);
+            this.buttAceptar.Location = new System.Drawing.Point(357, 241);
             this.buttAceptar.Name = "buttAceptar";
             this.buttAceptar.Size = new System.Drawing.Size(75, 23);
             this.buttAceptar.TabIndex = 37;
             this.buttAceptar.Text = "Aceptar";
             this.buttAceptar.UseVisualStyleBackColor = true;
             this.buttAceptar.Click += new System.EventHandler(this.buttAceptar_Click);
+            // 
+            // comboBoxCant1
+            // 
+            this.comboBoxCant1.FormattingEnabled = true;
+            this.comboBoxCant1.Location = new System.Drawing.Point(294, 55);
+            this.comboBoxCant1.Name = "comboBoxCant1";
+            this.comboBoxCant1.Size = new System.Drawing.Size(57, 21);
+            this.comboBoxCant1.TabIndex = 24;
             // 
             // CompletarBono
             // 
@@ -405,11 +365,6 @@
             this.Controls.Add(this.comboBoxCant3);
             this.Controls.Add(this.comboBoxCant2);
             this.Controls.Add(this.comboBoxCant1);
-            this.Controls.Add(this.textBoxCant1);
-            this.Controls.Add(this.textBoxCant5);
-            this.Controls.Add(this.textBoxCant4);
-            this.Controls.Add(this.textBoxCant3);
-            this.Controls.Add(this.textBoxCant2);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttFiltrar);
@@ -456,12 +411,6 @@
         private System.Windows.Forms.Button buttFiltrar;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBoxCant2;
-        private System.Windows.Forms.TextBox textBoxCant3;
-        private System.Windows.Forms.TextBox textBoxCant4;
-        private System.Windows.Forms.TextBox textBoxCant5;
-        private System.Windows.Forms.TextBox textBoxCant1;
-        private System.Windows.Forms.ComboBox comboBoxCant1;
         private System.Windows.Forms.ComboBox comboBoxCant2;
         private System.Windows.Forms.ComboBox comboBoxCant3;
         private System.Windows.Forms.ComboBox comboBoxCant4;
@@ -475,5 +424,6 @@
         private System.Windows.Forms.Button buttQuitar4;
         private System.Windows.Forms.Button buttQuitar5;
         private System.Windows.Forms.Button buttAceptar;
+        private System.Windows.Forms.ComboBox comboBoxCant1;
     }
 }

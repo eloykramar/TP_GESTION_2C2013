@@ -209,6 +209,7 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
                 conexion.Close();
+                MessageBox.Show("La consulta fue guardada con exito.");
                 Close();
             }
         }

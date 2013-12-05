@@ -25,8 +25,8 @@ namespace Clinica_Frba.Generar_Receta
             using (SqlConnection conexion = this.obtenerConexion())
             {
                 conexion.Open();
+                //Lleno medicamentos:
                 SqlCommand cmd2 = new SqlCommand("USE GD2C2013 SELECT ID_Medicamento,Descripcion FROM YOU_SHALL_NOT_CRASH.MEDICAMENTO", conexion);
-
                 SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                 DataTable table = new DataTable();
                 table.Locale = System.Globalization.CultureInfo.InvariantCulture;
@@ -34,43 +34,20 @@ namespace Clinica_Frba.Generar_Receta
                 dataGridView1.DataSource = table;
                 dataGridView1.Columns["ID_Medicamento"].Visible = false;
                 dataGridView1.ReadOnly = true;
-
-
-                textBoxMed1.ReadOnly = true;
-                textBoxMed2.ReadOnly = true;
-                textBoxMed3.ReadOnly = true;
-                textBoxMed4.ReadOnly = true;
-                textBoxMed5.ReadOnly = true;
-                textBoxCant1.ReadOnly = true;
-                textBoxCant2.ReadOnly = true;
-                textBoxCant3.ReadOnly = true;
-                textBoxCant4.ReadOnly = true;
-                textBoxCant5.ReadOnly = true;
+                //--------------------
+                //lleno combos
                 List<int> cantidades1 = new List<int>();
                 cantidades1.Add(1);
                 cantidades1.Add(2);
                 cantidades1.Add(3);
+                cantidades1.Add(4);
+                cantidades1.Add(5);
                 comboBoxCant1.DataSource = cantidades1;
-                List<int> cantidades2 = new List<int>();
-                cantidades2.Add(1);
-                cantidades2.Add(2);
-                cantidades2.Add(3);
-                comboBoxCant2.DataSource = cantidades2;
-                List<int> cantidades3 = new List<int>();
-                cantidades3.Add(1);
-                cantidades3.Add(2);
-                cantidades3.Add(3);
-                comboBoxCant3.DataSource = cantidades3;
-                List<int> cantidades4 = new List<int>();
-                cantidades4.Add(1);
-                cantidades4.Add(2);
-                cantidades4.Add(3);
-                comboBoxCant4.DataSource = cantidades4;
-                List<int> cantidades5 = new List<int>();
-                cantidades5.Add(1);
-                cantidades5.Add(2);
-                cantidades5.Add(3);
-                comboBoxCant5.DataSource = cantidades5;
+                comboBoxCant2.DataSource = cantidades1;
+                comboBoxCant3.DataSource = cantidades1;
+                comboBoxCant4.DataSource = cantidades1;
+                comboBoxCant5.DataSource = cantidades1;
+                //--------------
 
             }
         }

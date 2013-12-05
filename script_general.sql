@@ -1110,33 +1110,6 @@ BEGIN TRANSACTION
 	END
 GO
 
-
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Insertar_item_bono_farmacia(@id_bono_farmacia int,@id_medicamento int, @cantidad int)
-AS
-BEGIN TRANSACTION
-	INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA(ID_Bono_Farmacia,ID_Medicamento,Cantidad)
-	VALUES (@id_bono_farmacia,@id_medicamento,@cantidad)
-	if ( @@ERROR != 0)
-	BEGIN 
-		rollback 
-	END
-	ELSE BEGIN 
-		commit
-	END
-GO
-
-
-CREATE PROCEDURE YOU_SHALL_NOT_CRASH.Actualizacion_bono_farmacia(@id_receta int,@fecha_vencimiento dateTime,@dia_de_implementacion dateTime,@id_bono_farmacia int)
-AS
-BEGIN
-	UPDATE YOU_SHALL_NOT_CRASH.BONO_FARMACIA 
-	SET ID_Receta_Medica = @id_receta,
-	Fecha_Vencimiento = @fecha_vencimiento, 
-	Fecha_Prescripcion_Medica = @dia_de_implementacion 
-	WHERE ID_Bono_Farmacia = @id_bono_farmacia
-END
-GO
-
 --FUNCIONES PARA LOS LISTADOS
 CREATE FUNCTION YOU_SHALL_NOT_CRASH.Top5_Especialidades_Mas_Canceladas_En (@anio int, @mesInicial int, @mesFinal int)
 RETURNS TABLE
