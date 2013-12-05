@@ -398,7 +398,14 @@ INSERT INTO YOU_SHALL_NOT_CRASH.BONO_FARMACIA(Fecha_Emision,ID_Bono_Farmacia, ID
 SELECT DISTINCT Bono_Farmacia_Fecha_Impresion, Bono_Farmacia_Numero, (select ID_Afiliado from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (select ID_Plan from YOU_SHALL_NOT_CRASH.AFILIADO where DNI = Paciente_Dni), (Bono_Farmacia_Fecha_Impresion + 60)	
 FROM gd_esquema.Maestra
 WHERE Bono_Farmacia_Fecha_Impresion IS NOT NULL AND
-	  Bono_Farmacia_Numero IS NOT NULL;
+	  Bono_Farmacia_Numero IS NOT NULL;	  
+	  
+--MEDICAMENTO-----------------------------------------------------
+INSERT INTO YOU_SHALL_NOT_CRASH.MEDICAMENTO (Descripcion)
+SELECT DISTINCT Bono_Farmacia_Medicamento 
+FROM gd_esquema.Maestra 
+WHERE Bono_Farmacia_Medicamento IS NOT NULL
+;
 
 --ITEM BONO FARMACIA---------------------------------------------
 INSERT INTO YOU_SHALL_NOT_CRASH.ITEM_BONO_FARMACIA (ID_Bono_Farmacia, ID_Medicamento, Cantidad)
@@ -500,13 +507,6 @@ order by 1
 insert into YOU_SHALL_NOT_CRASH.RECETA
 select c.ID_CONSULTA
 from you_shall_not_crash.CONSULTA c
-
---MEDICAMENTO-----------------------------------------------------
-INSERT INTO YOU_SHALL_NOT_CRASH.MEDICAMENTO (Descripcion)
-SELECT DISTINCT Bono_Farmacia_Medicamento 
-FROM gd_esquema.Maestra 
-WHERE Bono_Farmacia_Medicamento IS NOT NULL
-;
 
 --TURNO------------------------------------------------------------
 
