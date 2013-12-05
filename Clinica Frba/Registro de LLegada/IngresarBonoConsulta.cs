@@ -41,8 +41,22 @@ namespace Clinica_Frba.Registro_de_LLegada
 
                 if (idAfiBono>0)
                 {
-                    if (getRaizAfi(nroAfiBono.ToString()) == getRaizAfi(idAfiliado.ToString()))  //Si el bono corresponde al grupo familiar, entonces sigo
+                    if (getRaizAfi(nroAfiBono.ToString()) == getRaizAfi(getNroxIdAfiliado(idAfiliado.ToString()).ToString()))  //Si el bono corresponde al grupo familiar, entonces sigo
                     {
+                        cmd = new SqlCommand(string.Format(
+                            "SELECT ID_PLAN FROM YOU_SHALL_NOT_CRASH.BONO_CONSULTA WHERE ID_Bono_Consulta ={0}", id_bono_ingresado), conexion);
+                        int planBono = ExecuteScalarOrZero(cmd);
+                        cmd.Dispose(); 
+                        cmd = new SqlCommand(string.Format(
+                            "SELECT ID_PLAN FROM YOU_SHALL_NOT_CRASH.AFILIADO WHERE ID_AFILIADO ={0}", idAfiliado), conexion);
+                        int planAfi = ExecuteScalarOrZero(cmd);
+                        cmd.Dispose();
+                        if (planAfi != planBono)
+                        {
+                            MessageBox.Show("El Plan del Afiliado no coincide con el del bono.");
+                            return;
+                        }//si el plan coincide, sigo...
+
                         cmd = new SqlCommand(string.Format(
                             "SELECT Numero_Consulta_Afiliado FROM YOU_SHALL_NOT_CRASH.BONO_CONSULTA WHERE ID_Bono_Consulta ={0}", id_bono_ingresado), conexion);
                         int nroConsultaBono = ExecuteScalarOrZero(cmd);
@@ -82,6 +96,23 @@ namespace Clinica_Frba.Registro_de_LLegada
         private void buttSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void textBono_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.Equals(textBono.Text, ""))
+            {
+                string Str = textBono.Text.Trim();
+                long Num;
+
+                bool isNum = long.TryParse(Str, out Num);
+
+                if (!isNum)
+                {
+                    MessageBox.Show("Solo se aceptan numeros enteros", "Error");
+                    textBono.Text = "";
+                }
+            }
         }//Fin boton aceptar
     }
 }

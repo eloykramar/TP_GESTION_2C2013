@@ -180,11 +180,13 @@ namespace Clinica_Frba
         }
 
         public int ExecuteScalarOrZero(SqlCommand cmd)
-        {
+        { bool estaba_cerrada;
             try
-            {   cmd.Connection.Open();
+            {
+                estaba_cerrada = (cmd.Connection.State == ConnectionState.Closed);
+                if (estaba_cerrada) cmd.Connection.Open();
                 object res = cmd.ExecuteScalar();
-                cmd.Connection.Close();
+                if (estaba_cerrada) cmd.Connection.Close();
                 if (res == DBNull.Value) return 0;
 
                 //sino
@@ -198,7 +200,7 @@ namespace Clinica_Frba
 
         public int getRaizAfi(string nro)
         {
-            return Convert.ToInt32(nro.Substring(0, nro.Length - 2));
+            return Convert.ToInt32("0"+nro.Substring(0, nro.Length - 2));
         }
 
     }

@@ -40,6 +40,7 @@
             this.textBono.Name = "textBono";
             this.textBono.Size = new System.Drawing.Size(100, 20);
             this.textBono.TabIndex = 0;
+            this.textBono.TextChanged += new System.EventHandler(this.textBono_TextChanged);
             // 
             // label1
             // 

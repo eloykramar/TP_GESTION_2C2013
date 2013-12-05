@@ -7,15 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using Clinica_Frba.Generar_Receta;
 
 namespace Clinica_Frba.Registro_Resultado_Atencion
 {
     public partial class Registro_Consulta : Form1
     {
         int idC = 0;
-
+        int idTurno=0;
         public Registro_Consulta(int idT)
         {
+            idTurno = idT;
             InitializeComponent();
             listSin.DisplayMember = "Text";
             listEnf.DisplayMember = "Text";
@@ -208,6 +210,34 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
                 cmd.Dispose();
                 conexion.Close();
                 Close();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection conexion = this.obtenerConexion())
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand(string.Format("SELECT ID_AFILIADO FROM YOU_SHALL_NOT_CRASH.TURNO WHERE ID_TURNO = {0}", idTurno), conexion);
+                int idAfi = ExecuteScalarOrZero(cmd);
+                cmd.Dispose();
+                cmd = new SqlCommand(string.Format("SELECT ID_RECETA FROM YOU_SHALL_NOT_CRASH.RECETA WHERE ID_CONSULTA = {0}", idC), conexion);
+                int idRec = ExecuteScalarOrZero(cmd);
+                cmd.Dispose();
+                if (idRec == 0)
+                {
+
+                    //creo una receta
+                    cmd = new SqlCommand(string.Format("INSERT INTO YOU_SHALL_NOT_CRASH.RECETA (ID_CONSULTA) VALUES ({0})", idC), conexion);
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    //leo el id de la nueva receta
+                    cmd = new SqlCommand(string.Format("SELECT ID_RECETA FROM YOU_SHALL_NOT_CRASH.RECETA WHERE ID_CONSULTA = {0}", idC), conexion);
+                    idRec = ExecuteScalarOrZero(cmd);
+                    cmd.Dispose();
+                }
+                conexion.Close();
+                new Receta_Medica(idC, idAfi, idRec).ShowDialog();
             }
         }
     }

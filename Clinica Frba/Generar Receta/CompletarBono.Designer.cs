@@ -65,8 +65,6 @@
             this.buttQuitar4 = new System.Windows.Forms.Button();
             this.buttQuitar5 = new System.Windows.Forms.Button();
             this.buttAceptar = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBoxBono = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -152,7 +150,7 @@
             // 
             // buttSalir
             // 
-            this.buttSalir.Location = new System.Drawing.Point(28, 253);
+            this.buttSalir.Location = new System.Drawing.Point(60, 241);
             this.buttSalir.Name = "buttSalir";
             this.buttSalir.Size = new System.Drawing.Size(80, 23);
             this.buttSalir.TabIndex = 10;
@@ -380,7 +378,7 @@
             // 
             // buttAceptar
             // 
-            this.buttAceptar.Location = new System.Drawing.Point(424, 253);
+            this.buttAceptar.Location = new System.Drawing.Point(424, 241);
             this.buttAceptar.Name = "buttAceptar";
             this.buttAceptar.Size = new System.Drawing.Size(75, 23);
             this.buttAceptar.TabIndex = 37;
@@ -388,29 +386,11 @@
             this.buttAceptar.UseVisualStyleBackColor = true;
             this.buttAceptar.Click += new System.EventHandler(this.buttAceptar_Click);
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(170, 253);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(81, 13);
-            this.label8.TabIndex = 38;
-            this.label8.Text = "Bono Farmacia:";
-            // 
-            // textBoxBono
-            // 
-            this.textBoxBono.Location = new System.Drawing.Point(251, 250);
-            this.textBoxBono.Name = "textBoxBono";
-            this.textBoxBono.Size = new System.Drawing.Size(100, 20);
-            this.textBoxBono.TabIndex = 39;
-            // 
             // CompletarBono
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(852, 288);
-            this.Controls.Add(this.textBoxBono);
-            this.Controls.Add(this.label8);
+            this.ClientSize = new System.Drawing.Size(859, 288);
             this.Controls.Add(this.buttAceptar);
             this.Controls.Add(this.buttQuitar5);
             this.Controls.Add(this.buttQuitar4);
@@ -495,7 +475,5 @@
         private System.Windows.Forms.Button buttQuitar4;
         private System.Windows.Forms.Button buttQuitar5;
         private System.Windows.Forms.Button buttAceptar;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBoxBono;
     }
 }
