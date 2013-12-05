@@ -380,7 +380,8 @@ where Paciente_Dni is not NULL
 ;
 
 --creamos un afiliado para el admin
-INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre,DNI, ID_Plan, Nro_Afiliado, Sexo, ID_Estado_Civil, Cantidad_Consultas, Familiares_A_Cargo) values ('admin',0,555555, 1, 'M', 1, 0, 0)
+INSERT INTO YOU_SHALL_NOT_CRASH.AFILIADO (Nombre, Apellido, Direccion, Telefono, Mail, Fecha_Nac, DNI, ID_Plan, Sexo, ID_Estado_Civil, Familiares_A_Cargo, Cantidad_Consultas) values ('admin', 'admin', '', '454545454', '', '1991/09/07', 0, 555555, 'M', 1, 0, 0)
+
 
 --Al numero de afiliado para la migracion le asignamos el mismo valor del ID, ya que consideramos que ninguno tiene familiares asignados
 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Nro_Afiliado = ((ID_Afiliado*100) +1);
