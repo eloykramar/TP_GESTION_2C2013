@@ -57,39 +57,49 @@ namespace Clinica_Frba.Generar_Receta
             if (bono.Length == 0) bono = "0";
             using (SqlConnection conexion = this.obtenerConexion())
             {
-                conexion.Open();
-                //verifico si el bono corresponde a ese afiliado
-                SqlCommand cmd = new SqlCommand(string.Format("SELECT ID_AFILIADO FROM YOU_SHALL_NOT_CRASH.BONO_FARMACIA WHERE ID_Bono_Farmacia = {0}", bono), conexion);
-                int idAfiBono = ExecuteScalarOrZero(cmd);
-                int nroAfiBono = getNroxIdAfiliado(idAfiBono.ToString());
-                cmd.Dispose();
-
+              conexion.Open();
+              //verifico si el bono corresponde a ese afiliado
+              SqlCommand cmd = new SqlCommand(string.Format("SELECT ID_AFILIADO FROM YOU_SHALL_NOT_CRASH.BONO_FARMACIA WHERE ID_Bono_Farmacia = {0}", bono), conexion);
+              int idAfiBono = ExecuteScalarOrZero(cmd);
+              int nroAfiBono = getNroxIdAfiliado(idAfiBono.ToString());
+              cmd.Dispose();
+              
                 if (idAfiBono > 0)
                 {
-                    if (getRaizAfi(nroAfiBono.ToString()) == getRaizAfi(getNroxIdAfiliado(idAfiliado.ToString()).ToString()))   //Si el bono corresponde al grupo familiar, entonces sigo
+                    cmd = new SqlCommand(string.Format("SELECT ID_RECETA_MEDICA FROM YOU_SHALL_NOT_CRASH.BONO_FARMACIA WHERE ID_Bono_Farmacia = {0}", bono), conexion);
+                    int idRecetaEnUso = ExecuteScalarOrZero(cmd);
+                    cmd.Dispose();
+                    if (idRecetaEnUso == 0)
                     {
-                        cmd = new SqlCommand(string.Format(
-                            "SELECT ID_PLAN FROM YOU_SHALL_NOT_CRASH.BONO_FARMACIA WHERE ID_Bono_Farmacia ={0}", bono), conexion);
-                        int planBono = ExecuteScalarOrZero(cmd);
-                        cmd.Dispose();
-                        cmd = new SqlCommand(string.Format(
-                            "SELECT ID_PLAN FROM YOU_SHALL_NOT_CRASH.AFILIADO WHERE ID_AFILIADO ={0}", idAfiliado), conexion);
-                        int planAfi = ExecuteScalarOrZero(cmd);
-                        cmd.Dispose();
-                        if (planAfi != planBono)
+                        if (getRaizAfi(nroAfiBono.ToString()) == getRaizAfi(getNroxIdAfiliado(idAfiliado.ToString()).ToString()))   //Si el bono corresponde al grupo familiar, entonces sigo
                         {
-                            MessageBox.Show("El Plan del Afiliado no coincide con el del bono.");
-                            return;
-                        }//si el plan coincide, sigo...
+                            cmd = new SqlCommand(string.Format(
+                                "SELECT ID_PLAN FROM YOU_SHALL_NOT_CRASH.BONO_FARMACIA WHERE ID_Bono_Farmacia ={0}", bono), conexion);
+                            int planBono = ExecuteScalarOrZero(cmd);
+                            cmd.Dispose();
+                            cmd = new SqlCommand(string.Format(
+                                "SELECT ID_PLAN FROM YOU_SHALL_NOT_CRASH.AFILIADO WHERE ID_AFILIADO ={0}", idAfiliado), conexion);
+                            int planAfi = ExecuteScalarOrZero(cmd);
+                            cmd.Dispose();
+                            if (planAfi != planBono)
+                            {
+                                MessageBox.Show("El Plan del Afiliado no coincide con el del bono.");
+                                conexion.Close();
+                                return;
+                            }//si el plan coincide, sigo...
 
 
-                        cmd = new SqlCommand(string.Format("UPDATE YOU_SHALL_NOT_CRASH.BONO_FARMACIA SET ID_RECETA_MEDICA={0}, FECHA_PRESCRIPCION_MEDICA='{1}' WHERE ID_BONO_FARMACIA={2}", idReceta, Convert.ToString(fechaActual), bono), conexion);
-                        cmd.ExecuteNonQuery();
+                            cmd = new SqlCommand(string.Format("UPDATE YOU_SHALL_NOT_CRASH.BONO_FARMACIA SET ID_RECETA_MEDICA={0}, FECHA_PRESCRIPCION_MEDICA='{1}' WHERE ID_BONO_FARMACIA={2}", idReceta, Convert.ToString(fechaActual), bono), conexion);
+                            cmd.ExecuteNonQuery();
+                            listBox1.Items.Add(Convert.ToInt32(bono));
+                        }
+                        else MessageBox.Show("El bono farmacia no corresponde a este afiliado.");
                     }
-                    else MessageBox.Show("El bono farmacia no corresponde a este afiliado.");
+                    else MessageBox.Show("El bono ingresado ya fué utilizado.");
                 }
                 else MessageBox.Show("El bono ingresado es incorrecto.");
                 conexion.Close();
+
             }
         }
     }

@@ -375,7 +375,7 @@ namespace Clinica_Frba.Generar_Receta
                 }//IF FECHA VENCIMIENTO
                 conexion.Close();
             }//FIN USING
-
+            Close();
         }//FIN BOTON ACEPTAR
 
         private void buttSalir_Click(object sender, EventArgs e)

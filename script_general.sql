@@ -1061,6 +1061,9 @@ BEGIN TRANSACTION
 	UPDATE YOU_SHALL_NOT_CRASH.BONO_CONSULTA SET Numero_Consulta_Afiliado = @numero_de_consulta_a_ingresar WHERE ID_Bono_Consulta = @id_bono_ingresado
 	--Hago un update de la cantidad de consultas realizadas en la tabla de afiliados
 	UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Cantidad_Consultas = Cantidad_Consultas + 1 WHERE ID_Afiliado = @idafiliado
+	--CREO LA CONSULTA DE ESE TURNO
+	INSERT INTO YOU_SHALL_NOT_CRASH.CONSULTA (ID_PROFESIONAL,ID_TURNO) 
+	SELECT ID_PROFESIONAL, @id_turno FROM YOU_SHALL_NOT_CRASH.TURNO WHERE ID_TURNO=@id_turno
 	if ( @@ERROR != 0)
 	BEGIN 
 		rollback 
