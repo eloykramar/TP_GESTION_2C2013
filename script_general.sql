@@ -291,8 +291,6 @@ INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Compra de bonos');
 INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Pedir turno');
 INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Cancelacion de turno');
 INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Registro de llegada para atencion medica');
-INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Registro de resultado de atencion medica');
-INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Generar receta');
 INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Listado estadistico');
 
 --Declaramos las variables con los codigos de los roles, que luego seran utilizadas
@@ -304,6 +302,15 @@ set @cod_profesional=(SELECT ID_Rol FROM YOU_SHALL_NOT_CRASH.ROL WHERE Descripci
 
 declare @cod_administrativo int
 set @cod_administrativo=(SELECT ID_Rol FROM YOU_SHALL_NOT_CRASH.ROL WHERE Descripcion='Administrativo')
+
+--Asignar funcionalidades al Administrador
+INSERT INTO YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD
+SELECT @cod_administrativo, ID_Funcionalidad FROM YOU_SHALL_NOT_CRASH.FUNCIONALIDAD
+;
+
+--Agrego dos funcionalidades mas que no pertenecen al Administrador
+INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Registro de resultado de atencion medica');
+INSERT INTO YOU_SHALL_NOT_CRASH.FUNCIONALIDAD values ('Generar receta');
 
 --Asignar funcionalidades al Afiliado
 INSERT INTO YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD
@@ -317,14 +324,10 @@ Descripcion='Cancelacion de turno'
 INSERT INTO YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD
 SELECT @cod_profesional, ID_Funcionalidad FROM YOU_SHALL_NOT_CRASH.FUNCIONALIDAD WHERE
 Descripcion='Cancelacion de turno' or
-Descripcion='Registro de resultado de atencion medica' or
-Descripcion='Generar receta'
+Descripcion='Registro de resultado de atencion medica'
 ;
 
---Asignar funcionalidades al Administrador
-INSERT INTO YOU_SHALL_NOT_CRASH.ROL_FUNCIONALIDAD
-SELECT @cod_administrativo, ID_Funcionalidad FROM YOU_SHALL_NOT_CRASH.FUNCIONALIDAD
-;
+
 
 --Por decision del grupo los username seran nombre + apellido + fecha de nacimiento y el pass sera w23e encriptado con SHA-256 para todos
 INSERT INTO YOU_SHALL_NOT_CRASH.USUARIO 
