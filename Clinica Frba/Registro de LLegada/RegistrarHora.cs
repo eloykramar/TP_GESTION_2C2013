@@ -24,25 +24,27 @@ namespace Clinica_Frba.Registro_de_LLegada
 
         private void buttAceptar_Click(object sender, EventArgs e)
         {
-            String fecha = dateTimePickerFecha.Value.ToString("d");
-            String hora = dateTimePickerHora.Value.TimeOfDay.ToString();
-            DateTime fecha_llegada = Convert.ToDateTime(fecha + " " + hora);
-            DateTime fecha_turno;
-            DateTime horario_minimo_de_llegada = Convert.ToDateTime("01/01/2001 00:00:00.000");
-            int hh_turno,mm_turno;
-            String dia_turno;
-
-            using (SqlConnection conexion = this.obtenerConexion())
+            try
             {
-                conexion.Open();
+                String fecha = dateTimePickerFecha.Value.ToString("d");
+                String hora = dateTimePickerHora.Value.TimeOfDay.ToString();
+                DateTime fecha_llegada = Convert.ToDateTime(fecha + " " + hora);
+                DateTime fecha_turno;
+                DateTime horario_minimo_de_llegada = Convert.ToDateTime("01/01/2001 00:00:00.000");
+                int hh_turno, mm_turno;
+                String dia_turno;
 
-                SqlCommand cmd = new SqlCommand(string.Format(
-                    "SELECT FECHA, ID_AFILIADO FROM YOU_SHALL_NOT_CRASH.TURNO WHERE ID_TURNO = {0}", id_turno), conexion);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-
-                if (reader.Read())
+                using (SqlConnection conexion = this.obtenerConexion())
                 {
+                    conexion.Open();
+
+                    SqlCommand cmd = new SqlCommand(string.Format(
+                        "SELECT FECHA, ID_AFILIADO FROM YOU_SHALL_NOT_CRASH.TURNO WHERE ID_TURNO = {0}", id_turno), conexion);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+
+                    if (reader.Read())
+                    {
                         fecha_turno = Convert.ToDateTime(reader.GetSqlDateTime(0).Value);
                         dia_turno = fecha_turno.ToString("d");
                         hh_turno = Convert.ToInt32(fecha_turno.Hour);
@@ -65,25 +67,33 @@ namespace Clinica_Frba.Registro_de_LLegada
                         cmd.Dispose();
                         reader.Close();
 
+                        if (dia_turno != fecha)
+                            throw new Exception("La fecha de registro de llegada debe ser la misma que la del turno");
 
                         if (horario_minimo_de_llegada >= fecha_llegada) //Si la hora de llegada es menor o igual a la hora estipulada(15 minutos antes del turno) se registra
                         {
-                            
+
                             new IngresarBonoConsulta(idAfiliado, fecha_llegada, id_turno).ShowDialog();
                             Close();
 
                         }
                         else
                         {
-                            MessageBox.Show("No se puede registrar la llegada");
+                            MessageBox.Show("La hora de registro debe ser como minimo 15 minitos anterior a la hora del turno");
                         }
-                } //Fin del read
+                    } //Fin del read
 
-                cmd.Dispose();
-                reader.Close();
-                conexion.Close();
-                
-            }//Fin using
+                    cmd.Dispose();
+                    reader.Close();
+                    
+
+                }//Fin using
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                (new Dialogo("ERROR - " + ex.Message, "Aceptar")).ShowDialog();
+            }
 
 
         }// Fin boton aceptar

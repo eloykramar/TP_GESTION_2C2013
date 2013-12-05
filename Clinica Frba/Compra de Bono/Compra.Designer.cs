@@ -89,6 +89,7 @@
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.Enabled = false;
             this.numericUpDown1.Location = new System.Drawing.Point(74, 45);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(46, 20);
@@ -114,6 +115,7 @@
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(64, 234);
             this.button1.Name = "button1";
@@ -134,7 +136,7 @@
             this.groupBox2.Size = new System.Drawing.Size(152, 77);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Bonos de consulta";
+            this.groupBox2.Text = "Bonos farmacia";
             // 
             // label7
             // 
@@ -146,6 +148,7 @@
             // 
             // numericUpDown2
             // 
+            this.numericUpDown2.Enabled = false;
             this.numericUpDown2.Location = new System.Drawing.Point(74, 45);
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(46, 20);

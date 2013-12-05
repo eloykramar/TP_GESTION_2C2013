@@ -29,6 +29,9 @@ namespace Clinica_Frba.Compra_de_Bono
                 traer_Info_Afiliado(unUsuario);
                 textBox1.Enabled = false;
                 button2.Enabled = false;
+                numericUpDown1.Enabled = true;
+                numericUpDown2.Enabled = true;
+                button1.Enabled = true;
             }          
         }
 
@@ -45,11 +48,20 @@ namespace Clinica_Frba.Compra_de_Bono
                 {
                     
                     int existeAfiliado = getIdAfiliadoxNro(nroAfiliado.ToString());
-                    if (existeAfiliado == 0)                        
-                        throw new Exception("No existe un afiliado con el numero buscado");   
+                    if (existeAfiliado == 0)
+                    {
+                        numericUpDown1.Enabled = false;
+                        numericUpDown2.Enabled = false;
+                        button1.Enabled = false;
+                        throw new Exception("No existe un afiliado con el numero buscado");
+                    }
+
+                    numericUpDown1.Enabled = true;
+                    numericUpDown2.Enabled = true;
+                    button1.Enabled = true;
                     
                     conexion.Open();
-                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE Nro_Afiliado = " +nroAfiliado+"'", conexion);                    
+                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE Nro_Afiliado = " +nroAfiliado, conexion);                    
                     usuarioBuscado = (string)buscarUsuario.ExecuteScalar();                            
 
                     traer_Info_Afiliado(usuarioBuscado);
