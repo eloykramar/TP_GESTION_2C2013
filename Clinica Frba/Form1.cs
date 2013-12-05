@@ -104,10 +104,9 @@ namespace Clinica_Frba
                     id = Convert.ToInt32(cmd2.ExecuteScalar());
                     return id;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    if (String.Equals(ex.Message,"Referencia a objeto no establecida como instancia de un objeto.")) return 0;
-                    throw ex;
+                  return 0;
                 }
             }
 
@@ -126,10 +125,9 @@ namespace Clinica_Frba
                     nro = Convert.ToInt32(cmd2.ExecuteScalar());
                     return nro;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    if (String.Equals(ex.Message, "Referencia a objeto no establecida como instancia de un objeto.")) return 0;
-                    throw ex;
+                   return 0;
                 }
             }
 
@@ -148,10 +146,9 @@ namespace Clinica_Frba
                     nro = Convert.ToInt32(cmd2.ExecuteScalar());
                     return nro;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    if (String.Equals(ex.Message, "Referencia a objeto no establecida como instancia de un objeto.")) return 0;
-                    throw ex;
+                    return 0;
                 }
             }
 
@@ -170,10 +167,9 @@ namespace Clinica_Frba
                     id = Convert.ToInt32(cmd2.ExecuteScalar());
                     return id;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    if (String.Equals(ex.Message, "Referencia a objeto no establecida como instancia de un objeto.")) return 0;
-                    throw ex;
+                     return 0;
                 }
             }
 
@@ -185,14 +181,19 @@ namespace Clinica_Frba
 
         public int ExecuteScalarOrZero(SqlCommand cmd)
         {
-            
-            this.obtenerConexion().Open();
-            object res = cmd.ExecuteScalar();
-            this.obtenerConexion().Close();
-            if (res==DBNull.Value) return 0;
-            
-            //sino
-            return Convert.ToInt32(res);
+            try
+            {   cmd.Connection.Open();
+                object res = cmd.ExecuteScalar();
+                cmd.Connection.Close();
+                if (res == DBNull.Value) return 0;
+
+                //sino
+                return Convert.ToInt32(res);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
 
         public int getRaizAfi(string nro)
@@ -200,18 +201,5 @@ namespace Clinica_Frba
             return Convert.ToInt32(nro.Substring(0, nro.Length - 2));
         }
 
-
-        public class Cod_Desc
-        {
-            public int cod = 0;
-            public string des = "";
-            /*public void setCod(int codigo){
-                cod = codigo;
-            }
-            public void setDes(string descripcion)
-            {
-                des = descripcion;
-            }*/
-        }
     }
 }

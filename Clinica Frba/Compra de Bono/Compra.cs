@@ -49,7 +49,7 @@ namespace Clinica_Frba.Compra_de_Bono
                         throw new Exception("No existe un afiliado con el numero buscado");   
                     
                     conexion.Open();
-                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE Nro_Afiliado = '" +nroAfiliado+"'", conexion);                    
+                    SqlCommand buscarUsuario = new SqlCommand("USE GD2C2013 SELECT u.Username FROM YOU_SHALL_NOT_CRASH.Afiliado a join YOU_SHALL_NOT_CRASH.Usuario u on (a.DNI = u.DNI_Usuario) WHERE Nro_Afiliado = " +nroAfiliado+"'", conexion);                    
                     usuarioBuscado = (string)buscarUsuario.ExecuteScalar();                            
 
                     traer_Info_Afiliado(usuarioBuscado);
@@ -106,7 +106,12 @@ namespace Clinica_Frba.Compra_de_Bono
         //finalizar compra
         private void button1_Click(object sender, EventArgs e)
         {
-            if (String.Equals(textBox1.Text, "")) return;
+            int existeAfiliado = getIdAfiliadoxNro(textBox1.Text);
+            if (existeAfiliado == 0)
+            {
+                MessageBox.Show("No existe un afiliado con el numero buscado");
+                return;
+            }
             if (Convert.ToInt32(numericUpDown1.Value) == 0 && Convert.ToInt32(numericUpDown2.Value) == 0) return;
             int cantBonosConsulta = Convert.ToInt32(numericUpDown1.Value);
             int cantBonosFarmacia = Convert.ToInt32(numericUpDown2.Value);
