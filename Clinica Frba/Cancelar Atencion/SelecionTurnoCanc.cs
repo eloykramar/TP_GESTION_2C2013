@@ -16,8 +16,6 @@ namespace Clinica_Frba.Cancelar_Atencion
         public Seleccion_Turno_Canc(int idP, int idA)
             : base(idP, idA)
         {
-            //ERRORRRRR
-            //EN LA BUSQUEDA DE TURNOS A CANCELAR NO TIENEN QUE APARECER LOS DE LA FECHA ACTUAL 
             InitializeComponent();
         }
 

@@ -37,7 +37,7 @@ namespace Clinica_Frba.Cancelar_Atencion
             {
                 conexion.Open();
                 SqlCommand cmd = new SqlCommand(string.Format(
-                        "SELECT ID_CANCELACION_DIA FROM YOU_SHALL_NOT_CRASH.CANCELACION_DIA WHERE ID_PROFESIONAL = {0} AND DiaHora_inicio = '{1}' AND DiaHora_Fin = '{2}'", idProfesional, dia_hora_inicio, dia_hora_fin), conexion);
+                        "SELECT ID_CANCELACION_DIA FROM YOU_SHALL_NOT_CRASH.CANCELACION_DIA WHERE ID_PROFESIONAL = {0} AND DiaHora_inicio = CONVERT ( DATETIME , '{1}', 101 ) AND DiaHora_Fin = CONVERT ( DATETIME , '{2}', 101 )", idProfesional, dia_hora_inicio.ToString(formatoGenerico), dia_hora_fin.ToString(formatoGenerico)), conexion);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (!reader.Read())

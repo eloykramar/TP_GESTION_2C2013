@@ -27,7 +27,7 @@ namespace Clinica_Frba.Registro_Resultado_Atencion
                     //lleno el datagrid
                     string busquedaDeAfiliado = "";
                     if (idA > 0) busquedaDeAfiliado = " AND ID_AFILIADO=" + idA;
-                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA FROM YOU_SHALL_NOT_CRASH.TURNO where ID_TURNO IN (SELECT ID_TURNO FROM YOU_SHALL_NOT_CRASH.CONSULTA) AND ID_PROFESIONAL=" + idP + " AND FECHA>='" + dia + "'" + busquedaDeAfiliado + " AND CANCELADO = 0", conexion);
+                    SqlCommand cmd2 = new SqlCommand("USE GD2C2013 select ID_TURNO, NUMERO, FECHA, FECHA_LLEGADA FROM YOU_SHALL_NOT_CRASH.TURNO where ID_TURNO IN (SELECT ID_TURNO FROM YOU_SHALL_NOT_CRASH.CONSULTA) AND ID_PROFESIONAL=" + idP + " AND FECHA>=CONVERT ( DATETIME , '" + dia.ToString(formatoGenerico) + "', 101 )" + busquedaDeAfiliado + " AND CANCELADO = 0", conexion);
 
                     SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                     DataTable table = new DataTable();

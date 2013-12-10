@@ -15,10 +15,12 @@ namespace Clinica_Frba
     {
         private String stringDeConexion;
         public DateTime fechaActual;
-
+        public System.Globalization.CultureInfo formatoGenerico;
+        
         public Form1()
         {
             InitializeComponent();
+            formatoGenerico = System.Globalization.CultureInfo.InvariantCulture;
             this.configurarse();
             Console.Out.WriteLine("Conexion: " + this.stringDeConexion);
             Console.Out.WriteLine("fecha: " + this.fechaActual.ToString("yyyy/MM/dd"));
@@ -66,7 +68,7 @@ namespace Clinica_Frba
 
         public void setFechaActual(String fecha)
         {
-            this.fechaActual = Convert.ToDateTime(fecha);
+            this.fechaActual = Convert.ToDateTime(fecha, formatoGenerico);
         }
 
         public SqlConnection obtenerConexion()

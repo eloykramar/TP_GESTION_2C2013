@@ -89,7 +89,7 @@ namespace Clinica_Frba.Generar_Receta
                             }//si el plan coincide, sigo...
 
 
-                            cmd = new SqlCommand(string.Format("UPDATE YOU_SHALL_NOT_CRASH.BONO_FARMACIA SET ID_RECETA_MEDICA={0}, FECHA_PRESCRIPCION_MEDICA='{1}' WHERE ID_BONO_FARMACIA={2}", idReceta, Convert.ToString(fechaActual), bono), conexion);
+                            cmd = new SqlCommand(string.Format("UPDATE YOU_SHALL_NOT_CRASH.BONO_FARMACIA SET ID_RECETA_MEDICA={0}, FECHA_PRESCRIPCION_MEDICA=CONVERT ( DATETIME , '{1}', 101 ) WHERE ID_BONO_FARMACIA={2}", idReceta, fechaActual.ToString(formatoGenerico), bono), conexion);
                             cmd.ExecuteNonQuery();
                             listBox1.Items.Add(Convert.ToInt32(bono));
                         }

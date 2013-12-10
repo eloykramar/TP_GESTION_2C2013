@@ -42,8 +42,8 @@ namespace Clinica_Frba.Pedir_Turno
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
                     conexion.Open();
-
-                    SqlCommand cmd = new SqlCommand("select distinct(ia.fecha) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.fecha >= '" + fechaActual.AddDays(1) + "' and ID_Turno is not NULL order by 1", conexion);
+                    
+                    SqlCommand cmd = new SqlCommand("select distinct(ia.fecha) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.fecha >= CONVERT ( DATETIME , '" + fechaActual.AddDays(1).ToString(formatoGenerico) + "', 101 ) and ID_Turno is not NULL order by 1", conexion);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable tablaDeNombres = new DataTable();
@@ -77,7 +77,7 @@ namespace Clinica_Frba.Pedir_Turno
                 {
                     conexion.Open();
 
-                    SqlCommand cmd = new SqlCommand("select distinct(ia.fecha) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.ID_TURNO is NULL and ia.fecha >= '" + fechaActual + "' order by 1", conexion);
+                    SqlCommand cmd = new SqlCommand("select distinct(ia.fecha) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.ID_TURNO is NULL and ia.fecha >= CONVERT ( DATETIME , '" + fechaActual.ToString(formatoGenerico) + "', 101 ) order by 1", conexion);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable tablaDeNombres = new DataTable();
@@ -199,7 +199,7 @@ namespace Clinica_Frba.Pedir_Turno
             using (SqlConnection conexion = this.obtenerConexion())
             {
                 conexion.Open();
-                SqlCommand cmd = new SqlCommand("select distinct(ia.hora_inicio) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.ID_TURNO is NULL and ia.fecha = '" + dia_reservacion + "' order by 1", conexion);
+                SqlCommand cmd = new SqlCommand("select distinct(ia.hora_inicio) from YOU_SHALL_NOT_CRASH.agenda a join YOU_SHALL_NOT_CRASH.item_agenda ia on (a.id_agenda = ia.id_agenda) where id_profesional = " + idProfesional + " and ia.ID_TURNO is NULL and ia.fecha = CONVERT ( DATETIME , '" + dia_reservacion.ToString(formatoGenerico) + "', 101 ) order by 1", conexion);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable tablaDeNombres = new DataTable();

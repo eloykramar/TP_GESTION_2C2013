@@ -80,7 +80,7 @@ namespace Clinica_Frba.Cancelar_Atencion
                     string afi = " AND t.ID_AFILIADO =" + buscarIdAfiliado(textBox2.Text);
                     string nom = " AND (P.Nombre+' '+P.Apellido) like '%" + textBox1.Text + "%'";
                     string esp = " AND E.Descripcion like '%" + textBox3.Text + "%'";
-                    string fecha = " AND t.FECHA >= '" + getFechaActual() + "'";
+                    string fecha = " AND t.FECHA >= CONVERT ( DATETIME , '" + getFechaActual().ToString(formatoGenerico) + "', 101 )";
 
                     string where = "where P.ACTIVO=1 AND t.Cancelado = 0";
                     where += fecha;

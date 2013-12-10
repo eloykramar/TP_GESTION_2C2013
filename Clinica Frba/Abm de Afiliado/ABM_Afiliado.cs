@@ -49,7 +49,7 @@ namespace Clinica_Frba.ABM_de_Afiliado
 
                 //lleno el datagrid
 
-                SqlCommand del = new SqlCommand("USE GD2C2013 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Fecha_Baja=getDate() WHERE ID_Afiliado=" + id, conexion);
+                SqlCommand del = new SqlCommand("USE GD2C2013 UPDATE YOU_SHALL_NOT_CRASH.AFILIADO SET Fecha_Baja= CONVERT ( DATETIME , '" + getFechaActual().ToString(formatoGenerico) + "', 101 )  WHERE ID_Afiliado=" + id, conexion);
                 conexion.Open();
                 del.ExecuteNonQuery();
 

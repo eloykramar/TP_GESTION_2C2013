@@ -137,8 +137,8 @@ namespace Clinica_Frba.Registrar_Agenda
                     {                   
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@idProfesional", SqlDbType.Int).Value = idProfesional;
-                        cmd.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = dateTimePicker1.Value.ToShortDateString();
-                        cmd.Parameters.Add("@fechaFin", SqlDbType.DateTime).Value = dateTimePicker2.Value.ToShortDateString();
+                        cmd.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = dateTimePicker1.Value;
+                        cmd.Parameters.Add("@fechaFin", SqlDbType.DateTime).Value = dateTimePicker2.Value;
                         cmd.Parameters.Add("@respuesta", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                         cmd.ExecuteNonQuery();
@@ -169,8 +169,8 @@ namespace Clinica_Frba.Registrar_Agenda
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.Add("@idAgenda", SqlDbType.Int).Value = idAgenda;
-                            cmd.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = dateTimePicker1.Value.ToShortDateString();
-                            cmd.Parameters.Add("@fechaFin", SqlDbType.DateTime).Value = dateTimePicker2.Value.ToShortDateString();
+                            cmd.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = dateTimePicker1.Value;
+                            cmd.Parameters.Add("@fechaFin", SqlDbType.DateTime).Value = dateTimePicker2.Value;
                             cmd.Parameters.Add("@horaInicio", SqlDbType.Time).Value = horaDesde + ":" + minutosDesde;
                             cmd.Parameters.Add("@horaFin", SqlDbType.Time).Value = horaHasta + ":" + minutosHasta;
                             cmd.Parameters.Add("@numeroDia", SqlDbType.Int).Value = numeroDia;
