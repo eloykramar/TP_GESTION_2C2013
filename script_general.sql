@@ -858,12 +858,15 @@ BEGIN
 END
 ELSE
 BEGIN
-	INSERT INTO YOU_SHALL_NOT_CRASH.AGENDA VALUES (@idProfesional, @fechaInicio, @fechaFin)
+	declare @fechaInicioCasted date= @fechaInicio
+	declare @fechaFinCasted date= @fechaFin
+	
+	INSERT INTO YOU_SHALL_NOT_CRASH.AGENDA VALUES (@idProfesional, @fechaInicioCasted, @fechaFinCasted)
 	SET @respuesta = (select ID_Agenda 
 					from YOU_SHALL_NOT_CRASH.AGENDA 
 					where Id_Profesional = @idProfesional and
-						Fecha_Inicio = @fechaInicio and 
-						Fecha_Fin = @fechaFin)		
+						Fecha_Inicio = @fechaInicioCasted and 
+						Fecha_Fin = @fechaFinCasted)		
 END
 END
 GO

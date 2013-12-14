@@ -162,12 +162,6 @@
     <Compile Include="Cancelar Atencion\Buscar_Prof_Canc_Prof.Designer.cs">
       <DependentUpon>Buscar_Prof_Canc_Prof.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cancelar Atencion\DiaCancelado.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Cancelar Atencion\DiaCancelado.designer.cs">
-      <DependentUpon>DiaCancelado.cs</DependentUpon>
-    </Compile>
     <Compile Include="Cancelar Atencion\Menu_Cancelar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -385,9 +379,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\Buscar_Prof_Canc_Prof.resx">
       <DependentUpon>Buscar_Prof_Canc_Prof.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Cancelar Atencion\DiaCancelado.resx">
-      <DependentUpon>DiaCancelado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cancelar Atencion\Menu_Cancelar.resx">
       <DependentUpon>Menu_Cancelar.cs</DependentUpon>

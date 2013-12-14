@@ -28,21 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dateTimePickerFecha = new System.Windows.Forms.DateTimePicker();
             this.Fecha = new System.Windows.Forms.Label();
             this.Hora = new System.Windows.Forms.Label();
             this.dateTimePickerHora = new System.Windows.Forms.DateTimePicker();
             this.buttAceptar = new System.Windows.Forms.Button();
             this.buttSalir = new System.Windows.Forms.Button();
+            this.dateTimePickerFecha = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
-            // 
-            // dateTimePickerFecha
-            // 
-            this.dateTimePickerFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePickerFecha.Location = new System.Drawing.Point(58, 28);
-            this.dateTimePickerFecha.Name = "dateTimePickerFecha";
-            this.dateTimePickerFecha.Size = new System.Drawing.Size(82, 20);
-            this.dateTimePickerFecha.TabIndex = 0;
             // 
             // Fecha
             // 
@@ -67,7 +59,8 @@
             this.dateTimePickerHora.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePickerHora.Location = new System.Drawing.Point(58, 62);
             this.dateTimePickerHora.Name = "dateTimePickerHora";
-            this.dateTimePickerHora.Size = new System.Drawing.Size(66, 20);
+            this.dateTimePickerHora.ShowUpDown = true;
+            this.dateTimePickerHora.Size = new System.Drawing.Size(82, 20);
             this.dateTimePickerHora.TabIndex = 3;
             // 
             // buttAceptar
@@ -89,6 +82,14 @@
             this.buttSalir.Text = "Salir";
             this.buttSalir.UseVisualStyleBackColor = true;
             this.buttSalir.Click += new System.EventHandler(this.buttSalir_Click);
+            // 
+            // dateTimePickerFecha
+            // 
+            this.dateTimePickerFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePickerFecha.Location = new System.Drawing.Point(58, 28);
+            this.dateTimePickerFecha.Name = "dateTimePickerFecha";
+            this.dateTimePickerFecha.Size = new System.Drawing.Size(82, 20);
+            this.dateTimePickerFecha.TabIndex = 0;
             // 
             // RegistrarHora
             // 
@@ -112,11 +113,11 @@
 
         #endregion
 
-        private System.Windows.Forms.DateTimePicker dateTimePickerFecha;
         private System.Windows.Forms.Label Fecha;
         private System.Windows.Forms.Label Hora;
         private System.Windows.Forms.DateTimePicker dateTimePickerHora;
         private System.Windows.Forms.Button buttAceptar;
         private System.Windows.Forms.Button buttSalir;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFecha;
     }
 }

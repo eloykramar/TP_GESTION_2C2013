@@ -102,14 +102,15 @@ namespace Clinica_Frba.Pedir_Turno
             {
                 validar();
                 validarFecha();
+                if (comboBox2.SelectedIndex == -1) return;
+                if (comboBox1.SelectedIndex == -1) return;
                 DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
-                String horario = (Convert.ToDateTime(comboBox1.Text)).ToShortTimeString();
+                DateTime horario = (Convert.ToDateTime(comboBox1.Text));
 
-                String[] horarioSpliteado = horario.Split(':');
-                double hora = Convert.ToDouble(horarioSpliteado[0]);
-                double minutos = Convert.ToDouble(horarioSpliteado[1]);
+                int hora = horario.Hour;
+                int minutos = horario.Minute;
 
-                DateTime fecha_completa = dia_reservacion.AddHours(Convert.ToDouble(hora)).AddMinutes(Convert.ToDouble(minutos));
+                DateTime fecha_completa = new DateTime(dia_reservacion.Year, dia_reservacion.Month, dia_reservacion.Day, hora, minutos, 0);
 
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
@@ -121,7 +122,7 @@ namespace Clinica_Frba.Pedir_Turno
                     cmd.Parameters.Add("@profesional", SqlDbType.Int).Value = idProfesional;
                     cmd.Parameters.Add("@afiliado", SqlDbType.Int).Value = idAfiliado;
                     cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = dia_reservacion;
-                    cmd.Parameters.Add("@horaInicio", SqlDbType.Time).Value = horario;
+                    cmd.Parameters.Add("@horaInicio", SqlDbType.Time).Value = hora + ":" + minutos;
                     cmd.ExecuteNonQuery();
 
                     SqlCommand traerNombreCompletoA = new SqlCommand("SELECT Nombre+' '+Apellido FROM YOU_SHALL_NOT_CRASH.AFILIADO WHERE ID_AFILIADO = " + idAfiliado, conexion);
@@ -157,6 +158,8 @@ namespace Clinica_Frba.Pedir_Turno
                 if (dateTimePicker1.Value >= dateTimePicker2.Value)
                     throw new Exception("La hora desde debe ser menor a la hora hasta");
 
+
+
                 validarFecha();
                 int horaInicio = dateTimePicker1.Value.Hour;
                 int minutosInicio = dateTimePicker1.Value.Minute;
@@ -165,6 +168,12 @@ namespace Clinica_Frba.Pedir_Turno
 
                 DateTime diaHora_inicio = Convert.ToDateTime(comboBox2.Text).AddHours(horaInicio).AddMinutes(minutosInicio);
                 DateTime diaHora_Fin = Convert.ToDateTime(comboBox2.Text).AddHours(horaFin).AddMinutes(minutosFin);
+
+                if (diaHora_Fin.Date <= fechaActual.Date)
+                {
+                    MessageBox.Show("Se necesita un dia de anticipacion para cancelar un turno.", "Error");
+                    return;
+                }
 
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
@@ -194,6 +203,7 @@ namespace Clinica_Frba.Pedir_Turno
 
         private void buscarHorarios()
         {
+            if (comboBox2.SelectedIndex == -1) return;
             DateTime dia_reservacion = Convert.ToDateTime(comboBox2.Text);
 
             using (SqlConnection conexion = this.obtenerConexion())
@@ -238,6 +248,11 @@ namespace Clinica_Frba.Pedir_Turno
                 this.fecha = pFecha;
                 this.dia = pDia;
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buscarHorarios();
         }
     }
 }
