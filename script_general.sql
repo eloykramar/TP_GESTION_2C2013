@@ -628,6 +628,9 @@ select ID, id_bono, case when cant_cons > 0 then 'c' else 'f' end, precio_bono
 from YOU_SHALL_NOT_CRASH.compras_temp 
 order by cant_cons,id
 
+--LE doy especialidad al admin
+insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL values (10029, 1)
+
 
 ---------------------------------------------------------------------
 ----------------------FUNCIONES Y SPS--------------------------------
