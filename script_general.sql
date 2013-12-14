@@ -924,8 +924,8 @@ BEGIN
 	
 	set @prof_id=(select p.ID_PROFESIONAL from YOU_SHALL_NOT_CRASH.PROFESIONAL p where p.DNI=@dni2)
 	set @esp_id=(select e.CODIGO_ESPECIALIDAD from YOU_SHALL_NOT_CRASH.ESPECIALIDAD e where @especialidad=e.DESCRIPCION)
-	--insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(CODIGO_ESPECIALIDAD, ID_PROFESIONAL)
-	--values(@esp_id,@prof_id)
+	insert into YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL(CODIGO_ESPECIALIDAD, ID_PROFESIONAL)
+	values(@esp_id,@prof_id)
 END
 GO
 
@@ -1267,3 +1267,5 @@ WHILE @@FETCH_STATUS=0
 CLOSE bonos
 DEALLOCATE bonos
 ------------------------------------------------------------
+
+
