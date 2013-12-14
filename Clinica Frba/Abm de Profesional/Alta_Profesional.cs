@@ -217,19 +217,17 @@ namespace Clinica_Frba.Abm_de_Profesional
         //LIMPIAR
         private void button2_Click(object sender, EventArgs e)
         {
-            foreach (Control c in this.Controls)
-            {
-                if (c is TextBox || c is MaskedTextBox || c is ListBox)
-                {
-                    c.Text = "";
-                }
-                if (c is CheckBox)
-                {
-                    ((CheckBox)c).Checked = false;
-                }
-
-            }
+           
             listBox1.Items.Clear();
+            textBox1.Text = "";
+            textBox3.Text = "";
+            maskedTextBox4.Text = "";
+            maskedTextBox5.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox9.Text = "";
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
         }
 
         //GUARDAR

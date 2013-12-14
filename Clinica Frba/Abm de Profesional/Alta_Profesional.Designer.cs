@@ -126,6 +126,7 @@
             this.textBox9.Size = new System.Drawing.Size(125, 20);
             this.textBox9.TabIndex = 9;
             this.textBox9.TextChanged += new System.EventHandler(this.textBox9_TextChanged);
+            this.textBox9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label2
             // 
@@ -274,6 +275,7 @@
             this.maskedTextBox5.Name = "maskedTextBox5";
             this.maskedTextBox5.Size = new System.Drawing.Size(123, 20);
             this.maskedTextBox5.TabIndex = 39;
+            this.maskedTextBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maskedTextBox4_KeyPress);
             // 
             // comboBox1
             // 

@@ -130,6 +130,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                         //escondo checkbox si el prof ya esta activo
                         if (leer["ACTIVO"].ToString() == "True")
                         {
+                            checkBox3.Checked = true;
                             checkBox3.Hide();
                             label8.Hide();
                         } else { checkBox3.Checked = false; }
@@ -242,7 +243,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                             cmd.ExecuteNonQuery();
 
                             int respuesta = Convert.ToInt32(cmd.Parameters["@resu"].Value);
-                            if (respuesta == 1) { (new Dialogo("Profesional modificado satisfactoriamente", "Aceptar")).ShowDialog(); }
+                            if (respuesta == 1) { MessageBox.Show("Profesional modificado satisfactoriamente", "Aceptar"); }
 
                         }
 

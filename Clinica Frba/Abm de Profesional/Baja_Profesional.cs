@@ -84,7 +84,6 @@ namespace Clinica_Frba.Abm_de_Profesional
             dataGridView1.Columns[1].ReadOnly = true;
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.Columns[3].ReadOnly = true;
-            dataGridView1.Columns[4].ReadOnly = true;
             DataGridViewButtonColumn botonBaja = this.crearBotones("Seleccionar", "Dar de baja");
             dataGridView1.Columns.Add(botonBaja);
 
@@ -117,7 +116,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                         DataTable tabla = new DataTable();
 
 
-                        cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO, e.descripcion ESPECIALIDAD,te.descripcion TIPO_ESPECIALIDAD FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL"+" "+ where, ref tabla, conexion);
+                        cargarATablaParaDataGripView("USE GD2C2013 select distinct p.DNI, p.APELLIDO,p.NOMBRE,p.ACTIVO FROM YOU_SHALL_NOT_CRASH.ESPECIALIDAD_PROFESIONAL ep join YOU_SHALL_NOT_CRASH.ESPECIALIDAD e on e.CODIGO_ESPECIALIDAD=ep.CODIGO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.TIPO_ESPECIALIDAD te on te.CODIGO_TIPO_ESPECIALIDAD=e.CODIGO_TIPO_ESPECIALIDAD join YOU_SHALL_NOT_CRASH.PROFESIONAL p on p.ID_PROFESIONAL=ep.ID_PROFESIONAL"+" "+ where, ref tabla, conexion);
 
                         cargarTabla(ref tabla);
 
@@ -144,7 +143,7 @@ namespace Clinica_Frba.Abm_de_Profesional
                 using (SqlConnection conexion = this.obtenerConexion())
                 {
 
-                    if (e.ColumnIndex == 6)
+                    if (e.ColumnIndex == 4)
                     {
                         try
                         {
