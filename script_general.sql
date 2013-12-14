@@ -1166,13 +1166,18 @@ GO
 CREATE FUNCTION YOU_SHALL_NOT_CRASH.Top10_Afiliado_Que_Uso_Bonos_De_Otro_En (@anio int, @mesInicial int, @mesFinal int)
 RETURNS TABLE
 AS
-RETURN (select top 5 a.Nombre + ' ' + a.Apellido as Afiliado, COUNT(*) as Cantidad_Bonos
-		from YOU_SHALL_NOT_CRASH.BONO_CONSULTA b join 
-			YOU_SHALL_NOT_CRASH.TURNO t on (b.ID_Bono_Consulta = t.ID_Bono_Consulta) join
-			YOU_SHALL_NOT_CRASH.AFILIADO a on (t.ID_AFILIADO = a.ID_Afiliado)
-		where b.ID_Afiliado <> t.ID_AFILIADO and
-			(YEAR(t.FECHA) = @anio) and (MONTH(t.FECHA) BETWEEN @mesInicial and @mesFinal)
-		group by a.ID_Afiliado, a.Nombre, a.Apellido
+RETURN (select top 10 a.Nombre + ' ' + a.Apellido as Afiliado , SUM(
+			case when  bc.ID_Afiliado <> t.ID_AFILIADO and bf.id_Afiliado <> t.ID_AFILIADO	then 2 else 1 end) as Cantidad_Bonos
+
+		from YOU_SHALL_NOT_CRASH.BONO_CONSULTA bc join 
+			YOU_SHALL_NOT_CRASH.TURNO t on (bc.ID_Bono_Consulta = t.ID_Bono_Consulta) join
+			YOU_SHALL_NOT_CRASH.AFILIADO a on (t.ID_AFILIADO = a.ID_Afiliado) join
+			YOU_SHALL_NOT_CRASH.CONSULTA c on (c.id_turno = t.id_turno) join
+			YOU_SHALL_NOT_CRASH.RECETA r on (c.ID_CONSULTA = r.ID_CONSULTA) join
+			YOU_SHALL_NOT_CRASH.BONO_FARMACIA bf on (r.ID_RECETA = bf.ID_RECETA_MEDICA)			
+		where (bc.ID_Afiliado <> t.ID_AFILIADO or bf.id_Afiliado <> t.ID_AFILIADO)	and(
+			(YEAR(t.FECHA) = @anio) and (MONTH(t.FECHA) BETWEEN @mesInicial and @mesFinal))	
+		group by a.ID_Afiliado, a.Nombre, a.Apellido	
 		order by 2 desc
 );
 GO
