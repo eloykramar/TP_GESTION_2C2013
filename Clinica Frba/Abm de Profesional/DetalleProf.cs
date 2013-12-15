@@ -293,19 +293,20 @@ namespace Clinica_Frba.Abm_de_Profesional
         {
             if (comboBox2.Text != "") 
             {
-                
-                            DataRow row = tabla2.NewRow();
-                            row[0] = comboBox2.Text.ToString();
-                            try
-                            {
-                                tabla2.Rows.Add(row);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                                MessageBox.Show("Especialidad Repetida", "Error");
-                            }
-                        
+                if (tabla2.IsInitialized)
+                {
+                    DataRow row = tabla2.NewRow();
+                    row[0] = comboBox2.Text.ToString();
+                    try
+                    {
+                        tabla2.Rows.Add(row);
+                    }
+                    catch (Exception ex)
+                    {
+                        //MessageBox.Show(ex.Message);
+                        MessageBox.Show("Especialidad Repetida", "Error");
+                    }
+                }
 
                   
                 
